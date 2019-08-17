@@ -43,6 +43,11 @@ export default {
     );
   },
 
+  titleOf(id) {
+    const job = this.cachedTbs.jobs.find(j => j.id == id);
+    return job.title;
+  },
+
   clear() {
     Object.keys(this.cachedTbs).forEach(k => (this.cachedTbs[k] = []));
   },

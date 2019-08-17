@@ -1,4 +1,5 @@
 import Bottleneck from 'bottleneck';
+import cache from './cache';
 import log from '@/log';
 
 export default {
@@ -34,7 +35,7 @@ export default {
 
     const update = async u => {
       await u.table.update(u.id, u.entries);
-      log(`updated record ${u.id} from ${u.table.name}`);
+      log(`updated "${cache.titleOf(u.id)}" from "${u.table.name}"`);
     };
     const wrapped = limiter.wrap(update);
 
