@@ -13,18 +13,18 @@ function prettyDate(now) {
 
 export default new Vuex.Store({
   state: {
-    key: 1,
     messages: []
   },
   mutations: {
     clear(state) {
-      state.key = 1;
       state.messages = [];
     },
     addMessage(state, string) {
-      state.messages.push({
-        id: state.key++,
-        when: prettyDate(new Date()),
+      const now = new Date();
+
+      state.messages.unshift({
+        id: now,
+        when: prettyDate(now),
         text: string
       });
     }
