@@ -1,5 +1,6 @@
 {
   "projects": {
-    "airtable": "airtable-149f3"
+    "airtable": "airtable-149f3",
+    "default": "airtable-149f3"
   }
 }

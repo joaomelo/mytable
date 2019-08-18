@@ -10,7 +10,7 @@ export default {
   },
 
   push(table, id, newEntries) {
-    let update = this.updates.find(u => u.id == id);
+    let update = this.updates.find(u => u.id === id);
     let entries;
 
     if (update) {

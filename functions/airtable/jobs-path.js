@@ -14,7 +14,7 @@ export default function() {
 
 function feedJobPath(job) {
   const newPath = jobPath(job, '', cache);
-  if (!job.path || job.path != newPath) {
+  if (!job.path || job.path !== newPath) {
     batcher.push(tables.jobs, job.id, { path: newPath });
   }
 }

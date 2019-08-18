@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { fireDb, fireLogout } from './firebase';
 
 Vue.use(Vuex);
 
@@ -13,20 +14,43 @@ function prettyDate(now) {
 
 export default new Vuex.Store({
   state: {
-    messages: []
+    user: null,
+    logs: []
+  },
+  getters: {
+    getUser(state) {
+      return state.user;
+    },
+    isLoggedIn(state) {
+      return state.user != null;
+    }
   },
   mutations: {
-    clear(state) {
-      state.messages = [];
+    setLogs(state, newLogs) {
+      state.logs = newLogs;
     },
-    addMessage(state, string) {
-      const now = new Date();
-
-      state.messages.unshift({
-        id: now,
-        when: prettyDate(now),
-        text: string
-      });
+    setUser(state, newUser) {
+      state.user = newUser;
+    }
+  },
+  actions: {
+    async logout({ commit }) {
+      await fireLogout();
+      commit('setUser', null);
+    },
+    setLogs({ commit, getters }) {
+      fireDb
+        .collection('logs')
+        .orderBy('when', 'desc')
+        .limit(100)
+        .onSnapshot(snapshot => {
+          const logs = snapshot.docs.map(log => ({
+            id: log.id,
+            when: prettyDate(log.data().when.toDate()),
+            msg: log.data().msg
+          }));
+          commit('setLogs', logs);
+        });
     }
   }
 });

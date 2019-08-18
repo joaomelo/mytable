@@ -7,7 +7,7 @@ export function checkJob(job) {
     return 'does not has a parent';
   }
 
-  if (job.parent_j && job.id == job.parent_j[0]) {
+  if (job.parent_j && job.id === job.parent_j[0]) {
     return 'parent is pointing to himself';
   }
 

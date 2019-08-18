@@ -29,7 +29,7 @@ export default {
 
   parentJobOf(job) {
     return this.cachedTbs.jobs.find(
-      j => !checkJob(j) && job.parent_j && j.id == job.parent_j[0]
+      j => !checkJob(j) && job.parent_j && j.id === job.parent_j[0]
     );
   },
 
@@ -39,12 +39,12 @@ export default {
         !checkJob(job) &&
         job.parent_b &&
         job.parent_b.length > 0 &&
-        b.id == job.parent_b[0]
+        b.id === job.parent_b[0]
     );
   },
 
   titleOf(id) {
-    const job = this.cachedTbs.jobs.find(j => j.id == id);
+    const job = this.cachedTbs.jobs.find(j => j.id === id);
     return job.title;
   },
 
@@ -75,8 +75,8 @@ async function cacheTable(table, fieldsToSelect) {
         fieldsToSelect.forEach(f => {
           const value = r.get(f);
           if (
-            !(Array.isArray(value) && value.length == 0) &&
-            !(value == undefined || value == '')
+            !(Array.isArray(value) && value.length === 0) &&
+            !(value === undefined || value === '')
           ) {
             item[f] = value;
           }
