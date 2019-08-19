@@ -5,11 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deployfunc": "firebase deploy --only functions"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "bottleneck": "^2.19.5",
     "core-js": "^2.6.5",
     "firebase": "^6.4.0",
     "firebaseui": "^4.1.0",

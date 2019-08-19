@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-5">
     <div class="mb-3 d-flex justify-content-center">
       <button class="btn btn-primary" @click="update" :disabled="disabled">
         update
@@ -31,6 +31,7 @@
 import Loader from "./loader";
 import router from "@/router";
 import { updateAirtable } from "./firebase";
+import { setTimeout } from "timers";
 
 export default {
   name: "Dashboard",
@@ -54,7 +55,7 @@ export default {
       this.disabled = true;
       updateAirtable()
         .then(result => {
-          console.log(result.data.msg);
+          console.log(result.data);
           this.disabled = false;
         })
         .catch(err => {
