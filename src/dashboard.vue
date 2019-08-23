@@ -30,8 +30,7 @@
 <script>
 import Loader from "./loader";
 import router from "@/router";
-import { updateAirtable } from "./firebase";
-import { setTimeout } from "timers";
+import updateAirtable from "./airtable";
 
 export default {
   name: "Dashboard",
@@ -55,7 +54,7 @@ export default {
       this.disabled = true;
       updateAirtable()
         .then(result => {
-          console.log(result.data);
+          console.log(result);
           this.disabled = false;
         })
         .catch(err => {

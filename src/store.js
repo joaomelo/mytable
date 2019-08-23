@@ -44,11 +44,14 @@ export default new Vuex.Store({
         .orderBy('when', 'desc')
         .limit(100)
         .onSnapshot(snapshot => {
-          const logs = snapshot.docs.map(log => ({
-            id: log.id,
-            when: prettyDate(log.data().when.toDate()),
-            msg: log.data().msg
-          }));
+          const logs = snapshot.docs.map(log => {
+            const data = { id: log.id, ...log.data() };
+            return {
+              id: data.id,
+              when: data.when && prettyDate(data.when.toDate()),
+              msg: data.msg
+            };
+          });
           commit('setLogs', logs);
         });
     }

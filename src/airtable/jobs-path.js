@@ -1,8 +1,8 @@
 import { checkJob } from './error';
 
-export default function(jobs, snapshot) {
+export default function(snapshot) {
   const updates = [];
-  jobs.forEach(j => {
+  snapshot.jobs.forEach(j => {
     const update = getJobPathUpdate(j, snapshot);
     update && updates.push(update);
   });
@@ -11,7 +11,7 @@ export default function(jobs, snapshot) {
 }
 
 function getJobPathUpdate(job, snapshot) {
-  let update = undefined;
+  let update;
 
   if (!checkJob(job)) {
     const newPath = jobPath(job, '', snapshot);
@@ -19,16 +19,17 @@ function getJobPathUpdate(job, snapshot) {
       update = { table: 'jobs', id: job.id, newEntries: { path: newPath } };
     }
   }
-
   return update;
 }
 
 function jobPath(job, path, snapshot) {
   if (job.parent_b) {
-    const bucket = snapshot.parentBucketOf(job);
+    const bucket = snapshot.parentBucket(job);
     return `${bucket.title}/${job.title}`;
-  } else if (job.parent_j) {
-    const parent = snapshot.parentJobOf(job);
+  } else if (snapshot.parentJob(job)) {
+    const parent = snapshot.parentJob(job);
     return `${jobPath(parent, path, snapshot)}/${job.title}`;
+  } else {
+    return '';
   }
 }

@@ -4,7 +4,6 @@ import * as firebase from 'firebase/app';
 // Add the Firebase products that you want to use
 import 'firebase/auth';
 import 'firebase/firestore';
-import 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAXeMQIkRV4Tt-nge3oi4ZG8uOLIc9ny0Y',
@@ -17,14 +16,12 @@ const firebaseConfig = {
 };
 
 export const fireApp = firebase.initializeApp(firebaseConfig);
+
 export const fireDb = firebase.firestore();
 
 export const emailProvider = firebase.auth.EmailAuthProvider.PROVIDER_ID;
+export const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 export function fireLogout() {
   return fireApp.auth().signOut();
 }
-
-export const updateAirtable = firebase
-  .functions()
-  .httpsCallable('updateAirtable');

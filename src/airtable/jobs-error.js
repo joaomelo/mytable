@@ -1,8 +1,9 @@
 import { checkJob } from './error';
 
-export default function(jobs) {
+export default function(snapshot) {
   const updates = [];
-  jobs.forEach(j => {
+
+  snapshot.jobs.forEach(j => {
     const error = checkJob(j);
     if (error) {
       updates.push({ table: 'jobs', id: j.id, newEntries: { error: error } });
