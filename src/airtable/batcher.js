@@ -1,6 +1,5 @@
-import Bottleneck from 'bottleneck';
-import { update as atUpdate } from './at';
-import log from './log';
+import { update as atUpdate } from './base';
+import { log } from '@/log';
 
 export { Batcher };
 
@@ -14,40 +13,35 @@ class Batcher {
   }
 
   push(table, id, newEntries) {
-    let update = this.updates.find(u => u.id === id);
-    if (!update) {
-      update = {
-        id: id,
-        table: table,
-        entries: {}
-      };
-      this.updates.push(update);
+    if (Object.keys(newEntries).length > 0) {
+      let update = this.updates.find(u => u.id === id);
+      if (!update) {
+        update = {
+          id: id,
+          table: table,
+          entries: {}
+        };
+        this.updates.push(update);
+      }
+      Object.keys(newEntries).forEach(k => (update.entries[k] = newEntries[k]));
     }
-    const entries = update.entries;
-    Object.keys(newEntries).forEach(k => (entries[k] = newEntries[k]));
   }
 
   async run() {
-    const limiter = new Bottleneck({
-      maxConcurrent: 1,
-      minTime: 200
-    });
-
     const update = async u => {
       await atUpdate(u.table, u.id, u.entries);
-      const prettyVals = JSON.stringify(u.entries);
-      await log(`updated "${u.id}" from ${u.table} with ${prettyVals}`);
+      return log(
+        `updated "${u.id}" from ${u.table} with ${JSON.stringify(u.entries)}`
+      );
     };
-    const wrapped = limiter.wrap(update);
 
-    const promises = [];
-
-    if (this.updates && this.updates.length > 0) {
-      this.updates.forEach(u => promises.push(wrapped(u)));
+    if (this.updates.length > 0) {
+      const promises = [];
+      this.updates.forEach(u => promises.push(update(u)));
       await Promise.all(promises);
-      await log(`updated ${this.updates.length} record(s)`);
+      log(`updated ${this.updates.length} record(s)`);
     } else {
-      await log('nothing to update for now');
+      log('nothing to update for now');
     }
   }
 }

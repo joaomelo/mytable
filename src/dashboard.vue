@@ -28,9 +28,10 @@
 </template>
 
 <script>
-import Loader from "./loader";
+import Loader from "@/loader";
 import router from "@/router";
-import updateAirtable from "./airtable";
+import { log } from "@/log";
+import { startAirtable, updateAirtable } from "@/airtable";
 
 export default {
   name: "Dashboard",
@@ -54,16 +55,17 @@ export default {
       this.disabled = true;
       updateAirtable()
         .then(result => {
-          console.log(result);
+          log(result);
           this.disabled = false;
         })
         .catch(err => {
-          console.log(err);
+          log(err);
           this.disabled = false;
         });
     }
   },
   created() {
+    startAirtable();
     this.$store.dispatch("setLogs");
   }
 };

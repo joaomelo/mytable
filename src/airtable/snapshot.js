@@ -1,23 +1,30 @@
-import log from './log';
-import { select } from './at';
-import { checkJob } from './error';
+import { log } from '@/log';
+import { select } from './base';
+import { checkJob } from './jobs-error';
 
 export { createSnapshot };
 
 async function createSnapshot() {
-  const data = await Promise.all([
-    tableData('buckets', ['title']),
-    tableData('jobs', ['title', 'parent_b', 'parent_j', 'path', 'error']),
-    tableData('transactions', ['title', 'job', 'date', 'value', 'error'])
+  log('starting caching process');
+
+  const tables = await Promise.all([
+    select('buckets', ['title']),
+    select('jobs', [
+      'title',
+      'parent_b',
+      'parent_j',
+      'path',
+      'month',
+      'quarter',
+      'year',
+      'error'
+    ]),
+    select('transactions', ['title', 'job', 'date', 'value', 'error'])
   ]);
 
-  return new Snapshot(data[0], data[1], data[2]);
-}
+  log('caching complete');
 
-async function tableData(table, fields) {
-  const cache = await select(table, fields);
-  await log(`cached ${cache.length} records from ${table}`);
-  return cache;
+  return new Snapshot(tables[0], tables[1], tables[2]);
 }
 
 class Snapshot {
@@ -27,43 +34,57 @@ class Snapshot {
     this.transactions = transactions;
   }
 
-  rootJobs() {
+  getTitle(id) {
+    const allItems = this.buckets.concat(this.jobs).concat(this.transactions);
+    return allItems.find(item => item.id === id);
+  }
+
+  getRootJobs() {
+    return this.jobs.filter(j => j.parent_b && j.parent_b.length > 0);
+  }
+
+  getLeafJobs() {
+    return this.jobs.filter(j => !this.getChildJobs(j));
+  }
+
+  getChildJobs(parent) {
     return this.jobs.filter(
-      j => !checkJob(j) && (j.parent_b && j.parent_b.length > 0)
+      j => hasId(j.parent_b, parent.id) || hasId(j.parent_j, parent.id)
     );
   }
 
-  leafsJobs() {
-    return this.jobs.filter(j => !checkJob(j) && !this.childrenJobs(j));
+  getParent(job) {
+    const parentId = hasElements(job.parent_b)
+      ? job.parent_b[0]
+      : job.parent_j[0];
+    const allParents = this.jobs.concat(this.buckets);
+
+    return allParents.find(item => item.id === parentId);
   }
 
-  childrenJobs(parent) {
-    return this.jobs.filter(
-      j =>
-        !checkJob(j) &&
-        ((j.parent_b && j.parent_b.includes(parent.id)) ||
-          (j.parent_j && j.parent_j.includes(parent.id)))
-    );
-  }
+  getTransactions(job, includeChildren = false) {
+    let transactions = this.transactions.filter(t => t.job[0] === job.id);
 
-  parentJob(job) {
-    return this.jobs.find(
-      j => !checkJob(j) && job.parent_j && j.id === job.parent_j[0]
-    );
-  }
+    if (includeChildren && !checkJob(job)) {
+      const childrenJobs = this.getChildJobs(job);
+      if (hasElements(childrenJobs)) {
+        childrenJobs.forEach(childJob => {
+          transactions = transactions.concat(
+            this.getTransactions(childJob, true)
+          );
+        });
+      }
+    }
 
-  parentBucket(job) {
-    return this.buckets.find(
-      b =>
-        !checkJob(job) &&
-        job.parent_b &&
-        job.parent_b.length > 0 &&
-        b.id === job.parent_b[0]
-    );
+    return transactions;
   }
+}
 
-  titleOf(id) {
-    const job = this.jobs.find(j => !checkJob(j) && j.id === id);
-    return job.title;
-  }
+//utility functions
+function hasId(array, id) {
+  return array && array.includes(id);
+}
+
+function hasElements(array) {
+  return array && array.length > 0;
 }

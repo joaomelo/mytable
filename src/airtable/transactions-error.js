@@ -1,26 +1,36 @@
-import { checkTransaction } from './error';
+export { checkTransaction, createTransactionsErrorsUpdates };
 
-export { getTransactionsErrorsUpdates };
+function checkTransaction(transaction) {
+  if (!transaction.job) {
+    return 'does not have a job';
+  }
 
-function getTransactionsErrorsUpdates(snapshot) {
+  if (!transaction.date) {
+    return 'does not have a date';
+  }
+
+  if (!transaction.value) {
+    return 'does not have a value';
+  }
+}
+
+function createTransactionsErrorsUpdates(snapshot) {
   const updates = [];
 
   snapshot.transactions.forEach(t => {
     const error = checkTransaction(t);
-    let entry;
-    if (error && t.error != error) {
-      updates.push({
-        table: 'transactions',
-        id: t.id,
-        newEntries: { error: error }
-      });
+    const createUpdate = e => ({
+      table: 'transactions',
+      id: t.id,
+      newEntries: { error: e }
+    });
+
+    if (error && error != t.error) {
+      updates.push(createUpdate(error));
     } else if (!error && t.error) {
-      updates.push({
-        table: 'transactions',
-        id: t.id,
-        newEntries: { error: '' }
-      });
+      updates.push(createUpdate(''));
     }
   });
+
   return updates;
 }

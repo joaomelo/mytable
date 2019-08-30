@@ -1,14 +1,38 @@
-import { checkJob } from './error';
+export { checkJob, createJobsErrorsUpdates };
 
-export default function(snapshot) {
+function checkJob(job) {
+  if (job.parent_b && job.parent_j) {
+    return 'has both job and bucket parents';
+  }
+
+  if (!job.parent_b && !job.parent_j) {
+    return 'does not has a parent';
+  }
+
+  if (job.parent_j && job.id === job.parent_j[0]) {
+    return 'parent is pointing to himself';
+  }
+
+  if (!job.title) {
+    return 'has no title';
+  }
+}
+
+function createJobsErrorsUpdates(snapshot) {
   const updates = [];
 
   snapshot.jobs.forEach(j => {
     const error = checkJob(j);
-    if (error) {
-      updates.push({ table: 'jobs', id: j.id, newEntries: { error: error } });
-    } else if (j.error) {
-      updates.push({ table: 'jobs', id: j.id, newEntries: { error: '' } });
+    const createUpdate = e => ({
+      table: 'jobs',
+      id: j.id,
+      newEntries: { error: e }
+    });
+
+    if (error && error != j.error) {
+      updates.push(createUpdate(error));
+    } else if (!error && j.error) {
+      updates.push(createUpdate(''));
     }
   });
   return updates;

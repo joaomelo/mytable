@@ -1,16 +1,18 @@
-import { checkJob } from './error';
+import { checkJob } from './jobs-error';
 
-export default function(snapshot) {
+export { createJobsPathsUpdates };
+
+function createJobsPathsUpdates(snapshot) {
   const updates = [];
   snapshot.jobs.forEach(j => {
-    const update = getJobPathUpdate(j, snapshot);
+    const update = createJobPathUpdate(j, snapshot);
     update && updates.push(update);
   });
 
   return updates;
 }
 
-function getJobPathUpdate(job, snapshot) {
+function createJobPathUpdate(job, snapshot) {
   let update;
 
   if (!checkJob(job)) {
@@ -19,15 +21,16 @@ function getJobPathUpdate(job, snapshot) {
       update = { table: 'jobs', id: job.id, newEntries: { path: newPath } };
     }
   }
+
   return update;
 }
 
 function jobPath(job, path, snapshot) {
   if (job.parent_b) {
-    const bucket = snapshot.parentBucket(job);
+    const bucket = snapshot.getParent(job);
     return `${bucket.title}/${job.title}`;
-  } else if (snapshot.parentJob(job)) {
-    const parent = snapshot.parentJob(job);
+  } else if (snapshot.getParent(job)) {
+    const parent = snapshot.getParent(job);
     return `${jobPath(parent, path, snapshot)}/${job.title}`;
   } else {
     return '';

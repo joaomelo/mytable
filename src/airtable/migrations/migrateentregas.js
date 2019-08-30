@@ -25,7 +25,6 @@ export default async function migrateEntregas(localLog) {
   ]);
 
   const batch = feedEntregasBatch();
-  //console.log(batch.filter(b => !!b.periodicidade));
   runBatch(batch);
 }
 
