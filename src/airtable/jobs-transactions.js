@@ -19,7 +19,7 @@ function createJobTransactionsUpdates(job, snapshot) {
     const newEntries = calcAcc(transactions);
 
     Object.keys(newEntries).forEach(k => {
-      if (newEntries[k] == job[k]) {
+      if (newEntries[k] === job[k]) {
         delete newEntries[k];
       }
     });
@@ -66,6 +66,8 @@ function calcAcc(transactions) {
     }
   });
 
-  Object.keys(acc).forEach(k => (acc[k] = acc[k].toFixed(2)));
+  Object.keys(acc).forEach(
+    k => (acc[k] = acc[k] == 0 ? '' : acc[k].toFixed(2))
+  );
   return acc;
 }

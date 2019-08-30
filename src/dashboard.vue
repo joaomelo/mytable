@@ -59,7 +59,7 @@ export default {
           this.disabled = false;
         })
         .catch(err => {
-          log(err);
+          log(`${e.name}: ${e.message}`);
           this.disabled = false;
         });
     }
