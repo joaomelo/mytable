@@ -14,6 +14,7 @@ async function createSnapshot() {
       'parent_b',
       'parent_j',
       'path',
+      'leaf',
       'month',
       'quarter',
       'year',
@@ -44,7 +45,7 @@ class Snapshot {
   }
 
   getLeafJobs() {
-    return this.jobs.filter(j => !this.getChildJobs(j));
+    return this.jobs.filter(j => this.getChildJobs(j).length == 0);
   }
 
   getChildJobs(parent) {
