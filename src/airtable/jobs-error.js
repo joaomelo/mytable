@@ -26,6 +26,7 @@ function createJobsErrorsUpdates(snapshot) {
     const createUpdate = e => ({
       table: 'jobs',
       id: j.id,
+      tag: j.title,
       newEntries: { error: e }
     });
 

@@ -9,15 +9,16 @@ class Batcher {
   }
 
   pushMany(updates) {
-    updates.forEach(u => this.push(u.table, u.id, u.newEntries));
+    updates.forEach(u => this.push(u.table, u.id, u.tag, u.newEntries));
   }
 
-  push(table, id, newEntries) {
+  push(table, id, tag, newEntries) {
     if (Object.keys(newEntries).length > 0) {
       let update = this.updates.find(u => u.id === id);
       if (!update) {
         update = {
           id: id,
+          tag: tag,
           table: table,
           entries: {}
         };
@@ -31,7 +32,7 @@ class Batcher {
     const update = async u => {
       await atUpdate(u.table, u.id, u.entries);
       return log(
-        `updated "${u.id}" from ${u.table} with ${JSON.stringify(u.entries)}`
+        `updated "${u.tag}" from ${u.table} with ${JSON.stringify(u.entries)}`
       );
     };
 

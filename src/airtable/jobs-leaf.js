@@ -8,6 +8,7 @@ function createJobsLeafsUpdates(snapshot) {
     const isLeaf = leafsIds.includes(j.id);
     const createUpdate = is => ({
       table: 'jobs',
+      tag: j.title,
       id: j.id,
       newEntries: { leaf: is }
     });

@@ -18,7 +18,12 @@ function createJobPathUpdate(job, snapshot) {
   if (!checkJob(job)) {
     const newPath = jobPath(job, '', snapshot);
     if (!job.path || job.path !== newPath) {
-      update = { table: 'jobs', id: job.id, newEntries: { path: newPath } };
+      update = {
+        table: 'jobs',
+        id: job.id,
+        tag: job.title,
+        newEntries: { path: newPath }
+      };
     }
   }
 

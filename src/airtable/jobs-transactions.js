@@ -19,7 +19,7 @@ function createJobTransactionsUpdates(job, snapshot) {
     const newEntries = calcAcc(transactions);
 
     Object.keys(newEntries).forEach(k => {
-      if (newEntries[k] === job[k]) {
+      if (newEntries[k] == job[k] || !(newEntries[k] || job[k])) {
         delete newEntries[k];
       }
     });
@@ -28,6 +28,7 @@ function createJobTransactionsUpdates(job, snapshot) {
       update = {
         table: 'jobs',
         id: job.id,
+        tag: job.title,
         newEntries: newEntries
       };
     }
