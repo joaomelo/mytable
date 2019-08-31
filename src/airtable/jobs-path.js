@@ -27,12 +27,27 @@ function createJobPathUpdate(job, snapshot) {
 
 function jobPath(job, path, snapshot) {
   if (job.parent_b) {
-    const bucket = snapshot.getParent(job);
-    return `${bucket.title}/${job.title}`;
+    const bucketPath = snapshot.getParent(job).title.substring(0, 1);
+    return `${bucketPath}/${pathStr(job)}`;
   } else if (snapshot.getParent(job)) {
     const parent = snapshot.getParent(job);
-    return `${jobPath(parent, path, snapshot)}/${job.title}`;
+    return `${jobPath(parent, path, snapshot)}/${pathStr(job)}`;
   } else {
     return '';
   }
+}
+
+function pathStr(job) {
+  const act = '▶️';
+  const ina = '📦';
+  const prefixlength = 7;
+  const posfix = '..';
+  let result = job.title;
+
+  if (result.length > prefixlength + posfix.length) {
+    result = result.substring(0, prefixlength) + posfix;
+  }
+  result = job.active ? act + result : ina + result;
+
+  return result;
 }

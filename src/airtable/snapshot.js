@@ -11,6 +11,7 @@ async function createSnapshot() {
     select('buckets', ['title']),
     select('jobs', [
       'title',
+      'active',
       'parent_b',
       'parent_j',
       'path',
