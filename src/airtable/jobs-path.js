@@ -1,4 +1,5 @@
 import { checkJob } from './jobs-error';
+import { jobTypes } from './jobs-type';
 
 export { createJobsPathsUpdates };
 
@@ -33,16 +34,16 @@ function createJobPathUpdate(job, snapshot) {
 function jobPath(job, path, snapshot) {
   if (job.parent_b) {
     const bucketPath = snapshot.getParent(job).title.substring(0, 1);
-    return `${bucketPath}/${pathStr(job)}`;
+    return `${bucketPath}/${pathStr(job, snapshot)}`;
   } else if (snapshot.getParent(job)) {
     const parent = snapshot.getParent(job);
-    return `${jobPath(parent, path, snapshot)}/${pathStr(job)}`;
+    return `${jobPath(parent, path, snapshot)}/${pathStr(job, snapshot)}`;
   } else {
     return '';
   }
 }
 
-function pathStr(job) {
+function pathStr(job, snapshot) {
   const act = '▶️';
   const ina = '📦';
   const prefixlength = 7;
@@ -52,7 +53,7 @@ function pathStr(job) {
   if (result.length > prefixlength + posfix.length) {
     result = result.substring(0, prefixlength) + posfix;
   }
-  result = job.active ? act + result : ina + result;
+  result = snapshot.isAlive(job) ? act + result : ina + result;
 
   return result;
 }

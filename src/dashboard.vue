@@ -58,8 +58,9 @@ export default {
           log(result);
           this.disabled = false;
         })
-        .catch(err => {
+        .catch(e => {
           log(`${e.name}: ${e.message}`);
+          console.log(e);
           this.disabled = false;
         });
     }

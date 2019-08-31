@@ -11,11 +11,12 @@ async function createSnapshot() {
     select('buckets', ['title']),
     select('jobs', [
       'title',
-      'active',
+      'type',
+      'status',
       'parent_b',
       'parent_j',
       'path',
-      'leaf',
+      'recurring',
       'month',
       'quarter',
       'year',
@@ -45,8 +46,22 @@ class Snapshot {
     return this.jobs.filter(j => j.parent_b && j.parent_b.length > 0);
   }
 
+  isRoot(job) {
+    const rootIds = this.getRootJobs().map(r => r.id);
+    return rootIds.includes(job.id);
+  }
+
   getLeafJobs() {
     return this.jobs.filter(j => this.getChildJobs(j).length == 0);
+  }
+
+  isLeaf(job) {
+    const leafIds = this.getLeafJobs().map(l => l.id);
+    return leafIds.includes(job.id);
+  }
+
+  isAlive(job) {
+    return !['done', 'cancelled'].includes(job.status);
   }
 
   getChildJobs(parent) {
