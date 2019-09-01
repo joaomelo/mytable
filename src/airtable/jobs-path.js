@@ -16,7 +16,7 @@ function createJobsPathsUpdates(snapshot) {
 function createJobPathUpdate(job, snapshot) {
   let update;
 
-  if (!checkJob(job)) {
+  if (!checkJob(job, snapshot)) {
     const newPath = jobPath(job, '', snapshot);
     if (!job.path || job.path !== newPath) {
       update = {

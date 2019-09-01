@@ -4,7 +4,7 @@ export { createJobsTypeUpdates, jobTypes };
 function createJobsTypeUpdates(snapshot) {
   const updates = [];
   snapshot.jobs.forEach(j => {
-    if (!checkJob(j)) {
+    if (!checkJob(j, snapshot)) {
       const update = createJobTypeUpdate(j, snapshot);
       update && updates.push(update);
     }
@@ -27,7 +27,7 @@ function createTypeArray(job, snapshot) {
 
   if (job.recurring) {
     type.push(jobTypes.generator);
-  } else if (snapshot.getParent(job).recurring) {
+  } else if (snapshot.hasRecurringAscendency(job)) {
     type.push(jobTypes.instance);
   } else {
     type.push(jobTypes.ephemeral);

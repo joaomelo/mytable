@@ -1,6 +1,7 @@
+import { jobTypes } from './jobs-type';
 export { checkJob, createJobsErrorsUpdates };
 
-function checkJob(job) {
+function checkJob(job, snapshot) {
   if (job.parent_b && job.parent_j) {
     return 'has both job and bucket parents';
   }
@@ -16,13 +17,17 @@ function checkJob(job) {
   if (!job.title) {
     return 'has no title';
   }
+
+  if (job.recurring && snapshot.hasRecurringAscendency(job)) {
+    return 'you can not have a recurring job inside another one';
+  }
 }
 
 function createJobsErrorsUpdates(snapshot) {
   const updates = [];
 
   snapshot.jobs.forEach(j => {
-    const error = checkJob(j);
+    const error = checkJob(j, snapshot);
     const createUpdate = e => ({
       table: 'jobs',
       id: j.id,

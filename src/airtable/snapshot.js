@@ -79,10 +79,29 @@ class Snapshot {
     return allParents.find(item => item.id === parentId);
   }
 
+  getAscendency(job) {
+    const ascendency = [];
+
+    let parent = this.getParent(job);
+    while (parent && !this.buckets.includes(parent)) {
+      ascendency.push(parent);
+      parent = this.getParent(parent);
+    }
+
+    return ascendency;
+  }
+
+  hasRecurringAscendency(job) {
+    const ascendency = this.getAscendency(job);
+    let hasRecurring = false;
+    ascendency.forEach(a => (hasRecurring = hasRecurring || a.recurring));
+    return hasRecurring;
+  }
+
   getTransactions(job, includeChildren = false) {
     let transactions = this.transactions.filter(t => t.job[0] === job.id);
 
-    if (includeChildren && !checkJob(job)) {
+    if (includeChildren && !checkJob(job, this)) {
       const childrenJobs = this.getChildJobs(job);
       if (hasElements(childrenJobs)) {
         childrenJobs.forEach(childJob => {

@@ -15,7 +15,7 @@ function createJobTransactionsUpdates(job, snapshot) {
   let update;
 
   const transactions = snapshot.getTransactions(job, true);
-  if (!checkJob(job) && transactions && transactions.length > 0) {
+  if (!checkJob(job, snapshot) && transactions && transactions.length > 0) {
     const newEntries = calcAcc(transactions);
 
     Object.keys(newEntries).forEach(k => {
