@@ -44,16 +44,11 @@ function jobPath(job, path, snapshot) {
 }
 
 function pathStr(job, snapshot) {
-  const act = '▶️';
-  const ina = '📦';
-  const prefixlength = 7;
-  const posfix = '..';
-  let result = job.title;
+  const t = (snapshot.isAlive(job) ? '▶️' : '📦') + job.title;
 
-  if (result.length > prefixlength + posfix.length) {
-    result = result.substring(0, prefixlength) + posfix;
-  }
-  result = snapshot.isAlive(job) ? act + result : ina + result;
-
-  return result;
+  const pos = t.indexOf(' ');
+  const dot = '..';
+  return pos == -1 || t.length < pos + dot.length
+    ? t
+    : t.substring(0, pos) + dot;
 }
