@@ -1,5 +1,5 @@
 import { checkJob } from './jobs-error';
-import { jobTypes } from './jobs-type';
+import { activeTypes as types } from './jobs-type-active';
 
 export { createJobsPathsUpdates };
 
@@ -44,11 +44,11 @@ function jobPath(job, path, snapshot) {
 }
 
 function pathStr(job, snapshot) {
-  const t = (snapshot.isAlive(job) ? '▶️' : '📦') + job.title;
+  const full = (snapshot.isAlive(job) ? types.alive : types.dead) + job.title;
 
-  const pos = t.indexOf(' ');
+  const pos = full.indexOf(' ');
   const dot = '..';
-  return pos == -1 || t.length < pos + dot.length
-    ? t
-    : t.substring(0, pos) + dot;
+  return pos == -1 || full.length < pos + dot.length
+    ? full
+    : full.substring(0, pos) + dot;
 }

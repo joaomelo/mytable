@@ -1,4 +1,3 @@
-import { jobTypes } from './jobs-type';
 export { checkJob, createJobsErrorsUpdates };
 
 function checkJob(job, snapshot) {

@@ -1,5 +1,9 @@
 import { checkJob } from './jobs-error';
-export { createJobsTypeUpdates, jobTypes };
+import { createRecurringTypeEntry } from './jobs-type-recurring';
+import { createNodeTypeEntry } from './jobs-type-node';
+import { createActiveTypeEntry } from './jobs-type-active';
+
+export { createJobsTypeUpdates };
 
 function createJobsTypeUpdates(snapshot) {
   const updates = [];
@@ -12,53 +16,21 @@ function createJobsTypeUpdates(snapshot) {
   return updates;
 }
 
-const jobTypes = {
-  ephemeral: '🔥ephemeral',
-  generator: '⚙️generator',
-  instance: '👩‍🏭instance',
-  leaf: '🍀leaf',
-  root: '🌵root',
-  alive: '😃alive',
-  dead: '🧟dead'
-};
-
-function createTypeArray(job, snapshot) {
-  const type = [];
-
-  if (job.recurring) {
-    type.push(jobTypes.generator);
-  } else if (snapshot.hasRecurringAscendency(job)) {
-    type.push(jobTypes.instance);
-  } else {
-    type.push(jobTypes.ephemeral);
-  }
-
-  if (snapshot.isRoot(job)) {
-    type.push(jobTypes.root);
-  } else if (snapshot.isLeaf(job)) {
-    type.push(jobTypes.leaf);
-  }
-
-  if (snapshot.isAlive(job)) {
-    type.push(jobTypes.alive);
-  } else {
-    type.push(jobTypes.dead);
-  }
-
-  return type;
-}
-
 function createJobTypeUpdate(job, snapshot) {
   let update;
-  const newType = createTypeArray(job, snapshot).sort();
-  const oldType = job.type ? job.type.sort() : [];
 
-  if (newType.join() !== oldType.join()) {
+  const newEntries = {
+    ...createRecurringTypeEntry(job, snapshot),
+    ...createNodeTypeEntry(job, snapshot),
+    ...createActiveTypeEntry(job, snapshot)
+  };
+
+  if (Object.keys(newEntries).length > 0) {
     update = {
       table: 'jobs',
       tag: job.title,
       id: job.id,
-      newEntries: { type: newType }
+      newEntries: newEntries
     };
   }
 
