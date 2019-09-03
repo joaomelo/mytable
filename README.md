@@ -2,7 +2,9 @@
 
 ## Recurring Jobs
 
-Every recurring job is a template for the creating of the next ocurrence. The script will grab wall recurring jobs that are done and create the next ocurrence based on the recurring rule.
+Recurring jobs are generators for repeting ocrrunces of themselves or their subtree of jobs. The generator is a god place to allocate financial transaction and references while the instances ocrruences are short live jobs to alocate in daily routines.
+
+That could be two types of recurring genertors jobs. The flat ones wich just copy instances of themselves and process generators wich have a complex subtree of jobs describind a multi step repeating process.
 
 Jobs still active, bloqued and so one are assumed to be still waiting to be dealt with. Cancelled jobs are signaling to be a recurring stream ended.
 

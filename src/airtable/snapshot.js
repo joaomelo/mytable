@@ -11,14 +11,14 @@ async function createSnapshot() {
     select('buckets', ['title']),
     select('jobs', [
       'title',
-      'rtype',
       'ntype',
       'active',
       'status',
       'parent_b',
       'parent_j',
       'path',
-      'recurring',
+      'rtype',
+      'frequency',
       'month',
       'quarter',
       'year',
@@ -62,10 +62,6 @@ class Snapshot {
     return leafIds.includes(job.id);
   }
 
-  isAlive(job) {
-    return !['done', 'cancelled'].includes(job.status);
-  }
-
   getChildJobs(parent) {
     return this.jobs.filter(
       j => hasId(j.parent_b, parent.id) || hasId(j.parent_j, parent.id)
@@ -96,7 +92,9 @@ class Snapshot {
   hasRecurringAscendency(job) {
     const ascendency = this.getAscendency(job);
     let hasRecurring = false;
-    ascendency.forEach(a => (hasRecurring = hasRecurring || a.recurring));
+    ascendency.forEach(a => {
+      hasRecurring = hasRecurring || a.frequency;
+    });
     return hasRecurring;
   }
 

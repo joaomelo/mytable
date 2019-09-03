@@ -17,7 +17,7 @@ function checkJob(job, snapshot) {
     return 'has no title';
   }
 
-  if (job.recurring && snapshot.hasRecurringAscendency(job)) {
+  if (job.frequency && snapshot.hasRecurringAscendency(job)) {
     return 'you can not have a recurring job inside another one';
   }
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import moment, { now } from 'moment';
+import moment from 'moment';
 import { fireDb } from './firebase';
 
 Vue.use(Vuex);
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         .onSnapshot(snapshot => {
           const logs = snapshot.docs.map(doc => {
             const data = { id: doc.id, ...doc.data() };
-            const when = data.when ? data.when.toDate() : now();
+            const when = data.when ? data.when.toDate() : new Date();
             return {
               id: data.id,
               when: moment(when).format('DD-MM HH:mm:ss'),

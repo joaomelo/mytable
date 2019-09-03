@@ -33,8 +33,6 @@ import router from "@/router";
 import { log } from "@/log";
 import { startAirtable, updateAirtable } from "@/airtable";
 
-import { test } from "@/time";
-
 export default {
   name: "Dashboard",
   components: { Loader },
@@ -51,7 +49,7 @@ export default {
   methods: {
     async logout() {
       console.log(this.$auth);
-      
+
       await this.$auth.logout();
     },
     update() {
@@ -71,7 +69,6 @@ export default {
   created() {
     startAirtable();
     this.$store.dispatch("setLogs");
-    // test();
   }
 };
 </script>

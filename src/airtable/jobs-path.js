@@ -1,5 +1,6 @@
 import { checkJob } from './jobs-error';
 import { activeTypes as types } from './jobs-type-active';
+import { calcFreshActiveType } from './jobs-type-active';
 
 export { createJobsPathsUpdates };
 
@@ -34,21 +35,23 @@ function createJobPathUpdate(job, snapshot) {
 function jobPath(job, path, snapshot) {
   if (job.parent_b) {
     const bucketPath = snapshot.getParent(job).title.substring(0, 1);
-    return `${bucketPath}/${pathStr(job, snapshot)}`;
+    return `${bucketPath}/${pathStr(job)}`;
   } else if (snapshot.getParent(job)) {
     const parent = snapshot.getParent(job);
-    return `${jobPath(parent, path, snapshot)}/${pathStr(job, snapshot)}`;
+    return `${jobPath(parent, path, snapshot)}/${pathStr(job)}`;
   } else {
     return '';
   }
 }
 
-function pathStr(job, snapshot) {
-  const full = (snapshot.isAlive(job) ? types.alive : types.dead) + job.title;
+function pathStr(job) {
+  const full = calcFreshActiveType(job) + job.title;
 
-  const pos = full.indexOf(' ');
+  const firstPos = full.indexOf(' ');
+  const secondPos = firstPos == -1 ? firstPos : full.indexOf(' ', firstPos + 1);
+
   const dot = '..';
-  return pos == -1 || full.length < pos + dot.length
+  return secondPos == -1 || full.length < secondPos + dot.length
     ? full
-    : full.substring(0, pos) + dot;
+    : full.substring(0, secondPos) + dot;
 }
