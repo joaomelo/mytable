@@ -14,7 +14,10 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Dashboard
+      component: Dashboard,
+      meta: {
+        authRequired: true
+      }
     },
     {
       path: '/login',
@@ -29,9 +32,8 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const authRequired = !['/login'].includes(to.path);
+  const authRequired = to.matched.some(record => record.meta.authRequred);
   const loggedIn = store.getters.isLoggedIn;
-
   if (authRequired && !loggedIn) {
     next('/login');
   } else {

@@ -5,6 +5,11 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+//the app
+export { firebase, fireApp };
+//db utilities
+export { fireDb, timestamp };
+
 const firebaseConfig = {
   apiKey: 'AIzaSyAXeMQIkRV4Tt-nge3oi4ZG8uOLIc9ny0Y',
   authDomain: 'airtable-149f3.firebaseapp.com',
@@ -15,13 +20,7 @@ const firebaseConfig = {
   appId: '1:208811989156:web:24d015332dda2624'
 };
 
-export const fireApp = firebase.initializeApp(firebaseConfig);
+const fireApp = firebase.initializeApp(firebaseConfig);
 
-export const fireDb = firebase.firestore();
-
-export const emailProvider = firebase.auth.EmailAuthProvider.PROVIDER_ID;
-export const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-
-export function fireLogout() {
-  return fireApp.auth().signOut();
-}
+const fireDb = firebase.firestore();
+const timestamp = firebase.firestore.FieldValue.serverTimestamp();

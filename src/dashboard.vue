@@ -19,7 +19,7 @@
     <div v-if="logs.length > 0">
       <ul v-for="log in logs" :key="log.id" class="list-group list-group-flush">
         <li class="list-group-item text-monospace px-1 py-0">
-          <small>{{ log.when }}:</small>
+          <small>{{ log.when }}</small>
           {{ log.msg }}
         </li>
       </ul>
@@ -32,6 +32,8 @@ import Loader from "@/loader";
 import router from "@/router";
 import { log } from "@/log";
 import { startAirtable, updateAirtable } from "@/airtable";
+
+import { test } from "@/time";
 
 export default {
   name: "Dashboard",
@@ -48,8 +50,9 @@ export default {
   },
   methods: {
     async logout() {
-      await this.$store.dispatch("logout");
-      router.push("/login");
+      console.log(this.$auth);
+      
+      await this.$auth.logout();
     },
     update() {
       this.disabled = true;
@@ -68,6 +71,7 @@ export default {
   created() {
     startAirtable();
     this.$store.dispatch("setLogs");
+    // test();
   }
 };
 </script>
