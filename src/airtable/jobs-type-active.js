@@ -1,4 +1,4 @@
-export { activeTypes, calcFreshActiveType, createActiveTypeEntry };
+export { activeTypes, calcFreshActiveType, isActive, createActiveTypeEntry };
 
 const activeTypes = {
   resting: '😴',
@@ -10,12 +10,10 @@ function calcFreshActiveType(job) {
   let type;
   if (['done', 'cancelled'].includes(job.status)) {
     type = activeTypes.dead;
-  } else if (
-    ['delegated', 'automatic', 'blocked', 'idea'].includes(job.status)
-  ) {
-    type = activeTypes.resting;
   } else {
-    type = activeTypes.alive;
+    type = ['delegated', 'automatic', 'blocked', 'idea'].includes(job.status)
+      ? activeTypes.resting
+      : activeTypes.alive;
   }
 
   return type;
@@ -24,4 +22,8 @@ function calcFreshActiveType(job) {
 function createActiveTypeEntry(job) {
   const newType = calcFreshActiveType(job);
   return newType !== job.active ? { active: newType } : undefined;
+}
+
+function isActive(job) {
+  return calcFreshActiveType(job) != activeTypes.dead;
 }

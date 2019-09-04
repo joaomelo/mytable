@@ -22,7 +22,8 @@ async function createSnapshot() {
       'month',
       'quarter',
       'year',
-      'error'
+      'error',
+      'test'
     ]),
     select('transactions', ['title', 'job', 'date', 'value', 'error'])
   ]);

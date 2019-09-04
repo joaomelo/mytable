@@ -4,7 +4,7 @@ import 'airtable/build/airtable.browser.js';
 import { log } from '@/log';
 import { fireDb } from '@/firebase';
 
-export { startAirtable, select, update };
+export { startAirtable, select, update, create };
 
 let base;
 
@@ -70,4 +70,13 @@ function update(table, id, entries) {
 
 function freeUpdate(table, id, entries) {
   return base(table).update(id, entries, { typecast: true });
+}
+
+function create(table, entries) {
+  const wrapped = limiter.wrap(freeCreate);
+  return wrapped(table, entries);
+}
+
+function freeCreate(table, entries) {
+  return base(table).create(entries, { typecast: true });
 }

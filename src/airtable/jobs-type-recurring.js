@@ -1,4 +1,9 @@
-export { recurringTypes, calcFreshRecurringType, createRecurringTypeEntry };
+export {
+  recurringTypes,
+  calcFreshRecurringType,
+  isFlat,
+  createRecurringTypeEntry
+};
 
 const recurringTypes = {
   ephemeral: '🔥',
@@ -37,4 +42,8 @@ function createChildrenUniqueDistinctTitles(job, snapshot) {
 function convertToDistinct(title) {
   const pos = title.indexOf('#');
   return pos == -1 ? title : title.substring(0, pos);
+}
+
+function isFlat(job, snapshot) {
+  return calcFreshRecurringType(job, snapshot) == recurringTypes.flat;
 }
