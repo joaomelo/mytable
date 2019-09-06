@@ -1,27 +1,29 @@
-import { startAirtable } from './base';
+import { createBatcher } from './batcher';
 
-import { createSnapshot } from './snapshot';
-import { Batcher } from './batcher';
+import { createJobErrorCommand, createTransactionErrorCommand } from './error';
+import { createJobPathCommand, createJobLevelCommand } from './path';
+import { createJobTransactionsCommand } from './transactions';
+import { createJobLivenessCommand } from './status';
+import {
+  createJobInstancesCommands,
+  createJobRecurrenceCommand
+} from './recurrence';
 
-import { createTransactionsErrorsUpdates } from './transactions-error';
-import { createJobsErrorsUpdates } from './jobs-error';
-import { createJobsTypeUpdates } from './jobs-type';
-import { createJobsPathsUpdates } from './jobs-path';
-import { createJobsTransactionsUpdates } from './jobs-transactions';
-import { createJobsRecurringInstancesCreates } from './jobs-recurring';
-
-export { updateAirtable, startAirtable };
+export { updateAirtable };
 
 async function updateAirtable() {
-  const snapshot = await createSnapshot();
-  const batcher = new Batcher();
+  const batcher = await createBatcher();
 
-  batcher.pushMany(createTransactionsErrorsUpdates(snapshot));
-  batcher.pushMany(createJobsErrorsUpdates(snapshot));
-  batcher.pushMany(createJobsTypeUpdates(snapshot));
-  batcher.pushMany(createJobsPathsUpdates(snapshot));
-  batcher.pushMany(createJobsTransactionsUpdates(snapshot));
-  batcher.pushCreates(createJobsRecurringInstancesCreates(snapshot));
+  batcher.registerFunction('transactions', createTransactionErrorCommand);
+  batcher.registerFunctions('jobs', [
+    createJobErrorCommand,
+    createJobPathCommand,
+    createJobLevelCommand,
+    createJobRecurrenceCommand,
+    createJobInstancesCommands,
+    createJobTransactionsCommand,
+    createJobLivenessCommand
+  ]);
 
   await batcher.run();
   return 'update successfully completed';

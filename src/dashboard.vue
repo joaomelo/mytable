@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import Loader from "@/loader";
-import router from "@/router";
-import { log } from "@/log";
-import { startAirtable, updateAirtable } from "@/airtable";
+import Loader from '@/loader';
+import router from '@/router';
+import { log } from '@/log';
+import { updateAirtable } from '@/airtable';
 
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   components: { Loader },
   data() {
     return {
@@ -61,14 +61,13 @@ export default {
         })
         .catch(e => {
           log(`${e.name}: ${e.message}`);
-          console.log(e);
+          console.error(e);
           this.disabled = false;
         });
     }
   },
   created() {
-    startAirtable();
-    this.$store.dispatch("setLogs");
+    this.$store.dispatch('setLogs');
   }
 };
 </script>

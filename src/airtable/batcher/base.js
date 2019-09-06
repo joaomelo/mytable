@@ -9,17 +9,19 @@ export { startAirtable, select, update, create };
 let base;
 
 async function startAirtable() {
-  const credentials = await fireDb
-    .collection('support')
-    .doc('airtable')
-    .get();
-  const { apiKey, baseId } = credentials.data();
+  if (!base) {
+    const credentials = await fireDb
+      .collection('support')
+      .doc('airtable')
+      .get();
+    const { apiKey, baseId } = credentials.data();
 
-  base = new Airtable({ apiKey: apiKey }).base(baseId);
+    base = new Airtable({ apiKey: apiKey, requestTimeout: 60000 }).base(baseId);
+  }
 }
 
 const limiter = new Bottleneck({
-  maxConcurrent: 1,
+  maxConcurrent: 2,
   minTime: 200
 });
 
@@ -55,9 +57,9 @@ async function freeSelect(table, fieldsToSelect) {
     });
 
   if (cache.length > 0) {
-    log(`cached ${cache.length} records from ${table}`);
+    await log(`cached ${cache.length} records from ${table}`);
   } else {
-    log(`no records found inside table ${table}`);
+    await log(`no records found inside table ${table}`);
   }
 
   return cache;
