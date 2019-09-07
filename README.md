@@ -13,13 +13,13 @@ i still update some other stuff in the base, but they are very basic cases and i
 
 i use [vue](https://vuejs.org/) and [bootstrap](https://getbootstrap.com/) in the frontend because i am familiar with them but there is no real need for the tech. i store all the log data in [firebase](https://firebase.google.com/) because firebase is cheap (in this case free) and so easy to use.
 
-to manage airtable limits of access rate i use [bottleneck](https://www.npmjs.com/package/bottleneck). and to deal with dates and recurring events i use [moment](https://momentjs.com/) and [@rschedule](https://www.npmjs.com/package/@rschedule/rschedule) respectively.
+to manage airtable limits of access rate i use [bottleneck](https://www.npmjs.com/package/bottleneck). to deal with dates and recurring events i use [moment](https://momentjs.com/) and [@rschedule](https://www.npmjs.com/package/@rschedule/rschedule) respectively.
 
 everything else in package.json is derived from that.
 
 # basic logic
 
-the app updates and creates data in airtable using a logic that their app does not support. the operation is called manually in an update button in this app.
+the app updates and creates data in airtable using logic that their app does not support. this logic is contained in a set of transforming functions, each one for some piece of business calculation. the operation starts by manually pressing an update button in the app ui.
 
 after the button is pressed, airtable data is copied in a snapshot of the base and some transforming functions are registered in a batcher object. this functions will be run against every record of the base and produce create or update commands if necessary. at the end, every command will be sent to airtable asynchronously.
 
