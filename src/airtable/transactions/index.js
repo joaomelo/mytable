@@ -64,7 +64,9 @@ function calcAverageAcc(transactions) {
   });
 
   Object.keys(averageAcc).forEach(
-    k => (averageAcc[k] = averageAcc[k] == 0 ? '' : averageAcc[k].toFixed(2))
+    k =>
+      (averageAcc[k] =
+        averageAcc[k] == 0 ? undefined : averageAcc[k].toFixed(2))
   );
   return averageAcc;
 }

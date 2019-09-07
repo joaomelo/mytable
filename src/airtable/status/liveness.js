@@ -11,7 +11,7 @@ function createJobLivenessCommand(job) {
       type: 'update',
       table: 'jobs',
       id: job.id,
-      tag: job.tag,
+      tag: job.title,
       entries: {
         liveness: liveness
       }
