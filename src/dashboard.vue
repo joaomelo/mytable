@@ -48,8 +48,6 @@ export default {
   },
   methods: {
     async logout() {
-      console.log(this.$auth);
-
       await this.$auth.logout();
     },
     update() {

@@ -53,7 +53,7 @@ class Batcher {
         this.commands.push(newCommand);
       } else {
         Object.keys(newCommand.entries).forEach(k => {
-          oldCommand.entries[k] = newCommand[k];
+          oldCommand.entries[k] = newCommand.entries[k];
         });
       }
     }

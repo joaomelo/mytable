@@ -11,7 +11,7 @@ export default new Vuex.Store({
     logs: []
   },
   getters: {
-    getUser() {
+    getUser(state) {
       return state.user;
     },
     isLoggedIn(state) {

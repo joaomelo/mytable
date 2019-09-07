@@ -6,43 +6,47 @@ import { calcJobError } from '@/airtable/error';
 import { calcJobLiveness, isActive, hasAliveChildren } from '@/airtable/status';
 import { calcJobPath, calcJobLevel } from '@/airtable/path';
 import { calcJobRecurrence } from './recurrence';
-import { isFlat } from './utils';
+import { isRecurrent, createChildrenUniqueDistinctTitles } from './utils';
 
 export { createJobInstancesCommands };
 
 // RScheduleConfig.defaultDateAdapter = MomentDateAdapter;
 
 function createJobInstancesCommands(job, snapshot) {
-  let command;
+  let commands = [];
 
-  if (isUnscheduledJobs(job, snapshot)) {
-    const child = {
-      title: `${job.title}*`,
+  if (isUnscheduledJob(job, snapshot)) {
+    const template = {
+      title: 'template',
       status: 'available',
       cycle: job.cycle,
       parent: [job.id]
     };
+    template.level = calcJobLevel(template, snapshot);
+    template.recurrence = calcJobRecurrence(template, snapshot);
+    template.liveness = calcJobLiveness(template, snapshot);
 
-    child.path = calcJobPath(child, snapshot);
-    child.level = calcJobLevel(child, snapshot);
-    child.recurrence = calcJobRecurrence(child, snapshot);
-    child.liveness = calcJobLiveness(child, snapshot);
-
-    command = {
-      type: 'create',
-      table: 'jobs',
-      tag: `${job.title}*`,
-      entries: child
-    };
+    const childrenTitles = createChildrenUniqueDistinctTitles(job, snapshot);
+    childrenTitles.forEach(title => {
+      const child = { ...template };
+      child.title = `${title}*`;
+      child.path = calcJobPath(child, snapshot);
+      commands.push({
+        type: 'create',
+        table: 'jobs',
+        tag: child.title,
+        entries: child
+      });
+    });
   }
 
-  return command;
+  return commands;
 }
 
-function isUnscheduledJobs(job, snapshot) {
+function isUnscheduledJob(job, snapshot) {
   return (
     !calcJobError(job, snapshot) &&
-    isFlat(job, snapshot) &&
+    isRecurrent(job, snapshot) &&
     isActive(job) &&
     !hasAliveChildren(job, snapshot)
   );
