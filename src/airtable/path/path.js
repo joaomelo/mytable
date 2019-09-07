@@ -47,8 +47,8 @@ function pathString(job, snapshot) {
   };
 
   const fullStr =
-    calcJobLiveness(parent, snapshot) +
-    calcJobRecurrence(parent, snapshot) +
+    calcJobLiveness(job, snapshot) +
+    calcJobRecurrence(job, snapshot) +
     job.title.trim();
   const dot = '..';
 
