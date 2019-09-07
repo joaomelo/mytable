@@ -19,14 +19,14 @@ const jobRecurrences = {
 function createChildrenUniqueDistinctTitles(job, snapshot) {
   const distinctTitles = snapshot
     .getChildJobs(job)
-    .map(child => convertToDistinctTitle(child.title).trim());
+    .map(child => convertToDistinctTitle(child.title, '*').trim());
   const uniqueTitles = Array.from(new Set(distinctTitles));
 
   return uniqueTitles;
 }
 
-function convertToDistinctTitle(title) {
-  const pos = title.indexOf('*');
+function convertToDistinctTitle(title, substr) {
+  const pos = title.indexOf(substr);
   return pos == -1 ? title : title.substring(0, pos);
 }
 

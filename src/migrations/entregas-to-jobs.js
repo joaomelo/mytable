@@ -2,9 +2,7 @@ import 'airtable/build/airtable.browser.js';
 import Airtable from 'airtable';
 import Bottleneck from 'bottleneck';
 
-const base = new Airtable({ apiKey: 'keyGtXRgI4o2hamoL' }).base(
-  'app8Z2ChqiZn6N3iW'
-);
+//const base = new Airtable({ apiKey:  }).base();
 let entregas;
 let log;
 
