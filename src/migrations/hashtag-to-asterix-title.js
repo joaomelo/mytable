@@ -6,7 +6,7 @@ function convertHashtagToAsterixCommand(job, sanpshot) {
   let command;
 
   const distinct = convertToDistinctTitle(job.title, '*');
-  if (job.title != distinct) {
+  if (job.title !== distinct) {
     command = {
       type: 'update',
       table: 'jobs',
