@@ -1,0 +1,179 @@
+[33mcommit 47d37dc4d66fa2141f5127f3af5ec0109cc732b8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: joao <j@vmelo.net>
+Date:   Sat Sep 7 20:01:25 2019 -0300
+
+    removed firebase hosting cache
+
+[33mcommit bbe47961462b9cef06afd10cab9af2756652356f[m
+Author: joao <j@vmelo.net>
+Date:   Sat Sep 7 14:53:01 2019 -0300
+
+    crude one level recurr to flat and process jobs
+
+[33mcommit 1cd28921ff174fa7cb2df32a5eddc49a2cd20202[m
+Author: joao <j@vmelo.net>
+Date:   Sat Sep 7 10:15:29 2019 -0300
+
+    small fix
+
+[33mcommit 3e001e4158f76cdd264d4bc5001aab92dc73c564[m
+Author: joao <j@vmelo.net>
+Date:   Sat Sep 7 10:10:09 2019 -0300
+
+    created and apllied migration to copy titles start using * instead of #
+
+[33mcommit 93a3fbfc5a8a55f9c711e925856c253b4fb923c2[m
+Author: joao <j@vmelo.net>
+Date:   Fri Sep 6 22:53:12 2019 -0300
+
+    fixed bug in path string formation
+
+[33mcommit b57363f673eada358e58d1ad01d536ef4351f66b[m
+Author: joao <j@vmelo.net>
+Date:   Fri Sep 6 22:26:13 2019 -0300
+
+    small fixes in readme file
+
+[33mcommit 25190859963a1423ee2cc86ddd2b25e7964acc81[m
+Author: joao <j@vmelo.net>
+Date:   Fri Sep 6 22:21:48 2019 -0300
+
+    readme has some basic explanations
+
+[33mcommit 4b4d00cc1f88d9737bd8fcbdff98b5f75abba03e[m
+Author: joao <j@vmelo.net>
+Date:   Fri Sep 6 21:48:02 2019 -0300
+
+    updated eslint to re,pve eslint-utils vulnerability
+
+[33mcommit 261eb97f3ed510f7476f815a5d584fa034ea4f94[m
+Author: joao <j@vmelo.net>
+Date:   Fri Sep 6 21:26:22 2019 -0300
+
+    bug corrections in transacions and liveleness
+
+[33mcommit 1d1fa0e0c7b506ac4c4f9f23cea83e6a3815cbc9[m
+Author: joao <j@vmelo.net>
+Date:   Fri Sep 6 17:02:36 2019 -0300
+
+    iterate over table only once with function register archtechture
+
+[33mcommit 4929802794e398c9fc45a36e8e657184dfa31cac[m
+Author: joao <j@vmelo.net>
+Date:   Tue Sep 3 22:21:33 2019 -0300
+
+    rudimentary creation of flat instances
+
+[33mcommit cc839d9bec1616f843ffaf21bdd5482f28194f61[m
+Author: joao <j@vmelo.net>
+Date:   Tue Sep 3 17:58:27 2019 -0300
+
+    type higyene to prepare for recurring jobs creation
+
+[33mcommit 2222cbc921c746196262a466a4f825fdcc683fdc[m
+Author: joao <j@vmelo.net>
+Date:   Tue Sep 3 11:51:12 2019 -0300
+
+    with firebaseauth plugin user mgn is reactive and user will not be logout on refresh
+
+[33mcommit 1dab282a09c6ea3bc041eceaa6f41f8b2c4a4886[m
+Author: joao <j@vmelo.net>
+Date:   Sun Sep 1 20:41:52 2019 -0300
+
+    job types are now segmented into their own columns
+
+[33mcommit b6c9d3fe5af32c3a4d3166757928f1fa9c2e6555[m
+Author: joao <j@vmelo.net>
+Date:   Sat Aug 31 22:18:25 2019 -0300
+
+    path algorith now respects the first word
+
+[33mcommit dd94476d9b1e9342e66935dbe6d28e9ac46b90c7[m
+Author: joao <j@vmelo.net>
+Date:   Sat Aug 31 21:50:37 2019 -0300
+
+    erro check for recurring inside another one
+
+[33mcommit 61ce3462f647378fc0f84e66f71fff6831e586a5[m
+Author: joao <j@vmelo.net>
+Date:   Sat Aug 31 20:09:08 2019 -0300
+
+    teste
+
+[33mcommit 8415682831495ec74d5e5a6f58e55daa5a8050e0[m
+Author: joao <j@vmelo.net>
+Date:   Sat Aug 31 16:47:54 2019 -0300
+
+    now with types
+
+[33mcommit 2636ac2b2b9270199cf8bee4670099b3cc4af7fc[m
+Author: joao <j@vmelo.net>
+Date:   Fri Aug 30 22:23:35 2019 -0300
+
+    update log message shows title instead of id and transactions bug corrected
+
+[33mcommit 0157ee3edfdb10cda2bd9bc761b9800b146d2bd5[m
+Author: joao <j@vmelo.net>
+Date:   Fri Aug 30 21:49:46 2019 -0300
+
+    path shorted and with emoji status for better ordering
+
+[33mcommit c8944916dd48a1c4a140337d8d1c3f753b0d7149[m
+Author: joao <j@vmelo.net>
+Date:   Fri Aug 30 17:45:21 2019 -0300
+
+    no zero update in transactions agregatted fileds
+
+[33mcommit 3b75080d0187e60bd41aa0c54273a216b5fd13dd[m
+Author: joao <j@vmelo.net>
+Date:   Fri Aug 30 15:38:15 2019 -0300
+
+    now updating leaf
+
+[33mcommit 6724200780c0f197d6bc5a352497f8e5bc429bb3[m
+Author: joao <j@vmelo.net>
+Date:   Fri Aug 30 14:46:13 2019 -0300
+
+    expenditure is now updated based on the job and its children transactions
+
+[33mcommit 35bc0dd78d8e7d6397c3537d642eaaa037890603[m
+Author: joao <j@vmelo.net>
+Date:   Fri Aug 23 16:09:45 2019 -0300
+
+    able to check transactions records errors
+
+[33mcommit b95553abf453ee39527fb8b4bdf36e83bf9204a8[m
+Author: joao <j@vmelo.net>
+Date:   Mon Aug 19 11:36:08 2019 -0300
+
+    firebase cloud running
+
+[33mcommit f77595463ee5e216a7dfa500d1a0c7aaa266d209[m
+Author: joao <j@vmelo.net>
+Date:   Sun Aug 18 18:13:54 2019 -0300
+
+    login and cloud functions enabled
+
+[33mcommit 5b77ed8b59ed2cb5657684fd1071594bf8d5e487[m
+Author: joao <j@vmelo.net>
+Date:   Sat Aug 17 20:40:00 2019 -0300
+
+    now hosted
+
+[33mcommit ca85b30bac880bdf86bf1592d9843c90961e97b9[m
+Author: joao <j@vmelo.net>
+Date:   Sat Aug 17 16:03:19 2019 -0300
+
+    error and path updates corrected coordinated
+
+[33mcommit 3e78bb75ebc4dc5cf91cb281aabf4d7d85fec4c1[m
+Author: joao <j@vmelo.net>
+Date:   Tue Aug 13 16:51:05 2019 -0300
+
+    updating program path
+
+[33mcommit d5f565234ea6570cf3686ef1f044f2209836f3ef[m
+Author: joao <j@vmelo.net>
+Date:   Mon Aug 12 16:19:32 2019 -0300
+
+    init
