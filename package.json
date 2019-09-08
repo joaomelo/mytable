@@ -11,7 +11,7 @@
     "build": "npm run clean && vue-cli-service build",
     "version": "git add -A",
     "postversion": "git push && git push --tags",
-    "deploy": "npm run build && npm run commit && npm version && firebase deploy"
+    "deploy:patch": "npm run build && npm run commit && npm version patch && firebase deploy"
   },
   "dependencies": {
     "@rschedule/moment-date-adapter": "^0.11.6",
