@@ -32,7 +32,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const authRequired = to.matched.some(record => record.meta.authRequred);
+  const authRequired = to.matched.some(record => record.meta.authRequired);
   const loggedIn = store.getters.isLoggedIn;
   if (authRequired && !loggedIn) {
     next('/login');

@@ -11,7 +11,7 @@
     "commit": "git add -A && git commit",
     "version": "git add -A",
     "postversion": "git push && git push --tags",
-    "deploy:patch": "npm run build && npm run commit && npm version patch && firebase deploy"
+    "deploy:patch": "npm run commit && npm version patch && npm run build && firebase deploy"
   },
   "dependencies": {
     "@rschedule/moment-date-adapter": "^0.11.6",

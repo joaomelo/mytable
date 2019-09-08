@@ -5,7 +5,8 @@ node_modules
 # firebase hosting cache
 .firebase/
 
-# local env files
+# env files
+.env
 .env.local
 .env.*.local
 

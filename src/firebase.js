@@ -10,17 +10,21 @@ export { firebase, fireApp };
 //db utilities
 export { fireDb, timestamp };
 
+console.log(process.env);
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyAXeMQIkRV4Tt-nge3oi4ZG8uOLIc9ny0Y',
-  authDomain: 'airtable-149f3.firebaseapp.com',
-  databaseURL: 'https://airtable-149f3.firebaseio.com',
-  projectId: 'airtable-149f3',
-  storageBucket: 'airtable-149f3.appspot.com',
-  messagingSenderId: '208811989156',
-  appId: '1:208811989156:web:24d015332dda2624'
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  databaseURL: process.env.VUE_APP_DATABASE_URL,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGE_SENDER_ID,
+  appId: process.env.VUE_APP_APP_ID
 };
 
+console.log(firebaseConfig);
 const fireApp = firebase.initializeApp(firebaseConfig);
+console.log(fireApp);
 
 const fireDb = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
