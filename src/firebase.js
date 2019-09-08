@@ -10,8 +10,6 @@ export { firebase, fireApp };
 //db utilities
 export { fireDb, timestamp };
 
-console.log(process.env);
-
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_API_KEY,
   authDomain: process.env.VUE_APP_AUTH_DOMAIN,
@@ -22,9 +20,7 @@ const firebaseConfig = {
   appId: process.env.VUE_APP_APP_ID
 };
 
-console.log(firebaseConfig);
 const fireApp = firebase.initializeApp(firebaseConfig);
-console.log(fireApp);
 
 const fireDb = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
