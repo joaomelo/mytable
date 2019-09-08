@@ -7,8 +7,8 @@
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "clean": "rimraf dist/*",
-    "build": "npm run clean && vue-cli-service build",
     "commit": "git add -A && git commit",
+    "build": "npm run clean && vue-cli-service build",
     "version": "git add -A",
     "postversion": "git push && git push --tags",
     "deploy": "npm run build && npm run commit && npm version && firebase deploy"
