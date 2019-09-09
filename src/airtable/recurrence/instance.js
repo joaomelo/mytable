@@ -26,7 +26,11 @@ function createJobInstancesCommands(job, snapshot) {
     template.recurrence = calcJobRecurrence(template, snapshot);
     template.liveness = calcJobLiveness(template, snapshot);
 
-    const childrenTitles = createChildrenUniqueDistinctTitles(job, snapshot);
+    let childrenTitles = createChildrenUniqueDistinctTitles(job, snapshot);
+    if (childrenTitles.length == 0) {
+      childrenTitles = [job.title];
+    }
+
     childrenTitles.forEach(title => {
       const child = { ...template };
       child.title = `${title}*`;
@@ -40,7 +44,7 @@ function createJobInstancesCommands(job, snapshot) {
     });
   }
 
-  return commands;
+  return commands.length > 0 ? commands : undefined;
 }
 
 function isUnscheduledJob(job, snapshot) {

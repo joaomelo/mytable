@@ -29,6 +29,12 @@ class Batcher {
       tables[table].forEach(record => {
         functionsForThisTable.forEach(f => {
           const commands = f(record, this.snapshot);
+
+          if (record.title == 'condomínio pgto') {
+            console.log(f.name);
+            console.log(commands);
+          }
+
           this.pushCommands(commands);
         });
       });
