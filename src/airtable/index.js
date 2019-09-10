@@ -6,7 +6,8 @@ import { createJobTransactionsCommand } from './transactions';
 import { createJobLivenessCommand } from './status';
 import {
   createJobInstancesCommands,
-  createJobRecurrenceCommand
+  createJobRecurrenceCommand,
+  createJobInstancesRenameCommands
 } from './recurrence';
 
 export { updateAirtable };
@@ -21,6 +22,7 @@ async function updateAirtable() {
     createJobLevelCommand,
     createJobRecurrenceCommand,
     createJobInstancesCommands,
+    createJobInstancesRenameCommands,
     createJobTransactionsCommand,
     createJobLivenessCommand
   ]);

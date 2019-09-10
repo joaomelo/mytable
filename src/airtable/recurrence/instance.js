@@ -6,7 +6,11 @@ import { calcJobError } from '@/airtable/error';
 import { calcJobLiveness, isActive, hasAliveChildren } from '@/airtable/status';
 import { calcJobPath, calcJobLevel } from '@/airtable/path';
 import { calcJobRecurrence } from './recurrence';
-import { isRecurrent, createChildrenUniqueDistinctTitles } from './utils';
+import {
+  isRecurrent,
+  createChildrenUniqueDistinctTitles,
+  instanceTag
+} from './utils';
 
 export { createJobInstancesCommands };
 
@@ -33,7 +37,7 @@ function createJobInstancesCommands(job, snapshot) {
 
     childrenTitles.forEach(title => {
       const child = { ...template };
-      child.title = `${title}*`;
+      child.title = title + instanceTag;
       child.path = calcJobPath(child, snapshot);
       commands.push({
         type: 'create',

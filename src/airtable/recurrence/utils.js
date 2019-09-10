@@ -2,12 +2,15 @@ import { calcJobRecurrence } from './recurrence';
 
 export {
   jobRecurrences,
+  instanceTag,
   isRecurrent,
   isFlat,
   createChildrenUniqueDistinctTitles,
   convertToDistinctTitle,
   hasRecurringAscendency
 };
+
+const instanceTag = '*';
 
 const jobRecurrences = {
   ephemeral: '🧿',
@@ -20,7 +23,7 @@ const jobRecurrences = {
 function createChildrenUniqueDistinctTitles(job, snapshot) {
   const distinctTitles = snapshot
     .getChildJobs(job)
-    .map(child => convertToDistinctTitle(child.title.trim(), '*'));
+    .map(child => convertToDistinctTitle(child.title.trim(), instanceTag));
   const uniqueTitles = Array.from(new Set(distinctTitles));
   return uniqueTitles;
 }
