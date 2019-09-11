@@ -1,5 +1,6 @@
 import { update, create } from './base';
 import { log } from '@/log';
+import { profiler } from './profiler';
 
 export { Batcher };
 
@@ -28,7 +29,13 @@ class Batcher {
 
       tables[table].forEach(record => {
         functionsForThisTable.forEach(f => {
+          const t0 = performance.now();
+
           const commands = f(record, this.snapshot);
+
+          const t1 = performance.now();
+          profiler.stamp(f.name, t0, t1);
+
           this.pushCommands(commands);
         });
       });
@@ -71,6 +78,8 @@ class Batcher {
   }
 
   async run() {
+    const t0 = performance.now();
+
     this.processSnapshot();
 
     if (this.commands.length > 0) {
@@ -80,5 +89,9 @@ class Batcher {
     } else {
       await log('nothing to update for now');
     }
+
+    const t1 = performance.now();
+    profiler.stamp('batcher run', t0, t1);
+    profiler.logAndReset();
   }
 }

@@ -3,6 +3,7 @@ import Airtable from 'airtable';
 import 'airtable/build/airtable.browser.js';
 import { log } from '@/log';
 import { fireDb } from '@/firebase';
+import { profiler } from './profiler';
 
 export { startAirtable, select, update, create };
 
@@ -33,6 +34,8 @@ function select(table, fieldsToSelect) {
 async function freeSelect(table, fieldsToSelect) {
   const cache = [];
 
+  const t0 = performance.now();
+
   log(`started caching table ${table}`);
 
   await base(table)
@@ -61,6 +64,9 @@ async function freeSelect(table, fieldsToSelect) {
   } else {
     await log(`no records found inside table ${table}`);
   }
+
+  const t1 = performance.now();
+  profiler.stamp('freeSelect:' + table, t0, t1);
 
   return cache;
 }
