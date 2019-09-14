@@ -1,4 +1,5 @@
 import { calcJobRecurrence } from './recurrence';
+import moment from 'moment';
 
 export {
   jobRecurrences,
@@ -42,9 +43,8 @@ function hasRecurringAscendency(job, snapshot) {
   return hasRecurring;
 }
 
-function isRecurrent(job, snapshot) {
-  const recurrents = [jobRecurrences.process, jobRecurrences.flat];
-  return recurrents.includes(calcJobRecurrence(job, snapshot));
+function isRecurrent(job) {
+  return !!job.frequency;
 }
 
 function isFlat(job, snapshot) {

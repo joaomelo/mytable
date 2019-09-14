@@ -1,6 +1,4 @@
-// import { Schedule, RScheduleConfig } from '@rschedule/rschedule';
-// import { MomentDateAdapter } from '@rschedule/moment-date-adapter';
-// import moment from 'moment';
+import moment from 'moment';
 
 import { calcJobError } from '@/airtable/error';
 import { calcJobLiveness, isActive, hasAliveChildren } from '@/airtable/status';
@@ -14,13 +12,11 @@ import {
 
 export { createJobInstancesCommands };
 
-// RScheduleConfig.defaultDateAdapter = MomentDateAdapter;
-
 function createJobInstancesCommands(job, snapshot) {
   let commands = [];
 
   if (isUnscheduledJob(job, snapshot)) {
-    const template = {
+    let template = {
       title: 'template',
       status: 'available',
       cycle: job.cycle,
@@ -29,6 +25,7 @@ function createJobInstancesCommands(job, snapshot) {
     template.level = calcJobLevel(template, snapshot);
     template.recurrence = calcJobRecurrence(template, snapshot);
     template.liveness = calcJobLiveness(template, snapshot);
+    template = { ...template, ...createDateEntry(job, snapshot) };
 
     let childrenTitles = createChildrenUniqueDistinctTitles(job, snapshot);
     if (childrenTitles.length == 0) {
@@ -39,6 +36,7 @@ function createJobInstancesCommands(job, snapshot) {
       const child = { ...template };
       child.title = title + instanceTag;
       child.path = calcJobPath(child, snapshot);
+
       commands.push({
         type: 'create',
         table: 'jobs',
@@ -54,32 +52,60 @@ function createJobInstancesCommands(job, snapshot) {
 function isUnscheduledJob(job, snapshot) {
   return (
     !calcJobError(job, snapshot) &&
-    isRecurrent(job, snapshot) &&
+    isRecurrent(job) &&
     isActive(job) &&
     !hasAliveChildren(job, snapshot)
   );
 }
 
-// function test() {
-//   // Example of the same rule using moment
-//   const schedule = new Schedule({
-//     rrules: [
-//       // This rule translates to:
-//       // "starting on January 7th, 2010, every Sunday and the 3rd Monday in February and June."
-//       {
-//         frequency: 'YEARLY',
-//         byMonthOfYear: [2, 6],
-//         byDayOfWeek: ['SU', ['MO', 3]],
-//         start: moment([2010, 0, 7]),
-//         count: 3
-//       }
-//     ]
-//   });
+function createDateEntry(job, snapshot) {
+  let nextDate = calcNextDate(job, snapshot);
+  if (!nextDate) {
+    nextDate = moment().startOf('day');
+  }
 
-//   const dates = schedule
-//     .occurrences()
-//     .toArray()
-//     .map(adapter => adapter.date.toString());
+  const dateKey = job.starting ? 'start' : 'end';
+  return {
+    [dateKey]: nextDate.toISOString()
+  };
+}
 
-//   console.log(dates);
-// }
+function calcNextDate(job, snapshot) {
+  const frequencyKeys = {
+    daily: 'days',
+    weekly: 'weeks',
+    monthly: 'months',
+    yearly: 'years'
+  };
+
+  const frequency = frequencyKeys[job.frequency];
+  const interval = job.interval ? job.interval : 1;
+  const recentestEnd = calcRecentestEnd(job, snapshot);
+  let nextDate;
+
+  if (frequency === 'days' || (!job.byday && !job.bymonth)) {
+    if (!recentestEnd) {
+      nextDate = moment().startOf('day');
+    } else {
+      const cycled = moment(recentestEnd).add(interval, frequency);
+      const nextDate = moment.max(cycled, moment().startOf('day'));
+    }
+  }
+
+  console.log(job.title, nextDate);
+  return nextDate;
+}
+
+function calcRecentestEnd(job, snapshot) {
+  let end;
+
+  const children = snapshot.getChildJobs(job, snapshot);
+  children.forEach(child => {
+    const childEnd = moment(child.end);
+    if (child.end && (childEnd.isAfter(end) || !end)) {
+      end = childEnd;
+    }
+  });
+
+  return end;
+}
