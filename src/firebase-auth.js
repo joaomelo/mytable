@@ -1,16 +1,14 @@
-import { firebase, fireApp } from './firebase';
-import * as firebaseui from 'firebaseui';
+import { firebase, fireApp } from "./firebase";
+import * as firebaseui from "firebaseui";
 
-import router from './router';
-import store from './store';
+import router from "./router";
+import store from "./store";
 
 export { firebaseAuthPlugin };
 
 const uiConfig = {
-  signInSuccessUrl: '/',
   callbacks: {
-    signInSuccessWithAuthResult(authResult) {
-      router.push('/');
+    signInSuccessWithAuthResult() {
       return false;
     }
   },
@@ -24,14 +22,11 @@ const uiConfig = {
 };
 
 const auth = fireApp.auth();
-async function logout() {
-  await auth.signOut();
-  router.push('/login');
-}
 
 const firebaseAuthPlugin = {
   install(Vue) {
     Vue.prototype.$auth = {
+      isUserResolved: false,
       startLoginUi(elementId) {
         let ui = firebaseui.auth.AuthUI.getInstance();
         if (ui) {
@@ -42,14 +37,17 @@ const firebaseAuthPlugin = {
         ui.start(`#${elementId}`, uiConfig);
       },
       async logout() {
-        await logout();
+        await auth.signOut();
       }
     };
 
     auth.onAuthStateChanged(user => {
-      store.commit('setUser', { user });
-      if (!user) {
-        logout();
+      Vue.prototype.$auth.isUserSolved = true;
+      store.commit("setUser", user);
+      if (!user && router.currentRoute.name !== "login") {
+        router.push({ name: "login" });
+      } else if (user && router.currentRoute.name !== "home") {
+        router.push({ name: "home" });
       }
     });
   }

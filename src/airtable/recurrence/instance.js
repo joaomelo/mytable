@@ -80,32 +80,43 @@ function calcNextDate(job, snapshot) {
 
   const frequency = frequencyKeys[job.frequency];
   const interval = job.interval ? job.interval : 1;
-  const recentestEnd = calcRecentestEnd(job, snapshot);
+
+  const today = moment().startOf('day');
+  const baseline = calcCycledDate(job, snapshot);
+  const cycled = moment(baseline).add(interval, frequency);
+
   let nextDate;
 
   if (frequency === 'days' || (!job.byday && !job.bymonth)) {
-    if (!recentestEnd) {
-      nextDate = moment().startOf('day');
-    } else {
-      const cycled = moment(recentestEnd).add(interval, frequency);
-      const nextDate = moment.max(cycled, moment().startOf('day'));
+    nextDate = moment.max(cycled, today);
+  } else {
+    if (frequency == 'weeks') {
+      nextDate = moment(baseline).add(1, 'days');
     }
   }
 
-  console.log(job.title, nextDate);
   return nextDate;
 }
 
-function calcRecentestEnd(job, snapshot) {
-  let end;
+function calcCycledDate(job, snapshot) {
+  let recentestEnd;
 
   const children = snapshot.getChildJobs(job, snapshot);
   children.forEach(child => {
     const childEnd = moment(child.end);
-    if (child.end && (childEnd.isAfter(end) || !end)) {
-      end = childEnd;
+    if (child.end && (!baseline || childEnd.isAfter(baseline))) {
+      recentestEnd = childEnd;
     }
   });
 
-  return end;
+  let baseline;
+  if (!recentestEnd) {
+    baseline = moment()
+      .startOf('day')
+      .subtract(1, 'days');
+  }
+
+  //if cycled date is after today just bring it back to today
+
+  return baseline;
 }
