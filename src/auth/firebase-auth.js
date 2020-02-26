@@ -1,8 +1,9 @@
-import { firebase, fireApp } from "./firebase";
+import { firebase, fireApp } from "../airtable/firebase";
 import * as firebaseui from "firebaseui";
+import "firebase/auth";
 
-import router from "./router";
-import store from "./store";
+import router from "../router";
+import store from "../store";
 
 export { firebaseAuthPlugin };
 

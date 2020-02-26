@@ -15,57 +15,47 @@
     "deploy:minor": "npm run commit && npm version minor && npm run build && firebase deploy"
   },
   "dependencies": {
-    "@rschedule/moment-date-adapter": "^0.11.6",
-    "@rschedule/rschedule": "^0.11.6",
-    "airtable": "^0.7.1",
-    "bootstrap": "^4.3.1",
+    "@joaomelo/bus": "^1.1.1",
+    "airtable": "^0.7.2",
+    "bootstrap": "^4.4.1",
     "bottleneck": "^2.19.5",
-    "core-js": "^2.6.5",
-    "firebase": "^6.6.0",
-    "firebaseui": "^4.2.0",
+    "core-js": "^2.6.11",
+    "firebase": "^6.6.2",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
-    "popper.js": "^1.15.0",
-    "vue": "^2.6.10",
-    "vue-router": "^3.1.3",
-    "vuex": "^3.0.1"
+    "popper.js": "^1.16.1",
+    "regenerator-runtime": "^0.13.3",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.5",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
-    "@vue/eslint-config-prettier": "^5.0.0",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.0",
+    "eslint": "^6.8.0",
     "eslint-plugin-vue": "^5.0.0",
-    "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
-    "sass": "^1.22.10",
-    "sass-loader": "^7.3.1",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "vue-template-compiler": "^2.6.11",
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "circular-dependency-plugin": "^5.2.0",
+    "compression-webpack-plugin": "^3.1.0",
+    "css-loader": "^3.4.2",
+    "dotenv-webpack": "^1.7.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue-libs": "^4.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^1.1.3",
+    "vue-loader": "^15.8.3",
+    "vue-style-loader": "^4.1.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  }
 }

@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import moment from 'moment';
-import { fireDb } from './firebase';
+import Vue from "vue";
+import Vuex from "vuex";
+import moment from "moment";
+import { fireDb } from "./airtable/firebase";
 
 Vue.use(Vuex);
 
@@ -29,8 +29,8 @@ export default new Vuex.Store({
   actions: {
     setLogs({ commit }) {
       fireDb
-        .collection('logs')
-        .orderBy('when', 'desc')
+        .collection("logs")
+        .orderBy("when", "desc")
         .limit(50)
         .onSnapshot(snapshot => {
           const logs = snapshot.docs.map(doc => {
@@ -38,11 +38,11 @@ export default new Vuex.Store({
             const when = data.when ? data.when.toDate() : new Date();
             return {
               id: data.id,
-              when: moment(when).format('DD-MM HH:mm:ss'),
+              when: moment(when).format("DD-MM HH:mm:ss"),
               msg: data.msg
             };
           });
-          commit('setLogs', logs);
+          commit("setLogs", logs);
         });
     }
   }
