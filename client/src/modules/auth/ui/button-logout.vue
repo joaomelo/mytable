@@ -1,7 +1,6 @@
 <template>
   <v-btn
     v-bind="$attrs"
-    color="secondary"
     @click="logout"
   >
     {{ text }}
