@@ -1,18 +1,16 @@
 import Vue from 'vue';
-import App from './app.vue';
-import router from './router';
-import store from './store';
+import { appEnviroment } from './core/meta';
+import { vuetify } from './core/plugins';
+import { router } from './core/router';
+import App from './app';
 
-import { firebaseAuthPlugin } from './firebase-auth.js';
-
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-Vue.use(firebaseAuthPlugin);
 Vue.config.productionTip = false;
+Vue.config.silent = appEnviroment === 'prod';
 
-new Vue({
+const vueApp = new Vue({
+  vuetify,
   router,
-  store,
   render: h => h(App)
-}).$mount('#app');
+});
+
+vueApp.$mount('#app');

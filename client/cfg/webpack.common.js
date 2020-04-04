@@ -12,7 +12,7 @@ const src = path.resolve(__dirname, '../src');
 
 module.exports = {
   devtool: 'source-map',
-  entry: './src/app.js',
+  entry: './client/src/index.js',
   output: {
     publicPath: '/',
     path: dist,
@@ -20,7 +20,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      __src: src
+      __cli: src
     },
     extensions: ['.wasm', '.mjs', '.js', '.json', '.vue']
   },

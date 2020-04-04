@@ -1,11 +1,9 @@
 <template>
-  <v-app>
-    <router-view />
-  </v-app>
+  <h1>Hello World!</h1>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'PageDummy'
 };
 </script>

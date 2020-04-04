@@ -5,7 +5,7 @@
     "checkJs": false,
     "baseUrl": "./",
     "paths": {
-      "__src/*": [
+      "__cli/*": [
         "src/*"
       ]
     }

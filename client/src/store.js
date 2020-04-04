@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import moment from 'moment';
-import { fireDb } from './airtable/firebase';
+import { fireDb } from './modules/airtable/firebase';
 
 Vue.use(Vuex);
 

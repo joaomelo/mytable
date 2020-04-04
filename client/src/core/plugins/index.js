@@ -1,0 +1,1 @@
+export { vuetify } from './vuetify';

@@ -2,6 +2,7 @@
   "name": "myairtable",
   "version": "0.4.1",
   "scripts": {
+    "start": "npm run dev:client",
     "dev:client": "webpack-dev-server --config client/cfg/webpack.dev.js",
     "dev:server": "webpack-dev-server --config client/cfg/webpack.dev.js",
     "lint": "eslint --ext .js,.vue client/src server/src",
@@ -63,6 +64,7 @@
     "vuetify-loader": "^1.4.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   }
 }
