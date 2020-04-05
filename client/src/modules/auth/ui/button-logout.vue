@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { authMachine } from '../domain';
+import { fireauthMachine } from '../domain';
 
 export default {
   name: 'ButtonLogout',
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     text () {
-      const email = authMachine.user.email;
+      const email = fireauthMachine.user.email;
       const username = email.substring(0, email.indexOf('@'));
       const logout = 'Logout';
       const result = this.showUser ? `${logout} from ${username}` : logout;
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     logout () {
-      authMachine.service.signOut();
+      fireauthMachine.service.signOut();
     }
   }
 };

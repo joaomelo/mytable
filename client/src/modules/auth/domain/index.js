@@ -1,1 +1,1 @@
-export { authMachine } from './auth-machine';
+export { fireauthMachine } from './auth-machine';

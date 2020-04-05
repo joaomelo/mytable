@@ -15,13 +15,13 @@
 <script>
 import DialogAuth from './dialog-auth';
 import OverlayUnsolved from './overlay-unsolved';
-import { authMachine } from '../domain';
+import { fireauthMachine } from '../domain';
 
 export default {
   name: 'PageAuth',
   components: { DialogAuth, OverlayUnsolved },
   computed: {
-    status: () => authMachine.status
+    status: () => fireauthMachine.status
   }
 };
 </script>

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import { authMachine } from '__cli/modules/auth';
+import { fireauthMachine } from '__cli/modules/auth';
 import { routes } from './routes';
 
 Vue.use(VueRouter);
@@ -12,7 +12,7 @@ const router = new VueRouter({
   routes
 });
 
-authMachine.subscribe(({ status }) => {
+fireauthMachine.subscribe(({ status }) => {
   const statusRoutes = {
     UNSOLVED: 'login',
     SIGNOUT: 'login',
@@ -28,7 +28,7 @@ authMachine.subscribe(({ status }) => {
 
 router.beforeEach((to, from, next) => {
   const isGoingToOpenRoute = to.name === 'login';
-  const isSignedIn = authMachine.status === 'SIGNIN';
+  const isSignedIn = fireauthMachine.status === 'SIGNIN';
   const isFreeToGo = isGoingToOpenRoute || isSignedIn;
 
   if (isFreeToGo) {

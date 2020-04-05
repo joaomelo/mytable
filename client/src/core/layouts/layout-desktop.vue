@@ -11,20 +11,12 @@
         </v-toolbar-title>
       </router-link>
       <v-spacer />
-
       <v-btn
-        :to="{ name: 'home' }"
+        :to="{ name: 'profile' }"
         text
         class="ml-2"
       >
-        Home
-      </v-btn>
-      <v-btn
-        :to="{ name: 'preferences' }"
-        text
-        class="ml-2"
-      >
-        Preferences
+        Profile
       </v-btn>
       <ButtonLogout
         text
@@ -32,7 +24,12 @@
     </v-app-bar>
 
     <v-content>
-      <router-view />
+      <v-container
+        fluid
+        style="max-width: 500px;"
+      >
+        <router-view />
+      </v-container>
     </v-content>
   </div>
 </template>

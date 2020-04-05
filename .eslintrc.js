@@ -4,6 +4,7 @@ module.exports = {
   },
   rules: {
     semi: ['error', 'always'],
+    'no-debugger': 'off'
   },
   extends: [
     'standard',

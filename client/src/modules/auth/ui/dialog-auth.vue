@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <v-card
-      max-width="350px"
-      min-width="250px"
-    >
+  <div
+    max-width="350px"
+    min-width="250px"
+  >
+    <v-card>
       <v-card-title
         v-if="title"
         class="justify-center"
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { authMachine } from '../domain';
+import { fireauthMachine } from '../domain';
 import ControlEmail from './control-email';
 import ControlPassword from './control-password';
 
@@ -103,7 +103,7 @@ export default {
   methods: {
     runAuthAction (actionName) {
       if (this.$refs.form.validate()) {
-        authMachine.service[this.outfit.action](this.email, this.password)
+        fireauthMachine.service[this.outfit.action](this.email, this.password)
           .catch(e => { this.authError = e; });
       }
     }

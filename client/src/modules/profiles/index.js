@@ -1,0 +1,1 @@
+export { PageProfile } from './ui';
