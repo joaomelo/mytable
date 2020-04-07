@@ -1,5 +1,6 @@
 import { PageAuth } from '__cli/modules/auth';
-import { LayoutDesktop, PageDummy } from '__cli/core/layouts';
+import { LayoutDesktop } from '__cli/core/layouts';
+import { PageHome } from '__cli/modules/home';
 import { PageProfile } from '__cli/modules/profiles';
 
 const routes = [
@@ -8,7 +9,7 @@ const routes = [
     path: '/desktop',
     component: LayoutDesktop,
     children: [
-      { path: '/home', name: 'home', component: PageDummy },
+      { path: '/home', name: 'home', component: PageHome },
       { path: '/profile', name: 'profile', component: PageProfile }
     ]
   }
