@@ -20,7 +20,7 @@
   "dependencies": {
     "@joaomelo/bus": "^1.1.4",
     "@joaomelo/fireauth-machine": "^2.2.2",
-    "@joaomelo/hot-collection": "^0.8.4",
+    "@joaomelo/hot-collection": "^0.8.6",
     "airtable": "^0.7.2",
     "bottleneck": "^2.19.5",
     "core-js": "^2.6.11",
