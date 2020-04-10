@@ -1,4 +1,4 @@
-import { calcJobError } from 'client/src/modules/airtable/path/__cli/airtable/error';
+import { calcJobError } from '__cli/modules/runner/path/__cli/airtable/error';
 
 const jobLevels = {
   root: '🥔',

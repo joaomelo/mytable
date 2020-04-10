@@ -2,7 +2,6 @@ import { createBatcher } from './batcher';
 
 import { createJobErrorCommand, createTransactionErrorCommand } from './error';
 import { createJobPathCommand, createJobLevelCommand } from './path';
-import { createJobTransactionsCommand } from './transactions';
 import { createJobLivenessCommand } from './status';
 import {
   createJobInstancesCommands,
@@ -23,7 +22,6 @@ async function updateAirtable () {
     createJobRecurrenceCommand,
     createJobInstancesCommands,
     createJobInstancesRenameCommands,
-    createJobTransactionsCommand,
     createJobLivenessCommand
   ]);
 

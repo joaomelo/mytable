@@ -1,4 +1,4 @@
-import { hasRecurringAscendency } from 'client/src/modules/airtable/error/__cli/airtable/recurrence';
+import { hasRecurringAscendency } from '__cli/modules/runner/error/__cli/airtable/recurrence';
 export { calcJobError };
 
 function calcJobError (job, snapshot) {

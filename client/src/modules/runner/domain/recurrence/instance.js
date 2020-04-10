@@ -1,8 +1,8 @@
-import moment from 'client/src/modules/airtable/recurrence/moment';
+import moment from '__cli/modules/runner/recurrence/moment';
 
-import { calcJobError } from 'client/src/modules/airtable/recurrence/__cli/airtable/error';
-import { calcJobLiveness, isActive, hasAliveChildren } from 'client/src/modules/airtable/recurrence/__cli/airtable/status';
-import { calcJobPath, calcJobLevel } from 'client/src/modules/airtable/recurrence/__cli/airtable/path';
+import { calcJobError } from '__cli/modules/runner/recurrence/__cli/airtable/error';
+import { calcJobLiveness, isActive, hasAliveChildren } from '__cli/modules/runner/recurrence/__cli/airtable/status';
+import { calcJobPath, calcJobLevel } from '__cli/modules/runner/recurrence/__cli/airtable/path';
 import { calcJobRecurrence } from './recurrence';
 import {
   isRecurrent,

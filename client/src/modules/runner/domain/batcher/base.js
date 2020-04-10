@@ -1,8 +1,8 @@
 import Bottleneck from 'bottleneck';
-import Airtable from 'client/src/modules/airtable/batcher/airtable';
-import 'client/src/modules/airtable/batcher/airtable/build/airtable.browser.js.js';
-import { log } from 'client/src/modules/airtable/batcher/__cli/log';
-import { fireDb } from 'client/src/modules/logger/client/src/modules/logger/client/src/modules/airtable/batcher/__cli/firebase';
+import Airtable from '__cli/modules/runner/batcher/airtable';
+import '__cli/modules/runner/batcher/airtable/build/airtable.browser.js.js.js';
+import { log } from '__cli/modules/runner/batcher/__cli/log';
+import { fireDb } from '__cli/modules/runner/domain/batcher/client/src/modules/logger/client/src/modules/logger/client/src/modules/airtable/batcher/__cli/firebase';
 import { profiler } from './profiler';
 
 export { startAirtable, select, update, create };

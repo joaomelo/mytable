@@ -1,6 +1,6 @@
-import { calcJobError } from 'client/src/modules/airtable/path/__cli/airtable/error';
-import { calcJobLiveness } from 'client/src/modules/airtable/path/__cli/airtable/status';
-import { calcJobRecurrence } from 'client/src/modules/airtable/path/__cli/airtable/recurrence';
+import { calcJobError } from '__cli/modules/runner/path/__cli/airtable/error';
+import { calcJobLiveness } from '__cli/modules/runner/path/__cli/airtable/status';
+import { calcJobRecurrence } from '__cli/modules/runner/path/__cli/airtable/recurrence';
 
 export { createJobPathCommand, calcJobPath };
 

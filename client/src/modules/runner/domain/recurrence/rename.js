@@ -1,4 +1,4 @@
-import { calcJobError } from 'client/src/modules/airtable/recurrence/__cli/airtable/error';
+import { calcJobError } from '__cli/modules/runner/recurrence/__cli/airtable/error';
 import {
   isFlat,
   instanceTag,

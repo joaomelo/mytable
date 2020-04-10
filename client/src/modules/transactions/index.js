@@ -1,4 +1,4 @@
-import moment from 'client/src/modules/airtable/transactions/moment';
+import moment from '__cli/modules/transactions/__cli/modules/runner/transactions/moment';
 import { calcJobError } from '../error';
 
 export { createJobTransactionsCommand };

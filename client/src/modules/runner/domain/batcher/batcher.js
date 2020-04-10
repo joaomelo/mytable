@@ -1,5 +1,5 @@
 import { update, create } from './base';
-import { log } from 'client/src/modules/airtable/batcher/__cli/log';
+import { log } from '__cli/modules/runner/batcher/__cli/log';
 import { profiler } from './profiler';
 
 class Batcher {
