@@ -2,7 +2,7 @@ import moment from '__cli/modules/runner/recurrence/moment';
 
 import { calcJobError } from '__cli/modules/runner/recurrence/__cli/airtable/error';
 import { calcJobLiveness, isActive, hasAliveChildren } from '__cli/modules/runner/recurrence/__cli/airtable/status';
-import { calcJobPath, calcJobLevel } from '__cli/modules/runner/recurrence/__cli/airtable/path';
+import { calcJobPath } from '__cli/modules/runner/recurrence/__cli/airtable/path';
 import { calcJobRecurrence } from './recurrence';
 import {
   isRecurrent,
@@ -22,7 +22,6 @@ function createJobInstancesCommands (job, snapshot) {
       cycle: job.cycle,
       parent: [job.id]
     };
-    template.level = calcJobLevel(template, snapshot);
     template.recurrence = calcJobRecurrence(template, snapshot);
     template.liveness = calcJobLiveness(template, snapshot);
     template = { ...template, ...createDateEntry(job, snapshot) };

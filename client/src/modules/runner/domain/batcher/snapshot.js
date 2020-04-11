@@ -1,5 +1,5 @@
 import { log } from '__cli/modules/runner/batcher/__cli/log';
-import { select } from './base';
+import { select } from '../../../airtable/airtable-base';
 import { calcJobError } from '__cli/modules/runner/batcher/__cli/airtable/error';
 
 export { createSnapshot };

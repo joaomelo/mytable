@@ -1,4 +1,4 @@
-import { startAirtable } from './base';
+import { startAirtable } from '../../../airtable/airtable-base';
 import { createSnapshot } from './snapshot';
 import { Batcher } from './batcher';
 

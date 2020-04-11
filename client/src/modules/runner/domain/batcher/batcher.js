@@ -1,4 +1,4 @@
-import { update, create } from './base';
+import { update, create } from '../../../airtable/airtable-base';
 import { log } from '__cli/modules/runner/batcher/__cli/log';
 import { profiler } from './profiler';
 

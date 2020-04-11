@@ -4,6 +4,7 @@
   >
     <v-btn
       color="primary"
+      :loading="status === 'updating'"
       @click="update"
     >
       Run
@@ -13,7 +14,15 @@
 
 <script>
 import { logThis } from '__cli/modules/logs';
-import { updateAirtable } from '../domain';
+// import { updateAirtable } from '../domain';
+import { select } from '__cli/modules/airtable'; ;
+
+const updateAirtable = () => {
+  const promise = new Promise((resolve, reject) => {
+    select('jobs', ['title']).then(v => resolve(v));
+  });
+  return promise;
+};
 
 export default {
   name: 'PanelRun',
@@ -27,7 +36,8 @@ export default {
       this.status = 'updating';
       updateAirtable()
         .then(result => {
-          logThis(result);
+          console.log(result);
+          // logThis(result);
           this.status = 'idle';
         })
         .catch(e => {
