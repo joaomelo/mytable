@@ -1,8 +1,8 @@
-import moment from '__cli/modules/runner/recurrence/moment';
+import moment from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/moment';
 
-import { calcJobError } from '__cli/modules/runner/recurrence/__cli/airtable/error';
-import { calcJobLiveness, isActive, hasAliveChildren } from '__cli/modules/runner/recurrence/__cli/airtable/status';
-import { calcJobPath } from '__cli/modules/runner/recurrence/__cli/airtable/path';
+import { calcJobError } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/error';
+import { calcJobLiveness, isActive, hasAliveChildren } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/status';
+import { calcJobPath } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/path';
 import { calcJobRecurrence } from './recurrence';
 import {
   isRecurrent,
@@ -38,7 +38,7 @@ function createJobInstancesCommands (job, snapshot) {
 
       commands.push({
         type: 'create',
-        table: 'jobs',
+        collection: 'jobs',
         tag: child.title,
         entries: child
       });

@@ -1,6 +1,6 @@
-import { calcJobError } from '__cli/modules/runner/path/__cli/airtable/error';
-import { calcJobLiveness } from '__cli/modules/runner/path/__cli/airtable/status';
-import { calcJobRecurrence } from '__cli/modules/runner/path/__cli/airtable/recurrence';
+import { calcJobError } from '__cli/modules/tree/path/__cli/modules/runner/path/__cli/airtable/error';
+import { calcJobLiveness } from '__cli/modules/tree/path/__cli/modules/runner/path/__cli/airtable/status';
+import { calcJobRecurrence } from '__cli/modules/tree/path/__cli/modules/runner/path/__cli/airtable/recurrence';
 
 export { createJobPathCommand, calcJobPath };
 
@@ -12,7 +12,7 @@ function createJobPathCommand (job, snapshot) {
     if (!job.path || job.path !== newPath) {
       command = {
         type: 'update',
-        table: 'jobs',
+        collection: 'jobs',
         id: job.id,
         tag: job.title,
         entries: { path: newPath }

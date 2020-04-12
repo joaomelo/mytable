@@ -1,4 +1,4 @@
-import { calcJobError } from '__cli/modules/runner/recurrence/__cli/airtable/error';
+import { calcJobError } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/error';
 import {
   jobRecurrences,
   createChildrenUniqueDistinctTitles,
@@ -15,7 +15,7 @@ function createJobRecurrenceCommand (job, snapshot) {
     if (recurrence !== job.recurrence) {
       command = {
         type: 'update',
-        table: 'jobs',
+        collection: 'jobs',
         tag: job.title,
         id: job.id,
         entries: {

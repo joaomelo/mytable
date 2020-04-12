@@ -1,4 +1,4 @@
-import { calcJobError } from '__cli/modules/runner/recurrence/__cli/airtable/error';
+import { calcJobError } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/error';
 import {
   isFlat,
   instanceTag,
@@ -17,7 +17,7 @@ function createJobInstancesRenameCommands (job, snapshot) {
       children.forEach(child => {
         const command = {
           type: 'update',
-          table: 'jobs',
+          collection: 'jobs',
           id: child.id,
           tag: child.title,
           entries: {

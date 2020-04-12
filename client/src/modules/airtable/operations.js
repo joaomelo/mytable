@@ -1,17 +1,14 @@
-import { logThis } from '__cli/modules/logs';
+import { logThis } from '__cli/modules/logger';
 import { requestUnderLimit } from './rate-limiter';
-import { getAirtableBase } from './airtable-base';
 
-function select (collection, fieldsToSelect) {
-  return requestUnderLimit(rawSelect, collection, fieldsToSelect);
+function select (base, collection, fieldsToSelect) {
+  return requestUnderLimit(rawSelect, base, collection, fieldsToSelect);
 }
 
-async function rawSelect (collection, fieldsToSelect) {
+async function rawSelect (base, collection, fieldsToSelect) {
   logThis(`started caching collection ${collection}`);
 
-  const base = await getAirtableBase();
   const cache = [];
-
   const page = (records, fetchNextPage) => {
     records.forEach(r => {
       const item = { id: r.id };
@@ -32,21 +29,19 @@ async function rawSelect (collection, fieldsToSelect) {
   return cache;
 }
 
-function update (collection, id, entries) {
-  return requestUnderLimit(rawUpdate, id, entries);
+function update (base, collection, id, entries) {
+  return requestUnderLimit(rawUpdate, base, collection, id, entries);
 }
 
-async function rawUpdate (collection, id, entries) {
-  const base = await getAirtableBase();
+async function rawUpdate (base, collection, id, entries) {
   return base(collection).update(id, entries, { typecast: true });
 }
 
-function create (collection, entries) {
-  return requestUnderLimit(rawCreate, entries);
+function create (base, collection, entries) {
+  return requestUnderLimit(rawCreate, base, collection, entries);
 }
 
-async function rawCreate (collection, entries) {
-  const base = await getAirtableBase();
+async function rawCreate (base, collection, entries) {
   return base(collection).create(entries, { typecast: true });
 }
 

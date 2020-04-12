@@ -9,7 +9,7 @@ function createJobLivenessCommand (job) {
   if (liveness !== job.liveness) {
     command = {
       type: 'update',
-      table: 'jobs',
+      collection: 'jobs',
       id: job.id,
       tag: job.title,
       entries: {

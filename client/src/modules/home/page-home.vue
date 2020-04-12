@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import { PanelRun } from '__cli/modules/runner';
-import { TableLogs } from '__cli/modules/logs';
+import { PanelRun } from '__cli/modules/jobs';
+import { TableLogs } from '__cli/modules/logger';
 export default {
   name: 'PageHome',
   components: { TableLogs, PanelRun }

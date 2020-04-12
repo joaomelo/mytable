@@ -1,5 +1,5 @@
-import { update, create } from '../../../airtable/airtable-base';
-import { log } from '__cli/modules/runner/batcher/__cli/log';
+import { update, create } from '../../airtable/base';
+import { log } from '__cli/modules/jobs/batcher/__cli/log';
 import { profiler } from './profiler';
 
 class Batcher {
@@ -9,23 +9,23 @@ class Batcher {
     this.commands = [];
   }
 
-  registerFunctions (table, funcs) {
-    funcs.forEach(f => this.registerFunction(table, f));
+  registerFunctions (collection, funcs) {
+    funcs.forEach(f => this.registerFunction(collection, f));
   }
 
-  registerFunction (table, func) {
-    this.register.push({ table: table, func: func });
+  registerFunction (collection, func) {
+    this.register.push({ collection: collection, func: func });
   }
 
   processSnapshot () {
-    const tables = this.snapshot.listTables();
+    const collections = this.snapshot.listCollections();
 
-    Object.keys(tables).forEach(table => {
+    Object.keys(collections).forEach(collection => {
       const functionsForThisTable = this.register
-        .filter(r => r.table === table)
+        .filter(r => r.collection === collection)
         .map(r => r.func);
 
-      tables[table].forEach(record => {
+      collections[collection].forEach(record => {
         functionsForThisTable.forEach(f => {
           const t0 = performance.now();
 
@@ -47,32 +47,15 @@ class Batcher {
     }
   }
 
-  pushCommand (newCommand) {
-    if (newCommand.type === 'create') {
-      this.commands.push(newCommand);
-    } else if (newCommand.type === 'update') {
-      const oldCommand = this.commands.find(
-        c => c.type === newCommand.type && c.id === newCommand.id
-      );
-      if (!oldCommand) {
-        this.commands.push(newCommand);
-      } else {
-        Object.keys(newCommand.entries).forEach(k => {
-          oldCommand.entries[k] = newCommand.entries[k];
-        });
-      }
-    }
-  }
-
   async runCommand (command) {
     if (command.type === 'create') {
-      await create(command.table, command.entries);
+      await create(command.collection, command.entries);
     } else {
-      await update(command.table, command.id, command.entries);
+      await update(command.collection, command.id, command.entries);
     }
 
-    const { type, tag, table, entries } = command;
-    await log(`${type}d "${tag}" in ${table} with ${JSON.stringify(entries)}`);
+    const { type, tag, collection, entries } = command;
+    await log(`${type}d "${tag}" in ${collection} with ${JSON.stringify(entries)}`);
   }
 
   async run () {

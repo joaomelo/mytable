@@ -13,16 +13,8 @@
 </template>
 
 <script>
-import { logThis } from '__cli/modules/logs';
-// import { updateAirtable } from '../domain';
-import { select } from '__cli/modules/airtable'; ;
-
-const updateAirtable = () => {
-  const promise = new Promise((resolve, reject) => {
-    select('jobs', ['title']).then(v => resolve(v));
-  });
-  return promise;
-};
+import { logThis } from '__cli/modules/logger';
+import { runAllJobs } from '../domain';
 
 export default {
   name: 'PanelRun',
@@ -34,10 +26,9 @@ export default {
   methods: {
     update () {
       this.status = 'updating';
-      updateAirtable()
-        .then(result => {
-          console.log(result);
-          // logThis(result);
+      runAllJobs()
+        .then(() => {
+          logThis('run complete');
           this.status = 'idle';
         })
         .catch(e => {
