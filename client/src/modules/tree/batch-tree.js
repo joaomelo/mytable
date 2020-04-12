@@ -1,9 +1,10 @@
-import { batchTreeErrorCommand } from './tree-error';
+import { batchTreeErrorCommand } from './batch-error';
+import { batchPathCommand } from './batch-path';
 
-async function batchTreeCommands (item, job) {
-  const error = batchTreeErrorCommand(item, job);
+function batchTreeCommands (jobIteration) {
+  const error = batchTreeErrorCommand(jobIteration);
   if (!error) {
-    // run other commands
+    batchPathCommand(jobIteration);
   }
 }
 

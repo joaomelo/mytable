@@ -13,7 +13,12 @@ async function runAllJobs () {
 async function runJob (job) {
   const items = await job.collection.getItems();
   items.forEach(item => {
-    batchTreeCommands(item, job);
+    const jobIteration = {
+      item,
+      items,
+      job
+    };
+    batchTreeCommands(jobIteration);
     // batchRecurrenceCommands(job);
   });
   job.collection.runBatches();

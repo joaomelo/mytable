@@ -33,7 +33,7 @@ export default {
         })
         .catch(e => {
           logThis(`${e.name}: ${e.message}`);
-          console.error(`${e.name}: ${e.message}`);
+          console.error(e);
           this.status = 'idle';
         });
     }
