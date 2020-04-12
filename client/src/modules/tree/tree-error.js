@@ -1,35 +1,28 @@
-function calcTreeError (item, fieldsMap) {
-  const titleField = fieldsMap.get('titleField');
-  const parentField = fieldsMap.get('parentField');
+function batchTreeErrorCommand (item, job) {
+  const errorField = job.errorField;
+  const error = calcTreeError(item, job);
 
-  if (!item[titleField]) {
+  const needsBatch =
+    (error && error !== item[errorField]) ||
+    (!error && item[errorField]);
+
+  if (needsBatch) {
+    const entries = {
+      [errorField]: error || ''
+    };
+    job.collection.batchUpdate(item.id, entries);
+  }
+  return error;
+}
+
+function calcTreeError (item, job) {
+  if (!item[job.titleField]) {
     return 'item has no title';
   }
 
-  if (item[parentField] && item.id === item[parentField][0]) {
+  if (item[job.parentField] && item.id === item[job.parentField][0]) {
     return 'item parent is pointing to himself';
   }
 }
 
-function createErrorCommand (collection, item, snapshot, calcError) {
-  let command;
-
-  const createCommand = e => ({
-    type: 'update',
-    collection: collection,
-    id: item.id,
-    tag: item.title,
-    entries: { error: e }
-  });
-
-  const error = calcError(item, snapshot);
-  if (error && error !== item.error) {
-    command = createCommand(error);
-  } else if (!error && item.error) {
-    command = createCommand('');
-  }
-
-  return command;
-}
-
-export { calcTreeError, createErrorCommand };
+export { calcTreeError, batchTreeErrorCommand };

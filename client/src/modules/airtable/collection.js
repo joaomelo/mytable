@@ -1,8 +1,10 @@
 import Airtable from 'airtable';
 import { select, create, update } from './operations';
+import { logThis } from '../logger/domain/logs';
 
 const STATUSES = {
   VIRGIN: 'virgin',
+  BURNED: 'burned',
   LOADING: 'loading',
   LOADED: 'loaded'
 };
@@ -59,10 +61,12 @@ class AirtableCollection {
 
   create (entries) {
     create(this.config.base, this.config.name, entries);
+    this.state.status = STATUSES.BURNED;
   }
 
   update (id, entries) {
     update(this.config.base, this.config.name, id, entries);
+    this.state.status = STATUSES.BURNED;
   }
 
   batchCreate (entries) {
@@ -85,6 +89,25 @@ class AirtableCollection {
         entries: entries
       });
     }
+  }
+
+  runBatches () {
+    const { name, base } = this.config;
+    const promises = [];
+
+    this.state.batchCommands.forEach(command => {
+      if (command.type === BATCH_TYPES.CREATE) {
+        promises.push(create(base, name, command.entries));
+      };
+      if (command.type === BATCH_TYPES.UPDATE) {
+        promises.push(update(base, name, command.id, command.entries));
+      };
+    });
+    this.state.batchCommands = [];
+    this.state.status = STATUSES.BURNED;
+    Promise.all(promises).then(() => {
+      logThis(`updated ${this.state.batchCommands.length} record(s) in ${this.config.name}`);
+    });
   }
 }
 

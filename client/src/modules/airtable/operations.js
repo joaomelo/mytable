@@ -6,7 +6,7 @@ function select (base, collection, fieldsToSelect) {
 }
 
 async function rawSelect (base, collection, fieldsToSelect) {
-  logThis(`started caching collection ${collection}`);
+  logThis(`started caching ${collection}`);
 
   const cache = [];
   const page = (records, fetchNextPage) => {
@@ -33,8 +33,10 @@ function update (base, collection, id, entries) {
   return requestUnderLimit(rawUpdate, base, collection, id, entries);
 }
 
-async function rawUpdate (base, collection, id, entries) {
-  return base(collection).update(id, entries, { typecast: true });
+function rawUpdate (base, collection, id, entries) {
+  const updatePromise = base(collection).update(id, entries, { typecast: true });
+  const logPromise = logThis(`updated record ${id} from ${collection} with ${JSON.stringify(entries)}`);
+  return Promise.all([updatePromise, logPromise]);
 }
 
 function create (base, collection, entries) {
@@ -42,7 +44,9 @@ function create (base, collection, entries) {
 }
 
 async function rawCreate (base, collection, entries) {
-  return base(collection).create(entries, { typecast: true });
+  const createPromise = base(collection).create(entries, { typecast: true });
+  const logPromise = logThis(`created record in ${collection} with ${JSON.stringify(entries)}`);
+  return Promise.all([createPromise, logPromise]);
 }
 
 export { select, update, create };
