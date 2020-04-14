@@ -3,6 +3,9 @@
     v-bind="$attrs"
     @click="logout"
   >
+    <v-icon left>
+      mdi-logout
+    </v-icon>
     {{ text }}
   </v-btn>
 </template>

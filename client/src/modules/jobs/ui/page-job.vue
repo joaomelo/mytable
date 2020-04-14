@@ -85,15 +85,21 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="info"
+            color="secondary"
             @click="cancel"
           >
+            <v-icon left>
+              mdi-cancel
+            </v-icon>
             Cancel
           </v-btn>
           <v-btn
             color="success"
             @click="save"
           >
+            <v-icon left>
+              mdi-content-save
+            </v-icon>
             Save
           </v-btn>
         </v-card-actions>

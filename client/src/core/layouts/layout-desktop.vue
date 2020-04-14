@@ -16,6 +16,9 @@
         text
         class="ml-2"
       >
+        <v-icon left>
+          mdi-run
+        </v-icon>
         Jobs
       </v-btn>
       <ButtonLogout

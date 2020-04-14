@@ -1,10 +1,17 @@
 <template>
   <div>
-    <div>
-      Jobs
+    <div class="d-flex align-center mb-1">
+      <h1>
+        Jobs
+      </h1>
       <v-btn
         :to="{ name: 'job', params: { id: 'add' } }"
+        class="ml-auto"
+        color="info"
       >
+        <v-icon left>
+          mdi-plus
+        </v-icon>
         Add
       </v-btn>
     </div>
@@ -16,15 +23,27 @@
       v-else
       :key="job.id"
     >
-      <v-card-text>
-        <p>Base: {{ job.baseId }}</p>
-        <p>Table: {{ job.tableName }}</p>
-      </v-card-text>
+      <v-card-title><strong>Table:&nbsp;</strong> {{ job.tableName }}</v-card-title>
+      <v-card-subtitle><strong>Base:&nbsp;</strong> {{ job.baseId }}</v-card-subtitle>
+      <v-divider />
       <v-card-actions>
-        <v-btn :to="{ name: 'job', params: { id: job.id } }">
+        <v-btn
+          :to="{ name: 'job', params: { id: job.id } }"
+          color="warning"
+          class="ml-auto"
+        >
+          <v-icon left>
+            mdi-pencil
+          </v-icon>
           Edit
         </v-btn>
-        <v-btn @click="del(job.id)">
+        <v-btn
+          color="error"
+          @click="del(job.id)"
+        >
+          <v-icon left>
+            mdi-delete
+          </v-icon>
           Delete
         </v-btn>
       </v-card-actions>
