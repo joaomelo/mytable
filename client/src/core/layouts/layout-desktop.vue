@@ -12,11 +12,11 @@
       </router-link>
       <v-spacer />
       <v-btn
-        :to="{ name: 'profile' }"
+        :to="{ name: 'jobs' }"
         text
         class="ml-2"
       >
-        Profile
+        Jobs
       </v-btn>
       <ButtonLogout
         text

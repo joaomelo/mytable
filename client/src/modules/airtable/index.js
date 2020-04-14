@@ -1,1 +1,0 @@
-export { AirtableCollection } from './collection';

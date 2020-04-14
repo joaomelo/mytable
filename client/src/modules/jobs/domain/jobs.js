@@ -1,15 +1,16 @@
 import HotCollection from '@joaomelo/hot-collection';
 import { firedb } from '__cli/core/firebase';
 import { fireauthMachine } from '__cli/modules/auth';
-import { AirtableCollection } from '__cli/modules/airtable';
+import { Table } from '__cli/modules/table';
 
 let __jobsCollection;
 
 function getJobsCollection () {
   if (!__jobsCollection) {
-    __jobsCollection = new HotCollection(firedb, 'profiles', {
+    __jobsCollection = new HotCollection(firedb, 'jobs', {
       adapters: {
-        docToItem: docToJobAdapter
+        docToItem: docToJobAdapter,
+        itemToDoc: jobToDocAdapter
       },
       saveMode: 'safe',
       where: [{
@@ -22,33 +23,28 @@ function getJobsCollection () {
   return __jobsCollection;
 }
 
-async function getJobs () {
-  const collection = getJobsCollection();
-  const jobs = await collection.getItems();
-  return jobs;
-}
-
 function docToJobAdapter (doc) {
-  const job = {};
+  const job = { ...doc };
 
-  // defining fields map as properties inside job
-  const userFields = [];
-  Object.keys(doc)
+  // creating airtable table
+  const userFields = Object.keys(doc)
     .filter(key => key.includes('Field'))
-    .forEach(fieldKey => {
-      const userField = doc[fieldKey];
-      userFields.push(userField);
-      job[fieldKey] = userField;
-    });
+    .map(fieldKey => doc[fieldKey]);
 
-  // airtable collection
   const apiKey = doc.apiKey;
   const baseId = doc.baseId;
-  const name = doc.collection;
-  const collection = new AirtableCollection(apiKey, baseId, name, userFields);
-  job.collection = collection;
+  const name = doc.tableName;
+  const table = new Table(apiKey, baseId, name, userFields);
+  job.table = table;
 
   return job;
 }
 
-export { getJobs };
+function jobToDocAdapter (job) {
+  delete job.table; // removing table reference before saving
+  const doc = { ...job };
+  doc.userId = fireauthMachine.user.uid;
+  return doc;
+}
+
+export { getJobsCollection };

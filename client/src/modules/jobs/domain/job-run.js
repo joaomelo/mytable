@@ -1,8 +1,9 @@
 import { batchTreeCommands } from '__cli/modules/tree';
-import { getJobs } from './jobs';
+import { getJobsCollection } from './jobs';
 
 async function runAllJobs () {
-  const jobs = await getJobs();
+  const jobCollection = getJobsCollection();
+  const jobs = await jobCollection.getItems();
   const promises = [];
   jobs.forEach(job => {
     promises.push(runJob(job));

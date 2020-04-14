@@ -3,84 +3,79 @@
     justify="center"
   >
     <v-col>
-      <v-card>
+      <v-card :loading="status === 'LOADING'">
         <v-card-text>
           <v-form ref="form">
             <v-text-field
-              v-model="profile.email"
-              label="Email"
-              readonly
-            />
-            <v-text-field
-              v-model="profile.apiKey"
+              v-model="job.apiKey"
               label="Api Key"
               :rules="[v => !!v || 'Api Key is required']"
             />
             <v-text-field
-              v-model="profile.baseId"
+              v-model="job.baseId"
               label="Airtable Base Id"
               :rules="[v => !!v || 'Base Id is required']"
             />
             <v-text-field
-              v-model="profile.collection"
-              label="Collection"
-              :rules="[v => !!v || 'Collection is required']"
+              v-model="job.tableName"
+              label="Table"
+              :rules="[v => !!v || 'Table name is required']"
             />
             <v-text-field
-              v-model="profile.titleField"
+              v-model="job.titleField"
               label="Field for Title"
               :rules="[v => !!v || 'Title is required']"
             />
             <v-text-field
-              v-model="profile.parentField"
+              v-model="job.parentField"
               label="Field for Parent"
               :rules="[v => !!v || 'Title is required']"
             />
             <v-text-field
-              v-model="profile.pathField"
+              v-model="job.pathField"
               label="Field for Path"
               :rules="[v => !!v || 'Path is required']"
             />
             <v-text-field
-              v-model="profile.statusField"
+              v-model="job.statusField"
               label="Field for Status"
             />
             <v-text-field
-              v-model="profile.statusEmojiField"
+              v-model="job.statusEmojiField"
               label="Field for Status Emoji"
             />
             <v-text-field
-              v-model="profile.frequencyField"
+              v-model="job.frequencyField"
               label="Field for Frequency Type"
               :rules="[v => !!v || 'Frequency is required']"
             />
             <v-text-field
-              v-model="profile.frequencyEmojiField"
+              v-model="job.frequencyEmojiField"
               label="Field for Frequency Emoji"
               :rules="[v => !!v || 'Frequency Emoji Field is required']"
             />
             <v-text-field
-              v-model="profile.intervalField"
+              v-model="job.intervalField"
               label="Field for Recurrence Interval"
               :rules="[v => !!v || 'Interval Field is required']"
             />
             <v-text-field
-              v-model="profile.isStartField"
+              v-model="job.isStartField"
               label="Checkbox Field to Start or End Patter"
               :rules="[v => !!v || 'isStart Field is required']"
             />
             <v-text-field
-              v-model="profile.startDateField"
+              v-model="job.startDateField"
               label="Field for Start Date"
               :rules="[v => !!v || 'Start Date is required']"
             />
             <v-text-field
-              v-model="profile.endDateField"
+              v-model="job.endDateField"
               label="Field for End Date"
               :rules="[v => !!v || 'End Date is required']"
             />
             <v-text-field
-              v-model="profile.errorField"
+              v-model="job.errorField"
               label="Field for Error loging"
               :rules="[v => !!v || 'Error field is required']"
             />
@@ -108,21 +103,41 @@
 </template>
 
 <script>
-import { getProfile, updateProfile } from '../domain';
+import { getJobsCollection } from '../domain';
+
 export default {
-  name: 'PageProfile',
+  name: 'PageJob',
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
-      profile: {}
+      jobsCollection: getJobsCollection(),
+      status: 'IDLE',
+      job: {}
     };
   },
-  created () {
-    getProfile().then(profile => { this.profile = { ...profile }; });
+  mounted () {
+    if (this.id !== 'add') {
+      this.status = 'LOADING';
+      const getItemPromise = this.jobsCollection.getItem(this.id);
+      getItemPromise.then(item => {
+        this.job = { ...item };
+        this.status = 'IDLE';
+      });
+    }
   },
   methods: {
     save () {
       if (this.$refs.form.validate()) {
-        updateProfile(this.profile);
+        if (this.id === 'add') {
+          this.jobsCollection.add(this.job);
+        } else {
+          this.jobsCollection.set(this.job);
+        }
         this.$router.go(-1);
       }
     },
