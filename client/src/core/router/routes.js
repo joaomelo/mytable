@@ -1,6 +1,5 @@
 import { PageAuth } from '__cli/modules/auth';
-import { LayoutDesktop } from '__cli/core/layouts';
-import { PageHome } from '__cli/modules/home';
+import { LayoutDesktop, PageHome } from '__cli/core/layouts';
 import { PageJobs, PageJob } from '__cli/modules/jobs';
 
 const routes = [

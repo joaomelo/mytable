@@ -1,2 +1,4 @@
+import PageHome from './page-home';
 import LayoutDesktop from './layout-desktop';
-export { LayoutDesktop };
+
+export { PageHome, LayoutDesktop };
