@@ -1,3 +1,3 @@
-import TableLogs from './table-logs';
+import ListLogs from './list-logs';
 
-export { TableLogs };
+export { ListLogs };

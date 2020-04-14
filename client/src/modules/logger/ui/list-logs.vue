@@ -14,7 +14,7 @@
 <script>
 import { subscribe } from '../domain';
 export default {
-  name: 'TableLogs',
+  name: 'ListLogs',
   data () {
     return {
       logs: []

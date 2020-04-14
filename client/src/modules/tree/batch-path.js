@@ -10,7 +10,7 @@ function batchPathCommand (jobIteration) {
     const entries = {
       [pathField]: newPath
     };
-    job.collection.batchUpdate(item.id, entries);
+    job.table.batchUpdate(item.id, entries);
   }
 }
 

@@ -12,7 +12,7 @@ function batchTreeErrorCommand (jobIteration) {
     const entries = {
       [errorField]: newError || ''
     };
-    job.collection.batchUpdate(item.id, entries);
+    job.table.batchUpdate(item.id, entries);
   }
   return newError;
 }

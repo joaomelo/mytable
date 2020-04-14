@@ -77,10 +77,10 @@ class Table {
         commandPromises.push(update(base, name, command.id, command.entries));
       };
     });
+    const recordsUpdated = this.state.pendingCommands.length;
     this.state.pendingCommands = [];
-
     const finalLogPromise = Promise.all(commandPromises).then(() => {
-      logThis(`updated ${this.state.pendingCommands.length} record(s) in ${this.config.name}`);
+      logThis(`updated ${recordsUpdated} record(s) in ${this.config.name}`);
     });
 
     return finalLogPromise;
