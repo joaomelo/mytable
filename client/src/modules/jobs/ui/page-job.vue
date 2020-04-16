@@ -40,9 +40,10 @@
               v-model="job.statusField"
               label="Field for Status"
             />
-            <v-text-field
-              v-model="job.statusEmojiField"
-              label="Field for Status Emoji"
+            <v-checkbox
+              v-model="job.prependStatusToPath"
+              label="Prepend status in Path?"
+              class="mt-0"
             />
             <v-text-field
               v-model="job.frequencyField"

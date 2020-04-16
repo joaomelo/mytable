@@ -28,13 +28,9 @@ function calcPath (jobIteration) {
 }
 
 function verticeString (item, job) {
-  const statusEmojiField = job.statusEmojiField;
-  const statusEmoji = item[statusEmojiField] || '';
-
-  const titleField = job.titleField;
-  const pureTitle = removeTitleTags(item[titleField]);
-
-  const verticeStr = statusEmoji + pureTitle;
+  const prefix = job.prependStatusToPath ? item[job.statusField] : '';
+  const title = removeTitleTags(item[job.titleField]);
+  const verticeStr = prefix + title;
   return verticeStr;
 }
 

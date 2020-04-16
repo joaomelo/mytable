@@ -1,42 +1,44 @@
-import moment from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/moment';
+import moment from 'moment';
+import { isRecurrent, getChildren } from '__cli/modules/common';
 
-import { calcJobError } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/error';
 import { calcJobLiveness, isActive, hasAliveChildren } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/status';
 import { calcJobPath } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/path';
 import { calcJobRecurrence } from './batch-type';
 import {
-  isRecurrent,
+//  isRecurrent,
   arrayOfChildrenUniqueTitles,
   instanceTag
 } from '../common/delete-me-helpers2';
 
-export { createJobInstancesCommands };
+function batchRecurrenceInstances (jobIteration) {
+  const { item, items, job } = jobIteration;
 
-function createJobInstancesCommands (job, snapshot) {
-  const commands = [];
+  const isUnscheduledJob = isRecurrent(jobIteration) &&
+    isActive(item) &&
+    !hasAliveChildren(jobIteration);
 
-  if (isUnscheduledJob(job, snapshot)) {
+  if (isUnscheduledJob(jobIteration)) {
     let template = {
       title: 'template',
       status: 'available',
-      cycle: job.cycle,
-      parent: [job.id]
+      cycle: item.cycle,
+      parent: [item.id]
     };
-    template.recurrence = calcJobRecurrence(template, snapshot);
-    template.liveness = calcJobLiveness(template, snapshot);
-    template = { ...template, ...createDateEntry(job, snapshot) };
+    template.recurrence = calcJobRecurrence({ template, items, job });
+    template.liveness = calcJobLiveness({ template, items, job });
+    template = { ...template, ...createDateEntry(jobIteration) };
 
-    let childrenTitles = arrayOfChildrenUniqueTitles(job, snapshot);
+    let childrenTitles = arrayOfChildrenUniqueTitles(jobIteration);
     if (childrenTitles.length === 0) {
-      childrenTitles = [job.title];
+      childrenTitles = [item.title];
     }
 
     childrenTitles.forEach(title => {
       const child = { ...template };
       child.title = title + instanceTag;
-      child.path = calcJobPath(child, snapshot);
+      child.path = calcJobPath({ child, items, job });
 
-      commands.push({
+      job.table.batchCreate({
         type: 'create',
         collection: 'jobs',
         tag: child.title,
@@ -44,32 +46,25 @@ function createJobInstancesCommands (job, snapshot) {
       });
     });
   }
-
-  return commands.length > 0 ? commands : undefined;
 }
 
-function isUnscheduledJob (job, snapshot) {
-  return (
-    !calcJobError(job, snapshot) &&
-    isRecurrent(job) &&
-    isActive(job) &&
-    !hasAliveChildren(job, snapshot)
-  );
-}
+function createDateEntry (jobIteration) {
+  const { item } = jobIteration;
 
-function createDateEntry (job, snapshot) {
-  let nextDate = calcNextDate(job, snapshot);
+  let nextDate = calcNextDate(jobIteration);
   if (!nextDate) {
     nextDate = moment().startOf('day');
   }
 
-  const dateKey = job.starting ? 'start' : 'end';
+  const dateKey = item.starting ? 'start' : 'end';
   return {
     [dateKey]: nextDate.toISOString()
   };
 }
 
-function calcNextDate (job, snapshot) {
+function calcNextDate (jobIteration) {
+  const { item } = jobIteration;
+
   const frequencyKeys = {
     daily: 'days',
     weekly: 'weeks',
@@ -77,16 +72,16 @@ function calcNextDate (job, snapshot) {
     yearly: 'years'
   };
 
-  const frequency = frequencyKeys[job.frequency];
-  const interval = job.interval ? job.interval : 1;
+  const frequency = frequencyKeys[item.frequency];
+  const interval = item.interval ? item.interval : 1;
 
   const today = moment().startOf('day');
-  const baseline = calcCycledDate(job, snapshot);
+  const baseline = calcCycledDate(jobIteration);
   const cycled = moment(baseline).add(interval, frequency);
 
   let nextDate;
 
-  if (frequency === 'days' || (!job.byday && !job.bymonth)) {
+  if (frequency === 'days' || (!item.byday && !item.bymonth)) {
     nextDate = moment.max(cycled, today);
   } else {
     if (frequency === 'weeks') {
@@ -97,10 +92,10 @@ function calcNextDate (job, snapshot) {
   return nextDate;
 }
 
-function calcCycledDate (job, snapshot) {
+function calcCycledDate (jobIteration) {
   let recentestEnd;
 
-  const children = snapshot.getChildJobs(job, snapshot);
+  const children = getChildren(jobIteration);
   children.forEach(child => {
     const childEnd = moment(child.end);
     if (child.end && (!baseline || childEnd.isAfter(baseline))) {
@@ -119,3 +114,5 @@ function calcCycledDate (job, snapshot) {
 
   return baseline;
 }
+
+export { batchRecurrenceInstances };
