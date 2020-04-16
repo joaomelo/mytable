@@ -3,12 +3,12 @@ import moment from '__cli/modules/recurrence/recurrence/__cli/modules/runner/rec
 import { calcJobError } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/error';
 import { calcJobLiveness, isActive, hasAliveChildren } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/status';
 import { calcJobPath } from '__cli/modules/recurrence/recurrence/__cli/modules/runner/recurrence/__cli/airtable/path';
-import { calcJobRecurrence } from './recurrence';
+import { calcJobRecurrence } from './batch-type';
 import {
   isRecurrent,
-  createChildrenUniqueDistinctTitles,
+  arrayOfChildrenUniqueTitles,
   instanceTag
-} from './utils';
+} from '../common/delete-me-helpers2';
 
 export { createJobInstancesCommands };
 
@@ -26,7 +26,7 @@ function createJobInstancesCommands (job, snapshot) {
     template.liveness = calcJobLiveness(template, snapshot);
     template = { ...template, ...createDateEntry(job, snapshot) };
 
-    let childrenTitles = createChildrenUniqueDistinctTitles(job, snapshot);
+    let childrenTitles = arrayOfChildrenUniqueTitles(job, snapshot);
     if (childrenTitles.length === 0) {
       childrenTitles = [job.title];
     }

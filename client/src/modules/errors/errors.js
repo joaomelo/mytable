@@ -1,4 +1,4 @@
-function batchTreeErrorCommand (jobIteration) {
+function batchErrorCommand (jobIteration) {
   const { job, item } = jobIteration;
   const errorField = job.errorField;
   const currentError = item[errorField];
@@ -24,8 +24,8 @@ function calcTreeError (jobIteration) {
   }
 
   if (item[job.parentField] && item.id === item[job.parentField][0]) {
-    return 'item parent is pointing to himself';
+    return 'item parenthood is pointing to himself';
   }
 }
 
-export { calcTreeError, batchTreeErrorCommand };
+export { calcTreeError, batchErrorCommand };

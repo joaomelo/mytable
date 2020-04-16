@@ -1,4 +1,6 @@
+import { batchErrorCommand } from '__cli/modules/errors';
 import { batchTreeCommands } from '__cli/modules/tree';
+import { batchRecurrenceCommands } from '__cli/modules/recurrence';
 import { getJobsCollection } from './jobs';
 
 async function runAllJobs () {
@@ -19,8 +21,11 @@ async function runJob (job) {
       items,
       job
     };
-    batchTreeCommands(jobIteration);
-    // batchRecurrenceCommands(job);
+    const error = batchErrorCommand(jobIteration);
+    if (!error) {
+      batchTreeCommands(jobIteration);
+      batchRecurrenceCommands(jobIteration);
+    }
   });
   return job.table.dispatchCommandBatch();
 }

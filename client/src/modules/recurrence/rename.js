@@ -2,8 +2,8 @@ import { calcJobError } from '__cli/modules/recurrence/recurrence/__cli/modules/
 import {
   isFlat,
   instanceTag,
-  createChildrenUniqueDistinctTitles
-} from './utils';
+  arrayOfChildrenUniqueTitles
+} from '../common/delete-me-helpers2';
 
 export { createJobInstancesRenameCommands };
 
@@ -11,7 +11,7 @@ function createJobInstancesRenameCommands (job, snapshot) {
   const commands = [];
 
   if (!calcJobError(job, snapshot) && isFlat(job, snapshot)) {
-    const titles = createChildrenUniqueDistinctTitles(job, snapshot);
+    const titles = arrayOfChildrenUniqueTitles(job, snapshot);
     if (titles.length !== 0 && titles[0] !== job.title) {
       const children = snapshot.getChildJobs(job);
       children.forEach(child => {

@@ -1,4 +1,4 @@
-import { getParent } from './helpers';
+import { getParent, removeTitleTags } from '__cli/modules/common';
 
 function batchPathCommand (jobIteration) {
   const { job, item } = jobIteration;
@@ -32,9 +32,9 @@ function verticeString (item, job) {
   const statusEmoji = item[statusEmojiField] || '';
 
   const titleField = job.titleField;
-  const trimmedTitle = item[titleField].trim();
+  const pureTitle = removeTitleTags(item[titleField]);
 
-  const verticeStr = statusEmoji + trimmedTitle;
+  const verticeStr = statusEmoji + pureTitle;
   return verticeStr;
 }
 
