@@ -38,12 +38,20 @@
             />
             <v-text-field
               v-model="job.statusField"
-              label="Field for Status"
+              label="Field name for Status"
             />
             <v-checkbox
               v-model="job.prependStatusToPath"
-              label="Prepend status in Path?"
+              label="Prepend Status in Path?"
               class="mt-0"
+            />
+            <v-combobox
+              v-model="job.inactiveStatuses"
+              label="Inactive statuses"
+              append-icon=""
+              chips
+              deletable-chips
+              multiple
             />
             <v-text-field
               v-model="job.frequencyField"
