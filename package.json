@@ -1,6 +1,6 @@
 {
   "name": "myairtable",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "scripts": {
     "start": "npm run dev:client",
     "dev:client": "webpack-dev-server --config client/cfg/webpack.dev.js",
