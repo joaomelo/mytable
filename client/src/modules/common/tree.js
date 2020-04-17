@@ -17,24 +17,39 @@ function getChildren ({ item, items, job }) {
   return children;
 }
 
+function countDepth (jobIteration) {
+  const { items, job } = jobIteration;
+
+  let depth = 0;
+
+  let parent = getParent(jobIteration);
+  while (parent) {
+    depth++;
+    parent = getParent({ item: parent, items, job });
+  };
+
+  return depth;
+}
+
 function mountPath (jobIteration) {
   const { item, items, job } = jobIteration;
-  let path = verticeString(item, job);
+  let path = verticeString(jobIteration);
   let parent = getParent({ item, items, job });
 
   while (parent) {
-    path = verticeString(parent, job) + '/' + path;
+    path = verticeString({ item: parent, items, job }) + '/' + path;
     parent = getParent({ item: parent, items, job });
   }
 
   return path;
 }
 
-function verticeString (item, job) {
+function verticeString (jobIteration) {
+  const { item, job } = jobIteration;
   const prefix = job.prependStatusToPath ? item[job.statusField] : '';
-  const title = removeTitleTags(item[job.titleField]);
+  const title = removeTitleTags(jobIteration);
   const verticeStr = prefix + title;
   return verticeStr;
 }
 
-export { getParent, getChildren, mountPath };
+export { getParent, getChildren, mountPath, countDepth };

@@ -1,20 +1,15 @@
-import { RECURRENCE_TYPE } from './types';
+function removeTitleTags (jobIteration) {
+  const { item, job } = jobIteration;
+  const levelSymbol = job.levelTitleSymbol;
 
-function removeTitleTags (title) {
-  const tags = [...Object.values(RECURRENCE_TYPE), '_', '*'];
+  const title = item[job.titleField];
   const arrayOfChars = [...title];
 
   let startCut = 0;
-  while (tags.includes(arrayOfChars[startCut])) {
+  while (levelSymbol === arrayOfChars[startCut]) {
     startCut++;
   }
-
-  let endCut = arrayOfChars.length - 1;
-  while (tags.includes(arrayOfChars[endCut])) {
-    endCut--;
-  }
-
-  const pureTitle = title.slice(startCut, endCut + 1).trim();
+  const pureTitle = title.slice(startCut, title.length + 1).trim();
   return pureTitle;
 }
 

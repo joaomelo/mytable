@@ -37,6 +37,11 @@
               :rules="[v => !!v || 'Path is required']"
             />
             <v-text-field
+              v-model="job.levelTitleSymbol"
+              label="Symbol to represent path level in titles"
+              :rules="[v => !!v || 'Level symbol is required']"
+            />
+            <v-text-field
               v-model="job.statusField"
               label="Field name for Status"
             />

@@ -47,9 +47,10 @@ function batchInstances (jobIteration) {
 
 function arrayOfChildrenUniqueTitles ({ item, items, job }) {
   const titleField = job.titleField;
-  const allChildrenTitles = getChildren({ item, items, job }).map(child => child[titleField]);
-  const titlesWithoutTags = allChildrenTitles.map(rawTitle => removeTitleTags(rawTitle));
-  const uniqueTitles = Array.from(new Set(titlesWithoutTags));
+  const pureChildrenTitles = getChildren({ item, items, job })
+    .map(child => child[titleField])
+    .map(title => removeTitleTags({ item, items, job }));
+  const uniqueTitles = Array.from(new Set(pureChildrenTitles));
   return uniqueTitles;
 }
 

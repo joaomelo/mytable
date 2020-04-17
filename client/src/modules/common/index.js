@@ -1,4 +1,4 @@
-export { getParent, getChildren, mountPath } from './tree';
+export { getParent, getChildren, mountPath, countDepth } from './tree';
 export { removeTitleTags } from './title';
 export { isRecurrent, calcRecurrenceType } from './recurrence';
 export { isActive, hasActiveChildren } from './status';
