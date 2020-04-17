@@ -5,7 +5,10 @@
         cols="12"
         align="center"
       >
-        <DialogAuth v-bind="$attrs" />
+        <DialogAuth
+          v-bind="$attrs"
+          disable-signup
+        />
       </v-col>
     </v-row>
     <OverlayUnsolved v-else />

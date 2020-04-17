@@ -1,9 +1,7 @@
 const RECURRENCE_TYPE = {
-  EPHEMERAL: '🧿',
+  SINGLE: '🧿',
   PROCESS: '⚙️',
-  TASK: '👩‍🏭',
-  FLAT: '⏱️',
-  COPY: '📃'
+  TASK: '👩‍🏭'
 };
 
 export { RECURRENCE_TYPE };

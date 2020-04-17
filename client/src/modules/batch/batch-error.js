@@ -1,4 +1,4 @@
-function batchErrorCommand (jobIteration) {
+function batchError (jobIteration) {
   const { job, item } = jobIteration;
   const errorField = job.errorField;
   const currentError = item[errorField];
@@ -28,4 +28,4 @@ function calcTreeError (jobIteration) {
   }
 }
 
-export { calcTreeError, batchErrorCommand };
+export { batchError };

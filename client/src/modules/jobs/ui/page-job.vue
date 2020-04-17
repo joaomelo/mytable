@@ -55,13 +55,13 @@
             />
             <v-text-field
               v-model="job.frequencyField"
-              label="Field for Frequency Type"
+              label="Field for Frequency"
               :rules="[v => !!v || 'Frequency is required']"
             />
             <v-text-field
-              v-model="job.frequencyEmojiField"
-              label="Field for Frequency Emoji"
-              :rules="[v => !!v || 'Frequency Emoji Field is required']"
+              v-model="job.recurrenceTypeField"
+              label="Field for Recurrence Type"
+              :rules="[v => !!v || 'Recurrence Type Field is required']"
             />
             <v-text-field
               v-model="job.intervalField"
@@ -82,6 +82,14 @@
               v-model="job.endDateField"
               label="Field for End Date"
               :rules="[v => !!v || 'End Date is required']"
+            />
+            <v-combobox
+              v-model="job.extraInstanceFields"
+              label="Extra fields to be copied by instance"
+              append-icon=""
+              chips
+              deletable-chips
+              multiple
             />
             <v-text-field
               v-model="job.errorField"

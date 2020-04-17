@@ -29,7 +29,8 @@ function docToJobAdapter (doc) {
   // creating airtable table
   const userFields = Object.keys(doc)
     .filter(key => key.includes('Field'))
-    .map(fieldKey => doc[fieldKey]);
+    .map(fieldKey => doc[fieldKey])
+    .flat();
 
   const apiKey = doc.apiKey;
   const baseId = doc.baseId;

@@ -1,1 +1,0 @@
-export { batchErrorCommand } from './errors';
