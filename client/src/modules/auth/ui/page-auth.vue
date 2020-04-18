@@ -7,7 +7,6 @@
       >
         <DialogAuth
           v-bind="$attrs"
-          disable-signup
         />
       </v-col>
     </v-row>

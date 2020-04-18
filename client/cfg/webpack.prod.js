@@ -6,6 +6,6 @@ const common = require('./webpack.common.js');
 module.exports = merge(common, {
   mode: 'production',
   plugins: [
-    new Dotenv({ path: './client/cfg/dev.env' })
+    new Dotenv({ path: './client/cfg/prod.env' })
   ]
 });

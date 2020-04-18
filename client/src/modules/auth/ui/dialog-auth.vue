@@ -12,7 +12,7 @@
       </v-card-title>
       <v-card-text>
         <v-tabs
-          v-if="!disableSignup"
+          v-if="enableSignup"
           v-model="tab"
           grow
         >
@@ -66,14 +66,11 @@ export default {
     title: {
       type: String,
       default: ''
-    },
-    disableSignup: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
     return {
+      enableSignup: process.env.SIGN_UP === 'ENABLE',
       tab: 0,
       email: null,
       password: null,
