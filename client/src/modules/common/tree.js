@@ -46,7 +46,9 @@ function mountPath (jobIteration) {
 
 function verticeString (jobIteration) {
   const { item, job } = jobIteration;
-  const prefix = job.prependStatusToPath ? item[job.statusField] : '';
+  const statusField = job.statusField;
+
+  const prefix = (job.prependStatusToPath && item[statusField]) ? item[statusField] : '';
   const title = removeTitleTags(jobIteration);
   const verticeStr = prefix + title;
   return verticeStr;
