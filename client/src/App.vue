@@ -1,11 +1,16 @@
 <template>
-  <v-app>
-    <router-view />
-  </v-app>
+  <div>
+    <OverlayLoading />
+    <v-app>
+      <router-view />
+    </v-app>
+  </div>
 </template>
 
 <script>
+import { OverlayLoading } from './core/loader';
 export default {
-  name: 'App'
+  name: 'App',
+  components: { OverlayLoading }
 };
 </script>

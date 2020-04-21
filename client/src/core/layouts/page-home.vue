@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1> Just Testing </h1>
     <PanelRun />
     <ListLogs class="mt-5" />
   </div>

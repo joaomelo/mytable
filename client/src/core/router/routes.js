@@ -1,4 +1,4 @@
-import { PageAuth } from '__cli/modules/auth';
+import { PageAuth } from '__cli/core/auth';
 import { LayoutDesktop, PageHome } from '__cli/core/layouts';
 import { PageJobs, PageJob } from '__cli/modules/jobs';
 

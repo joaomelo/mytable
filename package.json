@@ -13,6 +13,7 @@
     "bump:major": "npm run lint && npm run commit && npm version major && npm run push",
     "build": "rimraf client/dist/* && webpack --config client/cfg/webpack.prod.js",
     "deploy": "npm run build && firebase deploy",
+    "analyse": "webpack --profile --json > stats.json",
     "release:patch": "npm run bump:patch && npm run deploy",
     "release:minor": "npm run bump:minor && npm run deploy",
     "release:major": "npm run bump:major && npm run deploy"
@@ -63,6 +64,7 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.4.3",
     "webpack": "^4.42.1",
+    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2"

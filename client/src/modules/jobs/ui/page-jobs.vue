@@ -52,19 +52,25 @@
 </template>
 
 <script>
+import { loader } from '__cli/core/loader';
 import { getJobsCollection } from '../domain';
 
 export default {
   name: 'PageJobs',
   data () {
     return {
-      jobsCollection: getJobsCollection(),
+      jobsCollection: undefined,
       subscription: undefined,
       jobs: []
     };
   },
   mounted () {
-    this.subscription = this.jobsCollection.subscribe(items => { this.jobs = items; });
+    loader.start();
+    getJobsCollection().then(jobsCollection => {
+      this.jobsCollection = jobsCollection;
+      this.subscription = this.jobsCollection.subscribe(items => { this.jobs = items; });
+      loader.stop();
+    });
   },
   unmounted () {
     this.subscription();

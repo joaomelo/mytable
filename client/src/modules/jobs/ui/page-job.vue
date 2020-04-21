@@ -3,7 +3,7 @@
     justify="center"
   >
     <v-col>
-      <v-card :loading="status === 'LOADING'">
+      <v-card>
         <v-card-text>
           <v-form ref="form">
             <v-text-field
@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import { loader } from '__cli/core/loader';
 import { getJobsCollection } from '../domain';
 
 export default {
@@ -143,20 +144,24 @@ export default {
   },
   data () {
     return {
-      jobsCollection: getJobsCollection(),
-      status: 'IDLE',
+      jobsCollection: undefined,
       job: {}
     };
   },
   mounted () {
-    if (this.id !== 'add') {
-      this.status = 'LOADING';
-      const getItemPromise = this.jobsCollection.getItem(this.id);
-      getItemPromise.then(item => {
-        this.job = { ...item };
-        this.status = 'IDLE';
-      });
-    }
+    loader.start();
+    getJobsCollection().then(jobsCollection => {
+      this.jobsCollection = jobsCollection;
+      if (this.id !== 'add') {
+        const getItemPromise = this.jobsCollection.getItem(this.id);
+        getItemPromise.then(item => {
+          this.job = { ...item };
+          loader.stop();
+        });
+      } else {
+        loader.stop();
+      }
+    });
   },
   methods: {
     save () {

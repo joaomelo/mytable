@@ -1,6 +1,7 @@
 const Dotenv = require('dotenv-webpack');
 const merge = require('webpack-merge');
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -16,6 +17,7 @@ module.exports = merge(common, {
     }
   },
   plugins: [
-    new Dotenv({ path: './client/cfg/dev.env' })
+    new Dotenv({ path: './client/cfg/dev.env' }),
+    new BundleAnalyzerPlugin()
   ]
 });

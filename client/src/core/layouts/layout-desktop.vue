@@ -39,7 +39,7 @@
 
 <script>
 import { appName, appVersion } from '__cli/core/meta';
-import { ButtonLogout } from '__cli/modules/auth';
+import { ButtonLogout } from '__cli/core/auth';
 export default {
   name: 'LayoutDesktop',
   components: { ButtonLogout },

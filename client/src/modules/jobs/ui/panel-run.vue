@@ -4,7 +4,6 @@
   >
     <v-btn
       color="primary"
-      :loading="jobRunner.status === 'updating'"
       @click="update"
     >
       Run
@@ -13,18 +12,13 @@
 </template>
 
 <script>
-import { jobRunner } from '../domain';
+import { runAllJobs } from '../domain';
 
 export default {
   name: 'PanelRun',
-  data () {
-    return {
-      jobRunner
-    };
-  },
   methods: {
     update () {
-      this.jobRunner.runAllJobs();
+      runAllJobs();
     }
   }
 };
