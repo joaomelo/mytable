@@ -4,7 +4,7 @@
   >
     <v-btn
       color="primary"
-      :loading="status === 'updating'"
+      :loading="jobRunner.status === 'updating'"
       @click="update"
     >
       Run
@@ -13,29 +13,18 @@
 </template>
 
 <script>
-import { logThis } from '__cli/modules/logger';
-import { runAllJobs } from '../domain';
+import { jobRunner } from '../domain';
 
 export default {
   name: 'PanelRun',
   data () {
     return {
-      status: 'idle'
+      jobRunner
     };
   },
   methods: {
     update () {
-      this.status = 'updating';
-      runAllJobs()
-        .then(() => {
-          logThis('run complete');
-          this.status = 'idle';
-        })
-        .catch(e => {
-          logThis(`${e.name}: ${e.message}`);
-          console.error(e);
-          this.status = 'idle';
-        });
+      this.jobRunner.runAllJobs();
     }
   }
 };
