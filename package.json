@@ -4,8 +4,7 @@
   "scripts": {
     "start": "npm run dev:client",
     "dev:client": "webpack-dev-server --config client/cfg/webpack.dev.js",
-    "dev:server": "webpack-dev-server --config client/cfg/webpack.dev.js",
-    "lint": "eslint --fix --ext .js,.vue client/src server/src",
+    "lint": "eslint --fix --ext .js,.vue client/src",
     "commit": "git add -A && git commit",
     "push": "git push && git push --tags",
     "bump:patch": "npm run lint && npm run commit && npm version patch && npm run push",
@@ -13,7 +12,6 @@
     "bump:major": "npm run lint && npm run commit && npm version major && npm run push",
     "build": "rimraf client/dist/* && webpack --config client/cfg/webpack.prod.js",
     "deploy": "npm run build && firebase deploy",
-    "analyse": "webpack --profile --json > stats.json",
     "release:patch": "npm run bump:patch && npm run deploy",
     "release:minor": "npm run bump:minor && npm run deploy",
     "release:major": "npm run bump:major && npm run deploy"
