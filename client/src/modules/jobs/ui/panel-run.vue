@@ -4,6 +4,7 @@
   >
     <v-btn
       color="primary"
+      :disabled="isTimerOn"
       @click="update"
     >
       Run
@@ -11,10 +12,10 @@
     <v-spacer />
     <CountdownTimer
       ref="timer"
-      class="ml-5 disable"
+      class="ml-5"
       @timer="update"
       @started="isTimerOn = true"
-      @stopped="isTimetOn = false"
+      @stopped="isTimerOn = false"
     />
   </div>
 </template>
