@@ -7,7 +7,10 @@ import { batchInstances } from './batch-instances';
 function batchCommands (jobIteration) {
   const error = batchError(jobIteration);
   if (!error) {
-    batchTitle(jobIteration);
+    if (jobIteration.job.levelTitleSymbol) {
+      batchTitle(jobIteration);
+    }
+
     batchPath(jobIteration);
     batchRecurrence(jobIteration);
     batchInstances(jobIteration);
