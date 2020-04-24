@@ -1,6 +1,6 @@
 import { calcRecurrenceType } from '__cli/modules/common';
 
-function batchRecurrence (jobIteration) {
+function batchRecurrenceType (jobIteration) {
   const { job, item } = jobIteration;
   const recurrenceTypeField = job.recurrenceTypeField;
   const newRecurrenceType = calcRecurrenceType(jobIteration);
@@ -14,4 +14,4 @@ function batchRecurrence (jobIteration) {
   }
 }
 
-export { batchRecurrence };
+export { batchRecurrenceType };

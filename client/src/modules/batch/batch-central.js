@@ -1,19 +1,25 @@
 import { batchError } from './batch-error';
 import { batchPath } from './batch-path';
 import { batchTitle } from './batch-title';
-import { batchRecurrence } from './batch-recurrence';
+import { batchRecurrenceType } from './batch-recurrence';
 import { batchInstances } from './batch-instances';
 
 function batchCommands (jobIteration) {
+  const { levelTitleSymbol, isRecurrenceEnabled, recurrenceTypeField } = jobIteration.job;
   const error = batchError(jobIteration);
   if (!error) {
-    if (jobIteration.job.levelTitleSymbol) {
+    batchPath(jobIteration);
+
+    if (levelTitleSymbol) {
       batchTitle(jobIteration);
     }
 
-    batchPath(jobIteration);
-    batchRecurrence(jobIteration);
-    batchInstances(jobIteration);
+    if (isRecurrenceEnabled) {
+      batchInstances(jobIteration);
+      if (recurrenceTypeField) {
+        batchRecurrenceType(jobIteration);
+      }
+    }
   }
 }
 

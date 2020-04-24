@@ -109,7 +109,7 @@
 
             <v-checkbox
               v-model="job.prependStatusToPath"
-              label="Prepend Status in Path?"
+              label="Prepend Status in Path"
               class="my-0"
               :disabled="!job.statusField"
             >
@@ -245,6 +245,7 @@
             <h2>Error Feedback</h2>
             <v-text-field
               v-model="job.errorField"
+              :rules="[requiredRule]"
               label="Error Field"
             >
               <template v-slot:append>
