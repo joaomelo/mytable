@@ -36,7 +36,7 @@ export default {
   methods: {
     update () {
       if (loader.status === 'IDLE') {
-        runAllJobs().then(() => this.isTimerOn || this.$refs.timer.start());
+        runAllJobs().then(() => this.isTimerOn && this.$refs.timer.start());
       }
     }
   }
