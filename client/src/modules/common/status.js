@@ -1,7 +1,9 @@
 import { getChildren } from './tree';
 
 function isActive ({ item, job }) {
-  const inactiveStatuses = job.inactiveStatuses || [];
+  // if no inactive field is provided all items are considered concluded by default
+  // this will result in recurrence been aplied every time.
+  const inactiveStatuses = job.inactiveStatuses || [item[job.statusField]];
   const isInactive = inactiveStatuses.includes(item[job.statusField]);
   return !isInactive;
 }
