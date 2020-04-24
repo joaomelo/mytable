@@ -1,3 +1,5 @@
+import { getParent } from '__cli/modules/common';
+
 function batchError (jobIteration) {
   const { job, item } = jobIteration;
   const errorField = job.errorField;
@@ -18,13 +20,21 @@ function batchError (jobIteration) {
 }
 
 function calcTreeError (jobIteration) {
-  const { item, job } = jobIteration;
+  const { item, job, items } = jobIteration;
   if (!item[job.titleField]) {
     return 'item has no title';
   }
 
-  if (item[job.parentField] && item.id === item[job.parentField][0]) {
-    return 'item parenthood is pointing to himself';
+  if (item[job.parentField]) {
+    if (item.id === item[job.parentField][0]) {
+      return 'item parenthood is pointing to himself';
+    }
+
+    const parent = getParent(jobIteration);
+    const error = calcTreeError({ item: parent, job, items });
+    if (error) {
+      return `ascendent has error: ${error.replace('ascendent has error: ', '')}`;
+    }
   }
 }
 
