@@ -6,58 +6,135 @@
       <v-card>
         <v-card-text>
           <v-form ref="form">
+            <h2>Database</h2>
             <v-text-field
               v-model="job.apiKey"
               label="Api Key"
               :rules="[v => !!v || 'Api Key is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Before sharing your key be aware this is a hobbie project. Althougth i took security measures, depeding on you risk appitite you will better served running an instance of this app on your own."
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.baseId"
-              label="Airtable Base Id"
+              label="Base"
               :rules="[v => !!v || 'Base Id is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="The base id where your table to run the transformations is located"
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.tableName"
               label="Table"
               :rules="[v => !!v || 'Table name is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="The name of the table inside the base. Always test this app in a copy of your table before comminting to use it."
+                />
+              </template>
+            </v-text-field>
+            <v-divider class="my-5" />
+
+            <h2>Tree Setup</h2>
             <v-text-field
               v-model="job.titleField"
-              label="Field for Title"
+              label="Title Field"
               :rules="[v => !!v || 'Title is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="The primary text identification of your items. Is used on path strings, for example."
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.parentField"
-              label="Field for Parent"
-              :rules="[v => !!v || 'Title is required']"
-            />
+              label="Parent Field"
+              :rules="[v => !!v || 'Parent is required']"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Link field that points to another items in the same table to form the tree structure."
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.pathField"
               label="Field for Path"
               :rules="[v => !!v || 'Path is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Text field that will be filled with the tree structured of that item based on parent value. They are important to order items next to their parent and siblings"
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.levelTitleSymbol"
-              label="Symbol to represent path level in titles"
-              :rules="[v => !!v || 'Level symbol is required']"
-            />
+              label="Level Symbol"
+              maxlength="1"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="One instance of this character for every item level will be inserted before the title original value. This help visualize the tree structure. If left blank, no char will be prepended."
+                />
+              </template>
+            </v-text-field>
+
+            <v-divider class="my-5" />
+            <h2>Status Setup</h2>
             <v-text-field
               v-model="job.statusField"
-              label="Field name for Status"
-            />
+              label="Status Field"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Status are used to form better path strings and to control recursive task creation. But they are optional."
+                />
+              </template>
+            </v-text-field>
+
             <v-checkbox
               v-model="job.prependStatusToPath"
               label="Prepend Status in Path?"
-              class="mt-0"
-            />
+              class="my-0"
+              :disabled="!job.statusField"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="If you use emojis for item status -- like 🙂, 🚧 and ✔️ -- you could check this option to prepend then in path string. This is usefull to order items considering status."
+                />
+              </template>
+            </v-checkbox>
             <v-combobox
               v-model="job.inactiveStatuses"
-              label="Inactive statuses"
-              append-icon=""
+              label="Inactive Status"
               chips
               deletable-chips
               multiple
-            />
+              :disabled="!job.statusField"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="The values of status that represent inactive items like 'done' and 'cancel'. Only matter in recurrence logic."
+                />
+              </template>
+            </v-combobox>
+
+            <v-divider class="my-5" />
+            <h2>Recurrence Setup</h2>
             <v-text-field
               v-model="job.frequencyField"
               label="Field for Frequency"
@@ -96,6 +173,8 @@
               deletable-chips
               multiple
             />
+            <v-divider class="my-5" />
+            <h2>Error Feedback</h2>
             <v-text-field
               v-model="job.errorField"
               label="Field for Error loging"
@@ -132,10 +211,12 @@
 
 <script>
 import { loader } from '__cli/core/loader';
+import { InputTooltip } from '__cli/core/base';
 import { getJobsCollection } from '../domain';
 
 export default {
   name: 'PageJob',
+  components: { InputTooltip },
   props: {
     id: {
       type: String,
@@ -147,6 +228,14 @@ export default {
       jobsCollection: undefined,
       job: {}
     };
+  },
+  watch: {
+    'job.statusField': function (value) {
+      if (!value) {
+        this.job.prependStatusToPath = false;
+        this.job.inactiveStatuses = [];
+      }
+    }
   },
   mounted () {
     loader.start();
