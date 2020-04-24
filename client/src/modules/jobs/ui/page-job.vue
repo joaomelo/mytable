@@ -10,11 +10,11 @@
             <v-text-field
               v-model="job.apiKey"
               label="Api Key"
-              :rules="[v => !!v || 'Api Key is required']"
+              :rules="[requiredRule]"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="Before sharing your key be aware this is a hobbie project. Althougth i took security measures, depeding on you risk appitite you will better served running an instance of this app on your own."
+                  hint="Before sharing your key be aware this is a hobby project. Although i took security measures, depending on your risk appetite you will better be served running an instance of this app on your own."
                 />
               </template>
             </v-text-field>
@@ -22,11 +22,11 @@
             <v-text-field
               v-model="job.baseId"
               label="Base"
-              :rules="[v => !!v || 'Base Id is required']"
+              :rules="[requiredRule]"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="The base id where your table to run the transformations is located"
+                  hint="The id of the base where your table is located."
                 />
               </template>
             </v-text-field>
@@ -34,11 +34,11 @@
             <v-text-field
               v-model="job.tableName"
               label="Table"
-              :rules="[v => !!v || 'Table name is required']"
+              :rules="[requiredRule]"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="The name of the table inside the base. Always test this app in a copy of your table before comminting to use it."
+                  hint="The table's name which myairtable will run the job. Always test in a copy of your table before committing to use it."
                 />
               </template>
             </v-text-field>
@@ -48,7 +48,7 @@
             <v-text-field
               v-model="job.titleField"
               label="Title Field"
-              :rules="[v => !!v || 'Title is required']"
+              :rules="[requiredRule]"
             >
               <template v-slot:append>
                 <InputTooltip
@@ -60,11 +60,11 @@
             <v-text-field
               v-model="job.parentField"
               label="Parent Field"
-              :rules="[v => !!v || 'Parent is required']"
+              :rules="[requiredRule]"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="Link field that points to another items in the same table to form the tree structure."
+                  hint="Link field that points to another item in the same table. This will form the tree structure."
                 />
               </template>
             </v-text-field>
@@ -72,11 +72,11 @@
             <v-text-field
               v-model="job.pathField"
               label="Field for Path"
-              :rules="[v => !!v || 'Path is required']"
+              :rules="[requiredRule]"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="Text field that will be filled with the tree structured of that item based on parent value. They are important to order items next to their parent and siblings"
+                  hint="A text field that will be filled with the tree structure of an item. They are important to order items next to their parent and siblings."
                 />
               </template>
             </v-text-field>
@@ -88,7 +88,7 @@
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="One instance of this character for every item level will be inserted before the title original value. This help visualize the tree structure. If left blank, no char will be prepended."
+                  hint="One instance of this character for every item level will be inserted before the title's original value. This helps visualizes the tree structure. If left blank, no char will be prepended."
                 />
               </template>
             </v-text-field>
@@ -97,11 +97,12 @@
             <h2>Status Setup</h2>
             <v-text-field
               v-model="job.statusField"
+              :rules="requiredIfRecurrenceRules"
               label="Status Field"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="Status are used to form better path strings and to control recursive task creation. But they are optional."
+                  hint="Status is used to form better path strings and to control recursive task creation."
                 />
               </template>
             </v-text-field>
@@ -114,7 +115,7 @@
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="If you use emojis for item status -- like 🙂, 🚧 and ✔️ -- you could check this option to prepend then in path string. This is usefull to order items considering status."
+                  hint="If you use emojis for item status -- like 🙂, 🚧 and ✔️ -- you could check this option to prepend then in the path string. This is useful to order items considering status."
                 />
               </template>
             </v-checkbox>
@@ -123,63 +124,135 @@
               label="Inactive Status"
               chips
               deletable-chips
+              :rules="requiredIfRecurrenceRules"
               multiple
               :disabled="!job.statusField"
             >
               <template v-slot:append>
                 <InputTooltip
-                  hint="The values of status that represent inactive items like 'done' and 'cancel'. Only matter in recurrence logic."
+                  hint="The values of status that represent inactive items like 'done' and 'cancel'. It only matters if recurrence is enabled."
                 />
               </template>
             </v-combobox>
 
             <v-divider class="my-5" />
             <h2>Recurrence Setup</h2>
-            <v-text-field
-              v-model="job.frequencyField"
-              label="Field for Frequency"
-              :rules="[v => !!v || 'Frequency is required']"
-            />
+            <v-checkbox
+              ref="recurrenceCheckbox"
+              v-model="job.isRecurrenceEnabled"
+              label="Enable Recurrence?"
+              class="mt-1"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="If enabled, myairtable will search for recurring items where all children are inactive. Then, will create new instances respecting the item recurrence setup."
+                />
+              </template>
+            </v-checkbox>
+
             <v-text-field
               v-model="job.recurrenceTypeField"
-              label="Field for Recurrence Type"
-              :rules="[v => !!v || 'Recurrence Type Field is required']"
-            />
+              :disabled="!job.isRecurrenceEnabled"
+              label="Recurrence Type Field"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="The name of the text field where myairtable will save an emoji signaling if the item is recurring or not. Useful to filter items."
+                />
+              </template>
+            </v-text-field>
+
+            <v-text-field
+              v-model="job.frequencyField"
+              label="Frequency Field"
+              :rules="requiredIfRecurrenceRules"
+              :disabled="!job.isRecurrenceEnabled"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Text or single select field. The field can hold one of these four values: 'daily', 'weekly', 'monthly' or 'yearly'"
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.intervalField"
-              label="Field for Recurrence Interval"
-              :rules="[v => !!v || 'Interval Field is required']"
-            />
+              :disabled="!job.isRecurrenceEnabled"
+              :rules="requiredIfRecurrenceRules"
+              label="Recurrence Interval Field"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Number field that represents how many days, weeks, months, or years item's instances should be put apart. For example, an item that recurs once every semester will have a 'monthly' frequency with an interval equal to 6."
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.isStartField"
+              :disabled="!job.isRecurrenceEnabled"
+              :rules="requiredIfRecurrenceRules"
               label="Checkbox Field to Start or End Patter"
-              :rules="[v => !!v || 'isStart Field is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Checkbox type field. Your recurring items could have new instances created based on their start or end date. This field, if checked on an item, says to myairtable that the start date should be used as a reference."
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.startDateField"
+              :disabled="!job.isRecurrenceEnabled"
+              :rules="requiredIfRecurrenceRules"
               label="Field for Start Date"
-              :rules="[v => !!v || 'Start Date is required']"
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Date type field that holds the start date of your items."
+                />
+              </template>
+            </v-text-field>
+
             <v-text-field
               v-model="job.endDateField"
               label="Field for End Date"
-              :rules="[v => !!v || 'End Date is required']"
-            />
+              :disabled="!job.isRecurrenceEnabled"
+              :rules="requiredIfRecurrenceRules"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Date type field that holds the end date of your items."
+                />
+              </template>
+            </v-text-field>
             <v-combobox
               v-model="job.extraInstanceFields"
-              label="Extra fields to be copied by instance"
+              label="Extra fields"
               append-icon=""
               chips
+              :disabled="!job.isRecurrenceEnabled"
               deletable-chips
               multiple
-            />
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Every time an instance for a recurring item is created, the value of the fields informed here will be copied over to those instances."
+                />
+              </template>
+            </v-combobox>
             <v-divider class="my-5" />
             <h2>Error Feedback</h2>
             <v-text-field
               v-model="job.errorField"
-              label="Field for Error loging"
-              :rules="[v => !!v || 'Error field is required']"
-            />
+              label="Error Field"
+            >
+              <template v-slot:append>
+                <InputTooltip
+                  hint="Myairtable checks for inconsistences when processing your table's items. It identifies an item with no title or that point to itself as a parent, for example. If you inform a text filed here, a message will be applied to items with errors. It is useful to create a filter with bugged items."
+                />
+              </template>
+            </v-text-field>
           </v-form>
         </v-card-text>
         <v-divider />
@@ -226,8 +299,20 @@ export default {
   data () {
     return {
       jobsCollection: undefined,
-      job: {}
+      job: {},
+      requiredRule (v) {
+        return !!v || 'Field is required';
+      }
     };
+  },
+  computed: {
+    requiredIfRecurrenceRules () {
+      const rules = [];
+      if (this.job.isRecurrenceEnabled) {
+        rules.push(this.requiredRule);
+      }
+      return rules;
+    }
   },
   watch: {
     'job.statusField': function (value) {
