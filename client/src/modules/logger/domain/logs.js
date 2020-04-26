@@ -1,21 +1,16 @@
 import HotCollection from '@joaomelo/hot-collection';
 import moment from 'moment';
-import { getFiredb } from '__cli/core/firebase';
-import { getFireauthMachine } from '__cli/core/auth';
+import { firedb } from '__cli/core/services';
+import { fireauthMachine } from '__cli/core/auth';
 
 let __logsCollection;
 
-async function getLogsCollection () {
+function getLogsCollection () {
   if (!__logsCollection) {
-    const results = await Promise.all([getFireauthMachine(), getFiredb()]);
-
-    const fireauthMachine = results[0];
-
     fireauthMachine.subscribe(({ status }) => {
       if (status === 'SIGNOUT') { __logsCollection = undefined; };
     });
 
-    const firedb = results[1];
     __logsCollection = new HotCollection(firedb, 'logs', {
       where: [{
         field: 'userId',

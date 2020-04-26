@@ -12,7 +12,7 @@
 
 <script>
 import { loader } from '__cli/core/loader';
-import { getFireauthMachine } from '../domain';
+import { fireauthMachine } from '../domain';
 
 export default {
   name: 'ButtonLogout',
@@ -25,26 +25,22 @@ export default {
   data () {
     return {
       logoutTag: 'Logout',
-      logoutText: 'Logout'
+      logoutText: null
     };
   },
   mounted () {
     if (this.showUser) {
-      getFireauthMachine().then(fireauthMachine => {
-        if (fireauthMachine.user) {
-          const email = fireauthMachine.user.email;
-          const username = email.substring(0, email.indexOf('@'));
-          this.logoutText = `${this.logoutTag} from ${username}`;
-        }
-      });
+      const email = fireauthMachine.user.email;
+      const username = email.substring(0, email.indexOf('@'));
+      this.logoutText = `${this.logoutTag} from ${username}`;
+    } else {
+      this.logoutText = this.logoutTag;
     }
   },
   methods: {
-    async logout () {
+    logout () {
       loader.start();
-      const fireauthMachine = await getFireauthMachine();
-      await fireauthMachine.service.signOut();
-      loader.stop();
+      fireauthMachine.service.signOut().then(() => loader.stop());
     }
   }
 };

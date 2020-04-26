@@ -1,1 +1,1 @@
-export * from './auth-machine';
+export * from './fireauth-machine';

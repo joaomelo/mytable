@@ -1,5 +1,3 @@
-import { loader } from '__cli/core/loader';
-
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -11,17 +9,21 @@ const firebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
 
-let fireapp;
+let fireapp, fireauth, firedb;
 
-async function getFireapp () {
+async function initFirebase () {
   if (!fireapp) {
-    loader.start();
     const { default: firebase } = await import(/* webpackChunkName: "firebase" */ 'firebase/app');
     fireapp = fireapp || firebase.initializeApp(firebaseConfig);
-    loader.stop();
   }
 
-  return fireapp;
+  await Promise.all([
+    import(/* webpackChunkName: "firebase" */ 'firebase/auth'),
+    import(/* webpackChunkName: "firebase" */ 'firebase/firestore')
+  ]);
+
+  fireauth = fireapp.auth();
+  firedb = fireapp.firestore();
 }
 
-export { getFireapp };
+export { initFirebase, fireapp, fireauth, firedb };

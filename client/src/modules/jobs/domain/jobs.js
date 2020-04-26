@@ -1,20 +1,15 @@
 import HotCollection from '@joaomelo/hot-collection';
-import { getFiredb } from '__cli/core/firebase';
-import { getFireauthMachine } from '__cli/core/auth';
+import { firedb } from '__cli/core/services';
+import { fireauthMachine } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
 let __jobsCollection;
 
 async function getJobsCollection () {
   if (!__jobsCollection) {
-    const results = await Promise.all([getFireauthMachine(), getFiredb()]);
-
-    const fireauthMachine = results[0];
     fireauthMachine.subscribe(({ status }) => {
       if (status === 'SIGNOUT') { __jobsCollection = undefined; };
     });
-
-    const firedb = results[1];
 
     __jobsCollection = new HotCollection(firedb, 'jobs', {
       adapters: {

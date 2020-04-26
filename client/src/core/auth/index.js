@@ -1,2 +1,2 @@
-export { getFireauthMachine } from './domain';
-export { ButtonLogout, PageAuth } from './ui';
+export { initFireauthMachine, fireauthMachine } from './domain';
+export { ButtonLogout, PageAuth, PageUnverified } from './ui';

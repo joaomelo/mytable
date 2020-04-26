@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { getFireauthMachine } from '../domain';
+import { fireauthMachine } from '../domain';
 import ControlEmail from './control-email';
 import ControlPassword from './control-password';
 
@@ -109,10 +109,8 @@ export default {
   methods: {
     runAuthAction (actionName) {
       if (this.$refs.form.validate()) {
-        getFireauthMachine().then(fireauthMachine => {
-          fireauthMachine.service[this.outfit.action](this.email, this.password)
-            .catch(e => { this.authError = e; });
-        });
+        fireauthMachine.service[this.outfit.action](this.email, this.password)
+          .catch(e => { this.authError = e; });
       }
     }
   }

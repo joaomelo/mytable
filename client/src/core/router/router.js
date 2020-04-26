@@ -1,45 +1,43 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { getFireauthMachine } from '__cli/core/auth';
 import { routes } from './routes';
 
-function initRouter () {
-  Vue.use(VueRouter);
-  const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
-  });
+Vue.use(VueRouter);
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+});
 
-  getFireauthMachine().then(fireauthMachine => {
-    fireauthMachine.subscribe(({ status }) => {
-      const statusRoutes = {
-        UNSOLVED: 'login',
-        SIGNOUT: 'login',
-        SIGNIN: 'home'
-      };
+// function navigateAfterUserStatusChange ({ user, status }) {
+//   if (!user || status === 'UNSOLVED') return;
 
-      const newRoute = statusRoutes[status];
-      const oldRoute = router.currentRoute.name;
-      if (newRoute !== oldRoute) {
-        router.push(newRoute);
-      }
-    });
+//   const state = (status === 'SIGNIN' && !user.emailVerified) ? 'UNVERIFIED' : status;
+//   const routesByState = {
+//     UNVERIFIED: 'unverified',
+//     SIGNOUT: 'login',
+//     SIGNIN: 'home'
+//   };
 
-    router.beforeEach((to, from, next) => {
-      const isGoingToOpenRoute = to.name === 'login';
-      const isSignedIn = fireauthMachine.status === 'SIGNIN';
-      const isFreeToGo = isGoingToOpenRoute || isSignedIn;
+//   const newRoute = routesByState[state];
+//   const oldRoute = router.currentRoute.name;
+//   if (newRoute !== oldRoute) {
+//     router.push(newRoute);
+//   }
+// }
 
-      if (isFreeToGo) {
-        next();
-      } else {
-        next(false);
-      }
-    });
-  });
+// getFireauthMachine().then(fireauthMachine => {
+//   router.beforeEach((to, from, next) => {
+//     const isGoingToOpenRoute = to.name === 'login';
+//     const isSignedIn = fireauthMachine.status === 'SIGNIN';
+//     const isFreeToGo = isGoingToOpenRoute || isSignedIn;
 
-  return router;
-}
+//     if (isFreeToGo) {
+//       next();
+//     } else {
+//       next(false);
+//     }
+//   });
+// });
 
-export { initRouter };
+export { router };
