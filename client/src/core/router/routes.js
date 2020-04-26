@@ -1,37 +1,20 @@
-import { PageSplash } from '__cli/core/init';
+import { LayoutDesktop, PageSplash, PageHome } from '__cli/core/layouts';
+import { PageAuth, PageUnverified } from '__cli/core/auth';
+import { PageJobs, PageJob } from '__cli/modules/jobs';
 
 const routes = [
   { path: '/', name: 'splash', component: PageSplash },
-  { path: '/login', name: 'login', component: lazyLoadFor('PageAuth') },
-  { path: '/unverified', name: 'unverified', component: lazyLoadFor('PageUnverified') },
+  { path: '/login', name: 'login', component: PageAuth },
+  { path: '/unverified', name: 'unverified', component: PageUnverified },
   {
     path: '/desktop',
-    component: lazyLoadFor('LayoutDesktop'),
+    component: LayoutDesktop,
     children: [
-      { path: '/home', name: 'home', component: lazyLoadFor('PageHome') },
-      { path: '/jobs', name: 'jobs', component: lazyLoadFor('PageJobs') },
-      { path: '/job/:id', name: 'job', component: lazyLoadFor('PageJob'), props: true }
+      { path: '/home', name: 'home', component: PageHome },
+      { path: '/jobs', name: 'jobs', component: PageJobs },
+      { path: '/job/:id', name: 'job', component: PageJob, props: true }
     ]
   }
 ];
-
-function lazyLoadFor (componentName) {
-  const mapComponentNameToModule = {
-    PageAuth: () => import('__cli/core/auth'),
-    PageUnverified: () => import('__cli/core/auth'),
-    LayoutDesktop: () => import('__cli/core/layouts'),
-    PageHome: () => import('__cli/core/layouts'),
-    PageJobs: () => import('__cli/modules/jobs'),
-    PageJob: () => import('__cli/modules/jobs')
-  };
-
-  const loadFunction = async () => {
-    const module = await mapComponentNameToModule[componentName]();
-    const component = module[componentName];
-    return component;
-  };
-
-  return loadFunction;
-};
 
 export { routes };

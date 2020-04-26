@@ -1,6 +1,6 @@
 import HotCollection from '@joaomelo/hot-collection';
 import moment from 'moment';
-import { firedb } from '__cli/core/services';
+import { firedb } from '__cli/core/firebase';
 import { fireauthMachine } from '__cli/core/auth';
 
 let __logsCollection;

@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 const path = require('path');
 const dist = path.resolve(__dirname, '../dist');
 const src = path.resolve(__dirname, '../src');
 
 module.exports = {
-  devtool: 'source-map',
   entry: './client/src/index.js',
   output: {
     publicPath: '/',
@@ -73,6 +73,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({ template: src + '/index.html' }),
     new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
     new CircularDependencyPlugin({
       exclude: /node_modules/,
       allowAsyncCycles: false,

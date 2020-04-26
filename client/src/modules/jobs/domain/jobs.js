@@ -1,5 +1,5 @@
 import HotCollection from '@joaomelo/hot-collection';
-import { firedb } from '__cli/core/services';
+import { firedb } from '__cli/core/firebase';
 import { fireauthMachine } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 

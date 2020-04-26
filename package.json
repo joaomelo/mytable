@@ -10,7 +10,7 @@
     "bump:patch": "npm run lint && npm run commit && npm version patch && npm run push",
     "bump:minor": "npm run lint && npm run commit && npm version minor && npm run push",
     "bump:major": "npm run lint && npm run commit && npm version major && npm run push",
-    "build": "rimraf client/dist/* && webpack --config client/cfg/webpack.prod.js",
+    "build": "rimraf client/dist/* && webpack --config client/cfg/webpack.prod.js --profile --json > client/cfg/webpack.prod.stats.json",
     "deploy": "npm run build && firebase deploy",
     "release:patch": "npm run bump:patch && npm run deploy",
     "release:minor": "npm run bump:minor && npm run deploy",

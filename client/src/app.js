@@ -1,35 +1,47 @@
 import { Machine, interpret } from 'xstate';
-import { renderSplash, initialize } from '__cli/core/init';
 
 const appMachine = Machine({
   id: 'appMachine',
-  initial: 'loading',
+  initial: 'unsolved',
   states: {
-    loading: {
-      entry: ['renderSplash'],
-      invoke: {
-        id: 'initialize',
-        src: initialize,
-        onDone: 'running'
+    unsolved: {
+      on: {
+        UNVERIFIED: 'unverified',
+        SIGNOUT: 'signedOut',
+        SIGNIN: 'signedIn'
       }
     },
-    running: {
-      initial: 'unsolved',
-      states: {
-        unsolved: {},
-        signedOut: {},
-        unverified: {},
-        signedIn: {}
-      }
+    signedOut: {
+      UNVERIFIED: 'unverified',
+      SIGNIN: 'signedIn'
+    },
+    unverified: {
+      SIGNOUT: 'signedOut',
+      SIGNIN: 'signedIn'
+    },
+    signedIn: {
+      SIGNOUT: 'signedOut'
     }
-  }
-},
-{
-  actions: {
-    renderSplash
   }
 });
 
 const appService = interpret(appMachine);
+
+// function navigateAfterUserStatusChange ({ user, status }) {
+//   if (!user || status === 'UNSOLVED') return;
+
+//   const state = (status === 'SIGNIN' && !user.emailVerified) ? 'UNVERIFIED' : status;
+//   const routesByState = {
+//     UNVERIFIED: 'unverified',
+//     SIGNOUT: 'login',
+//     SIGNIN: 'home'
+//   };
+
+//   const newRoute = routesByState[state];
+//   const oldRoute = router.currentRoute.name;
+//   if (newRoute !== oldRoute) {
+//     router.push(newRoute);
+//   }
+// }
 
 export { appService };
