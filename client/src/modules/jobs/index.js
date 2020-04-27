@@ -1,1 +1,1 @@
-export { PanelRun, PageJob, PageJobs } from './ui';
+export { PageRun, PageJob, PageJobs } from './ui';

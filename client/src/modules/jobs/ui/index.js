@@ -1,5 +1,5 @@
 import PageJob from './page-job';
 import PageJobs from './page-jobs';
-import PanelRun from './panel-run';
+import PageRun from './page-run';
 
-export { PanelRun, PageJob, PageJobs };
+export { PageRun, PageJob, PageJobs };

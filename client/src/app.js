@@ -1,10 +1,12 @@
 import { Machine, interpret } from 'xstate';
+import { router } from './core/router/router';
 
 const appMachine = Machine({
   id: 'appMachine',
   initial: 'unsolved',
   states: {
     unsolved: {
+      entry: ['renderUnsolved'],
       on: {
         UNVERIFIED: 'unverified',
         SIGNOUT: 'signedOut',
@@ -12,36 +14,47 @@ const appMachine = Machine({
       }
     },
     signedOut: {
-      UNVERIFIED: 'unverified',
-      SIGNIN: 'signedIn'
+      entry: ['renderLogin'],
+      on: {
+        UNVERIFIED: 'unverified',
+        SIGNIN: 'signedIn'
+      }
     },
     unverified: {
-      SIGNOUT: 'signedOut',
-      SIGNIN: 'signedIn'
+      entry: ['renderUnverified'],
+      on: {
+        SIGNOUT: 'signedOut',
+        SIGNIN: 'signedIn'
+      }
     },
     signedIn: {
-      SIGNOUT: 'signedOut'
+      entry: ['renderRun'],
+      on: {
+        SIGNOUT: 'signedOut'
+      }
     }
   }
-});
+},
+{
+  actions: {
+    renderUnsolved () {
+      router.push({ name: 'unsolved' });
+    },
+    renderRun () {
+      router.push({ name: 'run' });
+    },
+    renderUnverified () {
+      router.push({ name: 'unverified' });
+    },
+    renderLogin () {
+      router.push({ name: 'login' });
+    }
+  }
+
+}
+
+);
 
 const appService = interpret(appMachine);
-
-// function navigateAfterUserStatusChange ({ user, status }) {
-//   if (!user || status === 'UNSOLVED') return;
-
-//   const state = (status === 'SIGNIN' && !user.emailVerified) ? 'UNVERIFIED' : status;
-//   const routesByState = {
-//     UNVERIFIED: 'unverified',
-//     SIGNOUT: 'login',
-//     SIGNIN: 'home'
-//   };
-
-//   const newRoute = routesByState[state];
-//   const oldRoute = router.currentRoute.name;
-//   if (newRoute !== oldRoute) {
-//     router.push(newRoute);
-//   }
-// }
 
 export { appService };

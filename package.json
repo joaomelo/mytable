@@ -1,5 +1,5 @@
 {
-  "name": "myairtable",
+  "name": "my-table",
   "version": "0.13.2",
   "scripts": {
     "start": "npm run dev:client",

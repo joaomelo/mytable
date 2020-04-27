@@ -1,10 +1,9 @@
 import { FireauthMachine } from '@joaomelo/fireauth-machine';
-import { appService } from '__cli/app';
 import { fireauth } from '__cli/core/firebase';
 
 let fireauthMachine;
 
-function initFireauthMachine () {
+function initFireauthMachine (appService) {
   fireauthMachine = new FireauthMachine(fireauth);
   fireauthMachine.subscribe(({ user, status }) => {
     if (!user || status === 'UNSOLVED') return;

@@ -5,7 +5,7 @@
       dark
       color="primary"
     >
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'run' }">
         <v-toolbar-title class="white--text">
           {{ title }}
         </v-toolbar-title>
