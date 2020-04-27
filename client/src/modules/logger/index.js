@@ -1,2 +1,2 @@
 export { ListLogs } from './ui';
-export { logThis } from './domain';
+export { initLogsCollection, logThis } from './domain';

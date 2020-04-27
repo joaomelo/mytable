@@ -286,7 +286,7 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { InputTooltip } from '__cli/core/base';
-import { getJobsCollection } from '../domain';
+import { jobsCollection } from '../domain';
 
 export default {
   name: 'PageJob',
@@ -299,7 +299,6 @@ export default {
   },
   data () {
     return {
-      jobsCollection: undefined,
       job: {},
       requiredRule (v) {
         return !!v || 'Field is required';
@@ -325,26 +324,23 @@ export default {
   },
   mounted () {
     loader.start();
-    getJobsCollection().then(jobsCollection => {
-      this.jobsCollection = jobsCollection;
-      if (this.id !== 'add') {
-        const getItemPromise = this.jobsCollection.getItem(this.id);
-        getItemPromise.then(item => {
-          this.job = { ...item };
-          loader.stop();
-        });
-      } else {
+    if (this.id !== 'add') {
+      const getItemPromise = jobsCollection.getItem(this.id);
+      getItemPromise.then(item => {
+        this.job = { ...item };
         loader.stop();
-      }
-    });
+      });
+    } else {
+      loader.stop();
+    }
   },
   methods: {
     save () {
       if (this.$refs.form.validate()) {
         if (this.id === 'add') {
-          this.jobsCollection.add(this.job);
+          jobsCollection.add(this.job);
         } else {
-          this.jobsCollection.set(this.job);
+          jobsCollection.set(this.job);
         }
         this.$router.go(-1);
       }

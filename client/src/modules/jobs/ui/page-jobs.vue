@@ -53,31 +53,23 @@
 
 <script>
 import { loader } from '__cli/core/loader';
-import { getJobsCollection } from '../domain';
+import { jobsCollection } from '../domain';
 
 export default {
   name: 'PageJobs',
   data () {
     return {
-      jobsCollection: undefined,
-      subscription: undefined,
       jobs: []
     };
   },
-  mounted () {
+  async mounted () {
     loader.start();
-    getJobsCollection().then(jobsCollection => {
-      this.jobsCollection = jobsCollection;
-      this.subscription = this.jobsCollection.subscribe(items => { this.jobs = items; });
-      loader.stop();
-    });
-  },
-  unmounted () {
-    this.subscription();
+    this.jobs = await jobsCollection.getItems();
+    loader.stop();
   },
   methods: {
     del (id) {
-      this.jobsCollection.del(id);
+      jobsCollection.del(id);
     }
   }
 };

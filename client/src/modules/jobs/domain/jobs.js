@@ -3,15 +3,15 @@ import { firedb } from '__cli/core/firebase';
 import { fireauthMachine } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
-let __jobsCollection;
+let jobsCollection;
 
-async function getJobsCollection () {
-  if (!__jobsCollection) {
+function initJobsCollection () {
+  if (!jobsCollection) {
     fireauthMachine.subscribe(({ status }) => {
-      if (status === 'SIGNOUT') { __jobsCollection = undefined; };
+      if (status === 'SIGNOUT') { jobsCollection = null; };
     });
 
-    __jobsCollection = new HotCollection(firedb, 'jobs', {
+    jobsCollection = new HotCollection(firedb, 'jobs', {
       adapters: {
         docToItem (doc) {
           const job = { ...doc };
@@ -48,7 +48,7 @@ async function getJobsCollection () {
       }]
     });
   }
-  return __jobsCollection;
+  return jobsCollection;
 }
 
-export { getJobsCollection };
+export { initJobsCollection, jobsCollection };

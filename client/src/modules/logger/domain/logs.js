@@ -3,15 +3,15 @@ import moment from 'moment';
 import { firedb } from '__cli/core/firebase';
 import { fireauthMachine } from '__cli/core/auth';
 
-let __logsCollection;
+let logsCollection;
 
-function getLogsCollection () {
-  if (!__logsCollection) {
+function initLogsCollection () {
+  if (!logsCollection) {
     fireauthMachine.subscribe(({ status }) => {
-      if (status === 'SIGNOUT') { __logsCollection = undefined; };
+      if (status === 'SIGNOUT') { logsCollection = undefined; };
     });
 
-    __logsCollection = new HotCollection(firedb, 'logs', {
+    logsCollection = new HotCollection(firedb, 'logs', {
       where: [{
         field: 'userId',
         operator: '==',
@@ -37,15 +37,14 @@ function getLogsCollection () {
       }
     });
   }
-  return __logsCollection;
+  return logsCollection;
 }
 
 function subscribe (callback) {
-  getLogsCollection().then(logsCollection => logsCollection.subscribe(callback));
+  logsCollection.subscribe(callback);
 }
 
 async function logThis (msg) {
-  const logsCollection = await getLogsCollection();
   const now = new Date();
   return logsCollection.add({
     when: now,
@@ -53,4 +52,4 @@ async function logThis (msg) {
   });
 }
 
-export { subscribe, logThis };
+export { subscribe, logThis, initLogsCollection };
