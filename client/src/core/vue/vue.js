@@ -5,23 +5,19 @@ import { appEnviroment } from '__cli/core/meta';
 import { createRouter } from '__cli/core/router';
 import VueRoot from './vue-root';
 
-function initVue () {
-  Vue.use(Vuetify);
-  const vuetify = new Vuetify({});
+Vue.use(Vuetify);
+const vuetify = new Vuetify({});
 
-  Vue.use(VueRouter);
-  const router = createRouter(VueRouter);
+Vue.use(VueRouter);
+const router = createRouter(VueRouter);
 
-  Vue.config.productionTip = false;
-  Vue.config.silent = appEnviroment() === 'prod';
+Vue.config.productionTip = false;
+Vue.config.silent = appEnviroment() === 'prod';
 
-  const vueRoot = new Vue({
-    router,
-    vuetify,
-    render: h => h(VueRoot)
-  });
+const vueRoot = new Vue({
+  router,
+  vuetify,
+  render: h => h(VueRoot)
+});
 
-  vueRoot.$mount('#app');
-}
-
-export { initVue };
+vueRoot.$mount('#app');

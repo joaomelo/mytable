@@ -20,8 +20,8 @@
     </p>
     <v-card
       v-for="job in jobs"
-      v-else
       :key="job.id"
+      class="mt-1"
     >
       <v-card-title><strong>Table:&nbsp;</strong> {{ job.tableName }}</v-card-title>
       <v-card-subtitle><strong>Base:&nbsp;</strong> {{ job.baseId }}</v-card-subtitle>
@@ -62,14 +62,13 @@ export default {
       jobs: []
     };
   },
-  async mounted () {
-    loader.start();
-    this.jobs = await jobsCollection.getItems();
-    loader.stop();
+  mounted () {
+    jobsCollection.subscribe(items => { this.jobs = items; });
   },
   methods: {
     del (id) {
-      jobsCollection.del(id);
+      loader.start();
+      jobsCollection.del(id).finally(() => loader.stop());
     }
   }
 };

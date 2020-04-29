@@ -1,12 +1,24 @@
 <template>
-  <div>
-    <h1>my-table</h1>
-    <p>loading...</p>
-  </div>
+  <LayoutDialog
+    title="just a moment"
+  >
+    <template>
+      <p>We are loading the app's features. It will take just a moment.</p>
+    </template>
+  </LayoutDialog>
 </template>
 
 <script>
+import { LayoutDialog } from '__cli/core/layouts';
+
 export default {
-  name: 'PageSplash'
+  name: 'PageSplash',
+  components: { LayoutDialog },
+  data () {
+    return {
+      alertMessage: '',
+      alertType: ''
+    };
+  }
 };
 </script>

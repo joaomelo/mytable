@@ -1,4 +1,5 @@
-import { LayoutDesktop, PageSplash } from '__cli/core/layouts';
+import { PageSplash } from '__cli/core/layouts';
+import { LayoutDesktop } from '__cli/core/desktop';
 import { PageAuth, PageUnverified } from '__cli/core/auth';
 import { PageRun, PageJobs, PageJob } from '__cli/modules/jobs';
 

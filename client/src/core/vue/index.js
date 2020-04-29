@@ -1,1 +1,1 @@
-export { initVue } from './vue';
+import './vue';

@@ -13,14 +13,8 @@ const firebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
 
-let fireapp, fireauth, firedb;
+const fireapp = firebase.initializeApp(firebaseConfig);
+const fireauth = fireapp.auth();
+const firedb = fireapp.firestore();
 
-async function initFirebase () {
-  if (!fireapp) {
-    fireapp = firebase.initializeApp(firebaseConfig);
-    fireauth = fireapp.auth();
-    firedb = fireapp.firestore();
-  }
-}
-
-export { initFirebase, fireapp, fireauth, firedb };
+export { fireapp, fireauth, firedb };

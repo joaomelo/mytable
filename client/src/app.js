@@ -1,7 +1,5 @@
 import { Machine, interpret } from 'xstate';
 import { router } from '__cli/core/router/router';
-import { initJobsCollection } from '__cli/modules/jobs';
-import { initLogsCollection } from '__cli/modules/logger';
 
 const appMachine = Machine({
   id: 'appMachine',
@@ -30,7 +28,7 @@ const appMachine = Machine({
       }
     },
     signedIn: {
-      entry: ['renderRun', 'initCollections'],
+      entry: ['renderRun'],
       on: {
         SIGNOUT: 'signedOut'
       }
@@ -44,10 +42,6 @@ const appMachine = Machine({
     },
     renderRun () {
       router.push({ name: 'run' });
-    },
-    initCollections () {
-      initLogsCollection();
-      initJobsCollection();
     },
     renderUnverified () {
       router.push({ name: 'unverified' });

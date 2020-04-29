@@ -1,4 +1,4 @@
+import LayoutDialog from './layout-dialog';
 import PageSplash from './page-splash';
-import LayoutDesktop from './layout-desktop';
 
-export { PageSplash, LayoutDesktop };
+export { PageSplash, LayoutDialog };

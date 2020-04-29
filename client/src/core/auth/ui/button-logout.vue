@@ -11,8 +11,7 @@
 </template>
 
 <script>
-import { loader } from '__cli/core/loader';
-import { fireauthMachine } from '../domain';
+import { usernameSubject, signOut } from '../domain';
 
 export default {
   name: 'ButtonLogout',
@@ -24,23 +23,17 @@ export default {
   },
   data () {
     return {
-      logoutTag: 'Logout',
-      logoutText: null
+      logoutText: 'Logout'
     };
   },
   mounted () {
-    if (this.showUser) {
-      const email = fireauthMachine.user.email;
-      const username = email.substring(0, email.indexOf('@'));
-      this.logoutText = `${this.logoutTag} from ${username}`;
-    } else {
-      this.logoutText = this.logoutTag;
-    }
+    usernameSubject.subscribe(username => {
+      this.logoutText = (username && this.showUser) ? `Logout from ${username}` : 'Logout';
+    });
   },
   methods: {
     logout () {
-      loader.start();
-      fireauthMachine.service.signOut().then(() => loader.stop());
+      signOut();
     }
   }
 };
