@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { LayoutDialog } from '__cli/core/layouts';
+import LayoutDialog from './layout-dialog';
 
 export default {
   name: 'PageSplash',

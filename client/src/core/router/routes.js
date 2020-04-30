@@ -13,7 +13,8 @@ const routes = [
     children: [
       { path: '/run', name: 'run', component: PageRun },
       { path: '/jobs', name: 'jobs', component: PageJobs },
-      { path: '/job/:id', name: 'job', component: PageJob, props: true }
+      { path: '/job/:id', name: 'job', component: PageJob, props: true },
+      { path: '/account', name: 'account', component: PageJobs }
     ]
   }
 ];

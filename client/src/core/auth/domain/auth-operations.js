@@ -31,9 +31,9 @@ function signIn (credentials) {
     .finally(() => loader.stop());
 }
 
-function signOut () {
+function logout () {
   loader.start();
   return fireauth.signOut().finally(() => loader.stop());
 }
 
-export { signUp, sendEmailVerification, signIn, signOut };
+export { signUp, sendEmailVerification, signIn, logout };

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { usernameSubject, signOut } from '../domain';
+import { usernameSubject, logout } from '../domain';
 
 export default {
   name: 'ButtonLogout',
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     logout () {
-      signOut();
+      logout();
     }
   }
 };
