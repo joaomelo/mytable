@@ -4,6 +4,7 @@ import { authSubject } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
 let jobsCollection;
+
 authSubject.subscribe(({ user, status }) => {
   if (status === 'SIGNIN') {
     resetJobsCollection(user.uid);
@@ -13,9 +14,10 @@ authSubject.subscribe(({ user, status }) => {
 });
 
 function resetJobsCollection (userId) {
-  jobsCollection = new HotCollection(firedb, 'jobs', {
-    adapters: {
-      docToItem (doc) {
+  jobsCollection = new HotCollection('jobs', {
+    adapter: { firestore: firedb },
+    converters: {
+      fromDocToItem (doc) {
         const job = { ...doc };
 
         // creating airtable table
@@ -33,18 +35,20 @@ function resetJobsCollection (userId) {
         return job;
       },
 
-      itemToDoc (job) {
+      fromItemToDoc (job) {
         delete job.table; // removing table reference before saving
         const doc = { ...job };
         doc.userId = userId;
         return doc;
       }
     },
-    where: [{
-      field: 'userId',
-      operator: '==',
-      value: userId
-    }]
+    query: {
+      where: [{
+        field: 'userId',
+        operator: '==',
+        value: userId
+      }]
+    }
   });
 };
 

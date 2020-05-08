@@ -4,7 +4,7 @@
   >
     <v-btn
       color="primary"
-      :disabled="isTimerOn"
+      :disabled="isTimerOn || !hasJobs"
       @click="update"
     >
       Run
@@ -13,6 +13,7 @@
     <CountdownTimer
       ref="timer"
       class="ml-5"
+      :disabled="!hasJobs"
       @timer="update"
       @started="isTimerOn = true"
       @stopped="isTimerOn = false"
@@ -23,15 +24,21 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { CountdownTimer } from '__cli/core/base';
-import { runAllJobs } from '../domain';
+import { runAllJobs, jobsCollection } from '../domain';
 
 export default {
   name: 'PanelRun',
   components: { CountdownTimer },
   data () {
     return {
-      isTimerOn: false
+      isTimerOn: false,
+      hasJobs: false
     };
+  },
+  mounted () {
+    jobsCollection && jobsCollection.subscribe(jobs => {
+      this.hasJobs = jobs.length > 0;
+    });
   },
   methods: {
     update () {

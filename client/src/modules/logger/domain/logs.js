@@ -1,53 +1,50 @@
 import HotCollection from '@joaomelo/hot-collection';
 import moment from 'moment';
-import { firedb } from '__cli/core/firebase';
 import { authSubject } from '__cli/core/auth';
 
 let logsCollection;
+let userId;
+
 authSubject.subscribe(({ user, status }) => {
   if (status === 'SIGNIN') {
-    resetLogsCollection(user.uid);
+    userId = user.uid;
+    resetLogsCollection();
   } else {
     logsCollection = null;
   }
 });
 
-function resetLogsCollection (userId) {
-  logsCollection = new HotCollection(firedb, 'logs', {
-    where: [{
-      field: 'userId',
-      operator: '==',
-      value: userId
-    }],
-    orderBy: {
-      field: 'when',
-      sort: 'desc'
-    },
-    limit: 10,
-    adapters: {
-      docToItem (doc) {
-        return {
+function resetLogsCollection () {
+  logsCollection = new HotCollection('logs', {
+    adapter: { localStorage: window.localStorage },
+    converters: {
+      fromDocToItem (doc) {
+        const item = {
           msg: doc.msg,
-          when: moment(doc.when.toDate()).format('YY-MMM-DD HH:mm:ss')
+          when: moment(doc.when).format('YY-MMM-DD HH:mm:ss')
         };
-      },
-      itemToDoc (item) {
-        const doc = { ...item };
-        doc.userId = userId;
-        return doc;
+        return item;
       }
     }
   });
 }
 
-function subscribe (callback) {
-  logsCollection.subscribe(callback);
+function subscribe (observer) {
+  if (!logsCollection) return;
+
+  logsCollection.subscribe(logs => {
+    const filteredAndSortedLogs = logs
+      .filter(log => log.userId === userId)
+      .sort((a, b) => b.when - a.when);
+    observer(filteredAndSortedLogs);
+  });
 }
 
 async function logThis (msg) {
   const now = new Date();
   return logsCollection.add({
     when: now,
+    userId,
     msg
   });
 }

@@ -2,14 +2,17 @@
   <div class="d-flex justify-center align-center">
     <span
       class="title"
+      :class="{'grey--text text--lighten-1': disabled}"
     >{{ prettyRemaining }}</span>
     <v-btn
+      :disabled="disabled"
       icon
       @click="start"
     >
       <v-icon>mdi-play</v-icon>
     </v-btn>
     <v-btn
+      :disabled="disabled"
       icon
       @click="stop"
     >
@@ -24,6 +27,10 @@ const ONE_MINUTE_IN_SECONDS = 5 * 60;
 export default {
   name: 'CountdownTimer',
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     cycle: {
       type: Number,
       default: ONE_MINUTE_IN_SECONDS
@@ -37,6 +44,10 @@ export default {
   },
   computed: {
     prettyRemaining () {
+      if (this.disabled) {
+        return '--:--';
+      }
+
       if (!this.remainning || this.remainning <= 0) {
         return '00:00';
       }

@@ -1,6 +1,13 @@
 <template>
   <div>
     <v-card
+      v-if="logs.length <= 0"
+    >
+      <v-card-title class="justify-center">
+        Run or Create new Jobs
+      </v-card-title>
+    </v-card>
+    <v-card
       v-for="log in logs"
       :key="log.id"
       class="mb-1"
@@ -21,7 +28,7 @@ export default {
     };
   },
   mounted () {
-    subscribe(newLogs => { this.logs = newLogs; });
+    subscribe(newLogs => { this.logs = newLogs.slice(0, 10); });
   }
 };
 </script>
