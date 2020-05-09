@@ -17,7 +17,7 @@
     "release:major": "npm run bump:major && npm run deploy"
   },
   "dependencies": {
-    "@joaomelo/hot-collection": "^0.8.15",
+    "@joaomelo/hot-collection": "^0.8.16",
     "airtable": "^0.8.1",
     "bottleneck": "^2.19.5",
     "core-js": "^3.6.5",
@@ -62,7 +62,7 @@
     "vuetify-loader": "^1.4.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   }
 }

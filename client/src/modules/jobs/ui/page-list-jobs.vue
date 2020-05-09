@@ -5,7 +5,7 @@
         Jobs
       </h1>
       <v-btn
-        :to="{ name: 'job', params: { id: 'add' } }"
+        :to="{ name: 'job-new' }"
         class="ml-auto"
         color="info"
       >
@@ -28,7 +28,7 @@
       <v-divider />
       <v-card-actions>
         <v-btn
-          :to="{ name: 'job', params: { id: job.id } }"
+          :to="{ name: 'job-edit', params: { id: job.id } }"
           color="warning"
           class="ml-auto"
         >
@@ -53,22 +53,31 @@
 
 <script>
 import { loader } from '__cli/core/loader';
-import { jobsCollection } from '../domain';
+import { jobsCollectionUpdateSignal } from '../domain';
 
 export default {
-  name: 'PageJobs',
+  name: 'PageListJobs',
   data () {
     return {
+      jobsCollection: null,
       jobs: []
     };
   },
   mounted () {
-    jobsCollection.subscribe(items => { this.jobs = items; });
+    const unsub = jobsCollectionUpdateSignal.subscribe(jobsCollection => {
+      this.jobsCollection = jobsCollection;
+      if (jobsCollection) {
+        jobsCollection.subscribe(jobs => { this.jobs = jobs; });
+      }
+    });
+    this.unsubscribe = unsub;
+  },
+  unmounted () {
+    this.unsubscribe();
   },
   methods: {
     del (id) {
-      loader.start();
-      jobsCollection.del(id).finally(() => loader.stop());
+      loader.run(this.jobsCollection.del(id));
     }
   }
 };

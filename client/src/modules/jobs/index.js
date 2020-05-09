@@ -1,1 +1,1 @@
-export { PageRun, PageJob, PageJobs } from './ui';
+export { PageRun, PageNewJob, PageEditJob, PageListJobs } from './ui';

@@ -295,22 +295,20 @@
 </template>
 
 <script>
-import { loader } from '__cli/core/loader';
 import { InputTooltip } from '__cli/core/base';
-import { jobsCollection } from '../domain';
 
 export default {
-  name: 'PageJob',
+  name: 'FormJob',
   components: { InputTooltip },
   props: {
-    id: {
-      type: String,
-      required: true
+    originalJob: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
     return {
-      job: {},
+      job: { ...this.originalJob },
       requiredRule (v) {
         return !!v || 'Field is required';
       }
@@ -333,31 +331,12 @@ export default {
       }
     }
   },
-  mounted () {
-    loader.start();
-    if (this.id !== 'add') {
-      const getItemPromise = jobsCollection.getItem(this.id);
-      getItemPromise.then(item => {
-        this.job = { ...item };
-        loader.stop();
-      });
-    } else {
-      loader.stop();
-    }
-  },
   methods: {
     save () {
-      if (this.$refs.form.validate()) {
-        if (this.id === 'add') {
-          jobsCollection.add(this.job);
-        } else {
-          jobsCollection.set(this.job);
-        }
-        this.$router.go(-1);
-      }
+      this.$emit('save', this.job);
     },
     cancel () {
-      this.$router.go(-1);
+      this.$emit('cancel');
     }
   }
 };

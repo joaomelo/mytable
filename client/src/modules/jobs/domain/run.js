@@ -1,14 +1,21 @@
 import { loader } from '__cli/core/loader';
 import { logThis } from '__cli/modules/logger';
 import { batchCommands } from '__cli/modules/batch';
-import { jobsCollection } from './jobs';
+import { jobsCollectionUpdateSignal } from './jobs';
+
+let allJobs = [];
+jobsCollectionUpdateSignal.subscribe(jobsCollection => jobsCollection && jobsCollection.subscribe(jobs => { allJobs = jobs; }));
 
 async function runAllJobs () {
+  if (!allJobs || allJobs.length <= 0) {
+    throw new Error('No jobs available');
+  }
+
   try {
     loader.start();
-    const jobs = await jobsCollection.getItems();
+    logThis('started to run jobs');
     const jobsPromises = [];
-    jobs.forEach(job => {
+    allJobs.forEach(job => {
       jobsPromises.push(runJob(job));
     });
     await Promise.all(jobsPromises);

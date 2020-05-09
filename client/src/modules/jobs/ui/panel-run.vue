@@ -24,7 +24,7 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { CountdownTimer } from '__cli/core/base';
-import { runAllJobs, jobsCollection } from '../domain';
+import { runAllJobs, jobsCollectionUpdateSignal } from '../domain';
 
 export default {
   name: 'PanelRun',
@@ -36,9 +36,16 @@ export default {
     };
   },
   mounted () {
-    jobsCollection && jobsCollection.subscribe(jobs => {
-      this.hasJobs = jobs.length > 0;
+    const unsub = jobsCollectionUpdateSignal.subscribe(jobsCollection => {
+      this.jobsCollection = jobsCollection;
+      if (jobsCollection) {
+        jobsCollection.subscribe(jobs => { this.hasJobs = jobs.length > 0; });
+      }
     });
+    this.unsubscribe = unsub;
+  },
+  unmounted () {
+    this.unsubscribe();
   },
   methods: {
     update () {

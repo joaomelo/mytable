@@ -1,20 +1,19 @@
+import { BehaviorSubject } from 'rxjs';
 import HotCollection from '@joaomelo/hot-collection';
 import { firedb } from '__cli/core/firebase';
 import { authSubject } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
-let jobsCollection;
-
+const jobsCollectionUpdateSignal = new BehaviorSubject(null);
 authSubject.subscribe(({ user, status }) => {
-  if (status === 'SIGNIN') {
-    resetJobsCollection(user.uid);
-  } else {
-    jobsCollection = null;
-  }
+  const jobsCollection = status === 'SIGNIN'
+    ? createJobsCollection(user.uid)
+    : null;
+  jobsCollectionUpdateSignal.next(jobsCollection);
 });
 
-function resetJobsCollection (userId) {
-  jobsCollection = new HotCollection('jobs', {
+function createJobsCollection (userId) {
+  const jobsCollection = new HotCollection('jobs', {
     adapter: { firestore: firedb },
     converters: {
       fromDocToItem (doc) {
@@ -50,6 +49,8 @@ function resetJobsCollection (userId) {
       }]
     }
   });
+
+  return jobsCollection;
 };
 
-export { jobsCollection };
+export { jobsCollectionUpdateSignal };

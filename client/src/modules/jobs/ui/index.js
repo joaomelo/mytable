@@ -1,5 +1,6 @@
-import PageJob from './page-job';
-import PageJobs from './page-jobs';
+import PageNewJob from './page-new-job';
+import PageEditJob from './page-edit-job';
+import PageListJobs from './page-list-jobs';
 import PageRun from './page-run';
 
-export { PageRun, PageJob, PageJobs };
+export { PageRun, PageNewJob, PageEditJob, PageListJobs };
