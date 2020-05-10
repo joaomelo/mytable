@@ -32,14 +32,14 @@ My-table hosting and database rely on [Firebase](https://firebase.google.com/). 
 
 So, after the Firebase project is available you fo to `client\cfg` folder and create a `dev.env` and `prod.env` with the content bellow, replacing the assignments with proper values.
 
-FIREBASE_API_KEY=foobar
-FIREBASE_AUTH_DOMAIN=foobar
-FIREBASE_DATABASE_URL=foobar
-FIREBASE_PROJECT_ID=foobar
-FIREBASE_STORAGE_BUCKET=foobar
-FIREBASE_MSG_SENDER_ID=foobar
-FIREBASE_APP_ID=foobar
-SIGN_UP=ENABLE
+    FIREBASE_API_KEY=foobar
+    FIREBASE_AUTH_DOMAIN=foobar
+    FIREBASE_DATABASE_URL=foobar
+    FIREBASE_PROJECT_ID=foobar
+    FIREBASE_STORAGE_BUCKET=foobar
+    FIREBASE_MSG_SENDER_ID=foobar
+    FIREBASE_APP_ID=foobar
+    SIGN_UP=ENABLE
 
 The SIGN_UP env value controls whether the login UI also make available a sign up form. In my personal production instance of **my-table** i keep it DISABLE, since i am currently terrified of holding other people Airtable Api Keys.
 
