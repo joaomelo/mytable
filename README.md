@@ -1,26 +1,95 @@
-# myairtable
+# my-table
 
-this is a personal web app that complements my use of an [airtable](https://www.airtable.com) base for personal management.
+My-table is a web app that complements my personal workflow for [Airtable](https://www.airtable.com). This app runs a script that enables organizing items in a tree structure and basic automation to creating recursive tasks.
 
-i think this code could be of any use to you if you want to:
+## Motivation
 
-- represent some tree data structure since airtable limits the use of formulas with fields that link to records in the same table.
-- create records that obey some recurring time logic (still in development)
+I am heavy Airtable user. I love its data structure flexibility, nice ui and formulas. But two thing were always missing to close my self-management database: organize my tasks in a tree structure and create recursive tasks. I build this to overcome this. Now I am sharing the code in the case it could help others. Be my guest 😊. 
 
-i still update some other stuff in the base, but they are very basic cases and is my opinion that the airtable api documentation is much more useful for those situations than this code.
+This README sections:
 
-# stack
+- [App Features](#app-features)
+- [Getting Started](#getting-started)
+- [Development Guidelines](#development-guidelines)
 
-i use [vue](https://vuejs.org/) and [bootstrap](https://getbootstrap.com/) in the frontend because i am familiar with them but there is no real need for the tech. i store all the log data in [firebase](https://firebase.google.com/) because firebase is cheap (in this case free) and so easy to use.
+# App Features
 
-to manage airtable limits of access rate i use [bottleneck](https://www.npmjs.com/package/bottleneck). to deal with dates and recurring events i use [moment](https://momentjs.com/) and [@rschedule](https://www.npmjs.com/package/@rschedule/rschedule) respectively.
+The most important concept of the app is **jobs**. A job is a configuration about how an Airtable's table should be transformed by the app.
 
-everything else in package.json is derived from that.
+In the jobs UI, the user specify the table location, its fields and guiding parameters like if emojis should be used in path field or if recurring items should be handled. All options are accompany by helping tooltips.
 
-# basic logic
+After at least one job is created, the user can press the run command in the home screen to apply all jobs instructions. The user can also activate a timer in the home screen that will run all jobs every five minutes.
 
-the app updates and creates data in airtable using logic that their app does not support. this logic is contained in a set of transforming functions, each one for some piece of business calculation. the operation starts by manually pressing an update button in the app ui.
+# Getting Started
 
-after the button is pressed, airtable data is copied in a snapshot of the base and some transforming functions are registered in a batcher object. this functions will be run against every record of the base and produce create or update commands if necessary. at the end, every command will be sent to airtable asynchronously.
+To run my-table you first have to clone the repo.
 
-inside path and recurrence subfolders residing in airtable folder there is the logic for dealing with tree data structure and creating recurring records based on another template record.
+  git clone https://github.com/joaomelo/my-table.git
+
+## Setting Environment Variables
+
+My-table hosting and database rely on [Firebase](https://firebase.google.com/). So you will need to create a project and point to it using environment file.
+
+So, after the Firebase project is available you fo to `client\cfg` folder and create a `dev.env` and `prod.env` with the content bellow, replacing the assignments with proper values.
+
+FIREBASE_API_KEY=foobar
+FIREBASE_AUTH_DOMAIN=foobar
+FIREBASE_DATABASE_URL=foobar
+FIREBASE_PROJECT_ID=foobar
+FIREBASE_STORAGE_BUCKET=foobar
+FIREBASE_MSG_SENDER_ID=foobar
+FIREBASE_APP_ID=foobar
+SIGN_UP=ENABLE
+
+The SIGN_UP env value controls whether the login UI also make available a sign up form. In my personal production instance of **my-table** i keep it DISABLE, since i am currently terrified of holding other people Airtable Api Keys.
+
+Don't forget to add the bothe `.env` files to your `.gitignore` list. All this data should be private.
+
+## Running Locally 
+
+Now install the dependencies and run the start script. Now you will probably see the app running on `http://localhost:8080/`
+
+    npm install
+    npm start
+
+Other script in in the `package.json` can be useful like build or deploy.
+
+# Development Guidelines
+
+The stack is pretty standard, so is probably easy for any web developer to tweak the code as you like. I will talk about some things that may help.
+
+## Tooling
+
+The development tolling is unsurprisingly composed of [webpack](https://webpack.js.org/) and basic loaders, [babel](https://babeljs.io/) and [eslint](https://eslint.org/). 
+
+They are all listed in the `package.json devDependencies` field and the corresponding config files are listed in the project root directory. Except for webpack files which are inside the `\client\cfg` folder.
+
+## The Stack
+
+The app UI is built with [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/) and [Vue-Router](https://router.vuejs.org/).
+
+The project uses [Firebase](https://firebase.google.com/) for database store, hosting and authentication. Check `firebase.json` and `firestore.rules` files to understand and update the setup if desired.
+
+I also make use of a package i built to make database operations more easy to code in the client. It is called [hot-collection](https://www.npmjs.com/package/@joaomelo/hot-collection).
+
+To connect to Airtable i use their official [js browser package](https://github.com/Airtable/airtable.js). I plugged [bottleneck](https://www.npmjs.com/package/bottleneck) to avoid breaking Airtable api call limits.
+
+The [moment](https://www.npmjs.com/package/moment) library is used to help deal with recurrence logic and datetime formatting and [rxjs](https://www.npmjs.com/package/rxjs) to make event handling saner.
+
+## How to Navigate the Code
+
+The `/client/src` folder is where the app code resides. It is divided between `core` and `modules`. In core you will find utility features like authentication and routing.
+
+The `modules` folder is where business logic resides. The batch and common subfolders have code to identify and dispatch commands to Airtable.
+
+The `jobs` folder deals with setting up where and how the script should be applied to Airtable data. The `logger` folder has instructions for showing and exporting the history of operations. 
+
+Have fun 🎉.
+
+# Wrapping up
+
+Well... i think this is it. If you have any doubts contact me in [twitter](https://twitter.com/joaomeloplus). I handle a daytime job, wife and three full of energy kids to take care of. It could take a while to respond but I will try to leave no fellow human behind 😊.
+
+# License
+
+Made by [João Melo](https://twitter.com/joaomeloplus) and licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.

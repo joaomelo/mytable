@@ -11,10 +11,7 @@
     "bump:minor": "npm run lint && npm run commit && npm version minor && npm run push",
     "bump:major": "npm run lint && npm run commit && npm version major && npm run push",
     "build": "rimraf client/dist/* && webpack --config client/cfg/webpack.prod.js --profile --json > client/cfg/webpack.prod.stats.json",
-    "deploy": "npm run build && firebase deploy",
-    "release:patch": "npm run bump:patch && npm run deploy",
-    "release:minor": "npm run bump:minor && npm run deploy",
-    "release:major": "npm run bump:major && npm run deploy"
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
     "@joaomelo/hot-collection": "^0.8.17",

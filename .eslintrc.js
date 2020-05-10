@@ -2,6 +2,7 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint'
   },
+  ignorePatterns: ["/client/dist/*"],
   rules: {
     semi: ['error', 'always'],
     'no-debugger': 'off'
