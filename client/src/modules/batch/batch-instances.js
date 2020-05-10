@@ -6,7 +6,8 @@ import {
   isActive,
   isRecurrent,
   calcRecurrenceType,
-  hasActiveChildren
+  hasActiveChildren,
+  countDepth
 } from '__cli/modules/common';
 
 function batchInstances (jobIteration) {
@@ -37,7 +38,13 @@ function batchInstances (jobIteration) {
 
     childrenTitles.forEach(title => {
       const child = { ...instanceTemplate };
-      child[job.titleField] = title;
+
+      const levelSymbol = job.levelTitleSymbol;
+      const pureTitle = title;
+      const depth = countDepth(jobIteration) + 1;
+      const newTitle = levelSymbol.repeat(depth) + pureTitle;
+      child[job.titleField] = newTitle;
+
       child[job.pathField] = mountPath({ item: child, items, job });
 
       job.table.batchCreate(child);

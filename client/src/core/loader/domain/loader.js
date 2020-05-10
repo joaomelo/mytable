@@ -4,6 +4,12 @@ const loader = {
     status: 'IDLE'
   },
 
+  run (promiseOrFunction) {
+    this.start();
+    const promise = typeof promiseOrFunction === 'function' ? promiseOrFunction() : promiseOrFunction;
+    promise.finally(this.stop());
+  },
+
   start () {
     this.state.stack++;
     this.state.status = 'LOADING';

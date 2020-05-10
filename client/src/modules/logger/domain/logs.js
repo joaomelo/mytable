@@ -1,55 +1,54 @@
+import Vue from 'vue';
 import HotCollection from '@joaomelo/hot-collection';
 import moment from 'moment';
-import { firedb } from '__cli/core/firebase';
 import { authSubject } from '__cli/core/auth';
 
-let logsCollection;
+const logsStore = {
+  logsCollection: null,
+  logs: [],
+  userId: null
+};
+Vue.observable(logsStore);
+
 authSubject.subscribe(({ user, status }) => {
-  if (status === 'SIGNIN') {
-    resetLogsCollection(user.uid);
-  } else {
-    logsCollection = null;
+  const logsCollection = (status === 'SIGNIN') ? createLogsCollection() : null;
+  if (logsCollection) {
+    logsCollection.subscribe(logs => {
+      const filteredAndSortedLogs = logs
+        .filter(log => log.userId === logsStore.userId)
+        .sort((a, b) => b.when - a.when);
+      logsStore.logs = filteredAndSortedLogs;
+    });
   }
+
+  logsStore.logsCollection = logsCollection;
+  logsStore.userId = (status === 'SIGNIN') ? user.uid : null;
 });
 
-function resetLogsCollection (userId) {
-  logsCollection = new HotCollection(firedb, 'logs', {
-    where: [{
-      field: 'userId',
-      operator: '==',
-      value: userId
-    }],
-    orderBy: {
-      field: 'when',
-      sort: 'desc'
-    },
-    limit: 10,
-    adapters: {
-      docToItem (doc) {
-        return {
-          msg: doc.msg,
-          when: moment(doc.when.toDate()).format('YY-MMM-DD HH:mm:ss')
+function createLogsCollection () {
+  const logsCollection = new HotCollection('logs', {
+    adapter: 'in-memory',
+    converters: {
+      fromDocToItem (doc) {
+        const item = {
+          ...doc,
+          when: new Date(doc.when),
+          prettyWhen: moment(doc.when).format('YY-MMM-DD HH:mm:ss')
         };
-      },
-      itemToDoc (item) {
-        const doc = { ...item };
-        doc.userId = userId;
-        return doc;
+        return item;
       }
     }
   });
+  return logsCollection;
 }
 
-function subscribe (callback) {
-  logsCollection.subscribe(callback);
-}
-
-async function logThis (msg) {
-  const now = new Date();
-  return logsCollection.add({
-    when: now,
+function logThis (msg) {
+  const item = {
+    when: new Date(),
+    userId: logsStore.userId,
     msg
-  });
+  };
+  return logsStore.logsCollection.add(item);
 }
 
-export { subscribe, logThis };
+export { logsStore, logThis };

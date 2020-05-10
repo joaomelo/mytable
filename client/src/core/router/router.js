@@ -1,29 +1,45 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import { authSubject } from '__cli/core/auth';
 import { routes } from './routes';
 
-let router;
+Vue.use(VueRouter);
 
-function createRouter (VueRouter) {
-  router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
-  });
+let currentStatus;
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+});
 
-  return router;
-}
+authSubject.subscribe(({ status }) => {
+  currentStatus = status;
+  const routesForStatus = {
+    UNSOLVED: 'unsolved',
+    UNVERIFIED: 'unverified',
+    SIGNOUT: 'login',
+    SIGNIN: 'run'
+  };
 
-// getFireauthMachine().then(fireauthMachine => {
-//   router.beforeEach((to, from, next) => {
-//     const isGoingToOpenRoute = to.name === 'login';
-//     const isSignedIn = fireauthMachine.status === 'SIGNIN';
-//     const isFreeToGo = isGoingToOpenRoute || isSignedIn;
+  const currentName = router.currentRoute.name;
+  const nextName = routesForStatus[status];
 
-//     if (isFreeToGo) {
-//       next();
-//     } else {
-//       next(false);
-//     }
-//   });
-// });
+  if (currentName !== nextName) {
+    router.push({ name: nextName });
+  }
+});
 
-export { createRouter, router };
+router.beforeEach((to, from, next) => {
+  const openRouteNames = ['unsolved', 'login', 'unverified'];
+  const isGoingToOpenRoute = openRouteNames.includes(to.name);
+  const isSignedIn = currentStatus === 'SIGNIN';
+  const isFreeToGo = isGoingToOpenRoute || isSignedIn;
+
+  if (isFreeToGo) {
+    next();
+  } else {
+    next(false);
+  }
+});
+
+export { router };

@@ -1,21 +1,23 @@
+import { BehaviorSubject } from 'rxjs';
 import HotCollection from '@joaomelo/hot-collection';
 import { firedb } from '__cli/core/firebase';
 import { authSubject } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
-let jobsCollection;
+const jobsCollectionUpdateSignal = new BehaviorSubject(null);
 authSubject.subscribe(({ user, status }) => {
-  if (status === 'SIGNIN') {
-    resetJobsCollection(user.uid);
-  } else {
-    jobsCollection = null;
-  }
+  const jobsCollection = status === 'SIGNIN'
+    ? createJobsCollection(user.uid)
+    : null;
+  jobsCollectionUpdateSignal.next(jobsCollection);
 });
 
-function resetJobsCollection (userId) {
-  jobsCollection = new HotCollection(firedb, 'jobs', {
-    adapters: {
-      docToItem (doc) {
+function createJobsCollection (userId) {
+  const jobsCollection = new HotCollection('jobs', {
+    adapter: { firestore: firedb },
+    saveMode: 'safe',
+    converters: {
+      fromDocToItem (doc) {
         const job = { ...doc };
 
         // creating airtable table
@@ -33,19 +35,23 @@ function resetJobsCollection (userId) {
         return job;
       },
 
-      itemToDoc (job) {
+      fromItemToDoc (job) {
         delete job.table; // removing table reference before saving
         const doc = { ...job };
         doc.userId = userId;
         return doc;
       }
     },
-    where: [{
-      field: 'userId',
-      operator: '==',
-      value: userId
-    }]
+    query: {
+      where: [{
+        field: 'userId',
+        operator: '==',
+        value: userId
+      }]
+    }
   });
+
+  return jobsCollection;
 };
 
-export { jobsCollection };
+export { jobsCollectionUpdateSignal };
