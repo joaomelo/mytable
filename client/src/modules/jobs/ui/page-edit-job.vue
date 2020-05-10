@@ -1,18 +1,10 @@
 <template>
-  <div>
-    <v-alert
-      v-if="isReady"
-      type="warning"
-    >
-      Conditions to edit job not met
-    </v-alert>
-    <FormJob
-      v-else
-      :original-job="job"
-      @save="edit"
-      @cancel="cancel"
-    />
-  </div>
+  <FormJob
+    v-if="isReady"
+    :original-job="job"
+    @save="edit"
+    @cancel="cancel"
+  />
 </template>
 
 <script>
@@ -55,7 +47,7 @@ export default {
   },
   methods: {
     edit (job) {
-      loader.run(this.jobsCollection.set(this.job));
+      loader.run(this.jobsCollection.set(job));
       this.$router.go(-1);
     },
     cancel () {

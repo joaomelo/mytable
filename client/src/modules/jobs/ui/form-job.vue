@@ -42,17 +42,6 @@
                 />
               </template>
             </v-text-field>
-            <v-checkbox
-              v-model="job.saveLogsToAirtable"
-              label="Save Logs To Airtable"
-              class="my-0"
-            >
-              <template v-slot:append>
-                <InputTooltip
-                  hint="For every command submitted by the job, my-table creates a log record. If this option is checked, the logs are saved in the Airtable, if uncheck the logs are save locally in the browser local store. To save in Airtable you must have a 'logs' table with a date field named 'when' and a text field named 'msg'."
-                />
-              </template>
-            </v-checkbox>
             <v-divider class="my-5" />
 
             <h2>Tree Setup</h2>

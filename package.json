@@ -17,7 +17,7 @@
     "release:major": "npm run bump:major && npm run deploy"
   },
   "dependencies": {
-    "@joaomelo/hot-collection": "^0.8.16",
+    "@joaomelo/hot-collection": "^0.8.17",
     "airtable": "^0.8.1",
     "bottleneck": "^2.19.5",
     "core-js": "^3.6.5",

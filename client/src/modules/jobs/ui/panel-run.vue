@@ -1,23 +1,30 @@
 <template>
-  <div
-    class="d-flex justify-center"
-  >
-    <v-btn
-      color="primary"
-      :disabled="isTimerOn || !hasJobs"
-      @click="update"
+  <div>
+    <div class="d-flex justify-center">
+      <v-btn
+        color="primary"
+        :disabled="isTimerOn || !hasJobs || !!error"
+        @click="update"
+      >
+        Run
+      </v-btn>
+      <v-spacer />
+      <CountdownTimer
+        ref="timer"
+        class="ml-5"
+        :disabled="!hasJobs || !!error"
+        @timer="update"
+        @started="isTimerOn = true"
+        @stopped="isTimerOn = false"
+      />
+    </div>
+    <v-alert
+      v-if="error"
+      type="error"
+      class="mt-1"
     >
-      Run
-    </v-btn>
-    <v-spacer />
-    <CountdownTimer
-      ref="timer"
-      class="ml-5"
-      :disabled="!hasJobs"
-      @timer="update"
-      @started="isTimerOn = true"
-      @stopped="isTimerOn = false"
-    />
+      {{ error }}
+    </v-alert>
   </div>
 </template>
 
@@ -31,11 +38,21 @@ export default {
   components: { CountdownTimer },
   data () {
     return {
+      error: null,
       isTimerOn: false,
       hasJobs: false
     };
   },
   mounted () {
+    window.addEventListener('offline', () => {
+      this.error = 'no connection detected';
+    });
+    window.addEventListener('online', () => {
+      if (this.error === 'no connection detected') {
+        this.error = null;
+      }
+    });
+
     const unsub = jobsCollectionUpdateSignal.subscribe(jobsCollection => {
       this.jobsCollection = jobsCollection;
       if (jobsCollection) {

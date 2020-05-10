@@ -1,17 +1,9 @@
 <template>
-  <div>
-    <v-alert
-      v-if="isReady"
-      type="warning"
-    >
-      Conditions to add a new job not met
-    </v-alert>
-    <FormJob
-      v-else
-      @save="add"
-      @cancel="cancel"
-    />
-  </div>
+  <FormJob
+    v-if="isReady"
+    @save="add"
+    @cancel="cancel"
+  />
 </template>
 
 <script>
@@ -30,13 +22,11 @@ export default {
   },
   computed: {
     isReady () {
-      console.log(!!this.jobsCollection);
       return !!this.jobsCollection;
     }
   },
   mounted () {
     const unsub = jobsCollectionUpdateSignal.subscribe(jobsCollection => {
-      console.log(jobsCollection);
       this.jobsCollection = jobsCollection;
     });
     this.unsubscribe = unsub;
@@ -46,7 +36,7 @@ export default {
   },
   methods: {
     add (job) {
-      loader.run(this.jobsCollection.add(this.job));
+      loader.run(this.jobsCollection.add(job));
       this.$router.go(-1);
     },
     cancel () {
