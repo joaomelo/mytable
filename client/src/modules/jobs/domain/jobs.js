@@ -15,6 +15,7 @@ authSubject.subscribe(({ user, status }) => {
 function createJobsCollection (userId) {
   const jobsCollection = new HotCollection('jobs', {
     adapter: { firestore: firedb },
+    saveMode: 'safe',
     converters: {
       fromDocToItem (doc) {
         const job = { ...doc };

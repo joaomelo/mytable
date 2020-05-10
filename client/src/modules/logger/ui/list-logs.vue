@@ -3,7 +3,7 @@
     <v-card
       v-if="logs.length <= 0"
     >
-      <v-card-title class="justify-center">
+      <v-card-title class="justify-center grey--text">
         Run or Create new Jobs
       </v-card-title>
     </v-card>
