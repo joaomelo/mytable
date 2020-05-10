@@ -41,7 +41,7 @@ So, after the Firebase project is available you fo to `client\cfg` folder and cr
     FIREBASE_APP_ID=foobar
     SIGN_UP=ENABLE
 
-The SIGN_UP env value controls whether the login UI also make available a sign up form. In my personal production instance of **my-table** i keep it DISABLE, since i am currently terrified of holding other people Airtable Api Keys.
+The `SIGN_UP` env value controls whether the login UI also make available a sign up form. In my personal production instance of **my-table** i keep it `DISABLE`, since i am currently terrified of holding responsability of other people Airtable Api Keys.
 
 Don't forget to add the bothe `.env` files to your `.gitignore` list. All this data should be private.
 
