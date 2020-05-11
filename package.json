@@ -1,5 +1,5 @@
 {
-  "name": "my-table",
+  "name": "mytable",
   "version": "0.14.7",
   "scripts": {
     "start": "npm run dev:client",
