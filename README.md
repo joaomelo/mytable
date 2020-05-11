@@ -88,7 +88,7 @@ Have fun 🎉.
 
 # Wrapping up
 
-Well... i think this is it. If you have any doubts contact me in [twitter](https://twitter.com/joaomeloplus). I handle a daytime job, wife and three full of energy kids to take care of. It could take a while to respond but I will try to leave no fellow human behind 😊.
+Well... i think this is it. If you have any doubts contact me in [Twitter](https://twitter.com/joaomeloplus). I handle a daytime job, wife and three full of energy kids to take care of. It could take a while to respond but I will try to leave no fellow human behind 😊.
 
 # License
 
