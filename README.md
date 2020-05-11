@@ -1,6 +1,6 @@
-# my-table
+# mytable
 
-My-table is a web app that complements my personal workflow for [Airtable](https://www.airtable.com). This app runs a script that enables organizing items in a tree structure and basic automation to creating recursive tasks.
+Mytable is a web app that complements my personal workflow for [Airtable](https://www.airtable.com). This app runs a script that enables organizing items in a tree structure and basic automation to creating recursive tasks.
 
 ## Motivation
 
@@ -22,13 +22,13 @@ After at least one job is created, the user can press the run command in the hom
 
 # Getting Started
 
-To run my-table you first have to clone the repo.
+To run mytable you first have to clone the repo.
 
-  git clone https://github.com/joaomelo/my-table.git
+  git clone https://github.com/joaomelo/mytable.git
 
 ## Setting Environment Variables
 
-My-table hosting and database rely on [Firebase](https://firebase.google.com/). So you will need to create a project and point to it using environment file.
+Mytable hosting and database rely on [Firebase](https://firebase.google.com/). So you will need to create a project and point to it using environment file.
 
 So, after the Firebase project is available you fo to `client\cfg` folder and create a `dev.env` and `prod.env` with the content bellow, replacing the assignments with proper values.
 
@@ -41,7 +41,7 @@ So, after the Firebase project is available you fo to `client\cfg` folder and cr
     FIREBASE_APP_ID=foobar
     SIGN_UP=ENABLE
 
-The `SIGN_UP` env value controls whether the login UI also make available a sign up form. In my personal production instance of **my-table** i keep it `DISABLE`, since i am currently terrified of holding responsability of other people Airtable Api Keys.
+The `SIGN_UP` env value controls whether the login UI also make available a sign up form. In my personal production instance of **mytable** i keep it `DISABLE`, since i am currently terrified of holding responsability of other people Airtable Api Keys.
 
 Don't forget to add the bothe `.env` files to your `.gitignore` list. All this data should be private.
 
