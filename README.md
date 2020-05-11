@@ -1,4 +1,4 @@
-# mytable
+# Mytable
 
 Mytable is a web app that complements my personal workflow for [Airtable](https://www.airtable.com). This app runs a script that enables organizing items in a tree structure and basic automation to creating recursive tasks.
 
