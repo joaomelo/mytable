@@ -34,11 +34,11 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
 
-          <v-list-item :to="{ name: 'jobs' }">
+          <v-list-item :to="{ name: 'job' }">
             <v-list-item-icon>
               <v-icon>mdi-cogs</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Jobs</v-list-item-title>
+            <v-list-item-title>Job Setup</v-list-item-title>
           </v-list-item>
 
           <v-list-item @click="logout">

@@ -3,11 +3,12 @@ service cloud.firestore {
   match /databases/{database}/documents {
   	match /versions/{version} {
     	allow read, update, delete: if false;
-    	allow create: if request.auth.uid != null;
+    	allow create: if request.auth != null && request.auth.token.email_verified;
   	}
     match /jobs/{job} {
-      allow read, update, delete: if request.auth.uid == resource.data.userId;
-      allow create: if request.auth.uid == request.resource.data.userId;
+      allow delete: if false;
+      allow read, update: if request.auth.uid == resource.data.userId;
+      allow create: if request.auth.uid == request.resource.id;
     }
 	}
 }

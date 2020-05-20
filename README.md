@@ -4,7 +4,7 @@ Mytable is a web app that complements my personal workflow for [Airtable](https:
 
 ## Motivation
 
-I am heavy Airtable user. I love its data structure flexibility, nice ui and formulas. But two thing were always missing to close my self-management database: organize my tasks in a tree structure and create recursive tasks. I build this to overcome this. Now I am sharing the code in the case it could help others. Be my guest 😊. 
+I am a heavy Airtable user. I love its data structure flexibility and rich UI. But two things were missing to complete my self-management workflow: organize my tasks in a tree structure and create recursive tasks. I build mytable to overcome those limitations. Now I am sharing the code in case it could help others. Be my guest 😊. 
 
 This README sections:
 
@@ -14,23 +14,23 @@ This README sections:
 
 # App Features
 
-The most important concept of the app is **jobs**. A job is a configuration about how an Airtable's table should be transformed by the app.
+The most important concept of the app is the **job**. The job is a configuration about how an Airtable's table data should be transformed by the app.
 
-In the jobs UI, the user specify the table location, its fields and guiding parameters like if emojis should be used in path field or if recurring items should be handled. All options are accompany by helping tooltips.
+In the jobs UI, the user specifies the table location, its fields, and guiding parameters like if emojis should be used in the path field or if recurring items should be handled. All options are accompanied by helping tooltips.
 
-After at least one job is created, the user can press the run command in the home screen to apply all jobs instructions. The user can also activate a timer in the home screen that will run all jobs every five minutes.
+After the job requiring fields are filled, the user can press the run command in the home screen to apply the jobs setup to all records in the corresponding table. The user can also activate a timer on the home screen that will run all jobs every few minutes.
 
 # Getting Started
 
-To run mytable you first have to clone the repo.
+To run mytable you can fork, clone, or download the repo. To clone, use the code below.
 
-  git clone https://github.com/joaomelo/mytable.git
+    git clone https://github.com/joaomelo/mytable.git
 
-## Setting Environment Variables
+## Environment Setup
 
-Mytable hosting and database rely on [Firebase](https://firebase.google.com/). So you will need to create a project and point to it using environment file.
+Mytable hosting and database rely on [Firebase](https://firebase.google.com/). So you will need to create a Firebase project and link the app to it using environment files.
 
-So, after the Firebase project is available you fo to `client\cfg` folder and create a `dev.env` and `prod.env` with the content bellow, replacing the assignments with proper values.
+So, after the Firebase project is available you go to `client\cfg` folder and create `dev.env` and `prod.env` files with the content bellow. Don't forget to add the both `.env` files to your `.gitignore` list.
 
     FIREBASE_API_KEY=foobar
     FIREBASE_AUTH_DOMAIN=foobar
@@ -41,46 +41,46 @@ So, after the Firebase project is available you fo to `client\cfg` folder and cr
     FIREBASE_APP_ID=foobar
     SIGN_UP=ENABLE
 
-The `SIGN_UP` env value controls whether the login UI also make available a sign up form. In my personal production instance of **mytable** i keep it `DISABLE`, since i am currently terrified of holding responsability of other people Airtable Api Keys.
+The npm scripts expect dev and prod configurations, but you can use the same data in both the files if you prefer. 
 
-Don't forget to add the bothe `.env` files to your `.gitignore` list. All this data should be private.
+The `SIGN_UP` env value controls whether the login UI also makes available a signup form. Do not take that as a security feature since it is very easy for a malicious agent to bypass that.
 
 ## Running Locally 
 
-Now install the dependencies and run the start script. Now you will probably see the app running on `http://localhost:8080/`
+Now install the dependencies and run the start script. You should have the app running on `http://localhost:8080/`
 
     npm install
     npm start
 
-Other script in in the `package.json` can be useful like build or deploy.
+Please check useful scripts in the `package.json` like build or deploy.
 
 # Development Guidelines
 
-The stack is pretty standard, so is probably easy for any web developer to tweak the code as you like. I will talk about some things that may help.
+The stack is pretty standard, so is probably accessible for any web developer to tweak the code as preferred. I will talk about some things that may help.
 
 ## Tooling
 
-The development tolling is unsurprisingly composed of [webpack](https://webpack.js.org/) and basic loaders, [babel](https://babeljs.io/) and [eslint](https://eslint.org/). 
+The development tolling is composed of [webpack](https://webpack.js.org/) and corresponding loaders, [babel](https://babeljs.io/) and [eslint](https://eslint.org/). 
 
-They are all listed in the `package.json devDependencies` field and the corresponding config files are listed in the project root directory. Except for webpack files which are inside the `\client\cfg` folder.
+They are all listed in the `package.json devDependencies` field and the corresponding config files are present in the project root directory. Except for webpack files that are inside the `\client\cfg` folder.
 
 ## The Stack
 
 The app UI is built with [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/) and [Vue-Router](https://router.vuejs.org/).
 
-The project uses [Firebase](https://firebase.google.com/) for database store, hosting and authentication. Check `firebase.json` and `firestore.rules` files to understand and update the setup if desired.
+The project uses [Firebase](https://firebase.google.com/) for the database store, hosting, and authentication. Check `firebase.json` and `firestore.rules` files to understand and update the setup if desired.
 
-I also make use of a package i built to make database operations more easy to code in the client. It is called [hot-collection](https://www.npmjs.com/package/@joaomelo/hot-collection).
+I also make use of a package I built to make database operations easier to code in the client. It is called [hot-collection](https://www.npmjs.com/package/@joaomelo/hot-collection).
 
-To connect to Airtable i use their official [js browser package](https://github.com/Airtable/airtable.js). I plugged [bottleneck](https://www.npmjs.com/package/bottleneck) to avoid breaking Airtable api call limits.
+To connect to Airtable I use their official [js browser package](https://github.com/Airtable/airtable.js). I plugged [bottleneck](https://www.npmjs.com/package/bottleneck) to avoid breaking Airtable API call limits.
 
-The [moment](https://www.npmjs.com/package/moment) library is used to help deal with recurrence logic and datetime formatting and [rxjs](https://www.npmjs.com/package/rxjs) to make event handling saner.
+The [moment](https://www.npmjs.com/package/moment) library is used to help deal with recurrence logic and datetime formatting and the [rxjs](https://www.npmjs.com/package/rxjs) package makes event handling saner.
 
 ## How to Navigate the Code
 
-The `/client/src` folder is where the app code resides. It is divided between `core` and `modules`. In core you will find utility features like authentication and routing.
+The `/client/src` folder is where the app code resides. It is divided between `core` and `modules`. In core, you will find utility features like authentication and routing.
 
-The `modules` folder is where business logic resides. The batch and common subfolders have code to identify and dispatch commands to Airtable.
+The `modules` folder is where the business logic resides. The batch and common subfolders have code to identify and dispatch commands to Airtable.
 
 The `jobs` folder deals with setting up where and how the script should be applied to Airtable data. The `logger` folder has instructions for showing and exporting the history of operations. 
 
@@ -88,7 +88,7 @@ Have fun 🎉.
 
 # Wrapping up
 
-Well... i think this is it. If you have any doubts contact me in [Twitter](https://twitter.com/joaomeloplus). I handle a daytime job, wife and three full of energy kids to take care of. It could take a while to respond but I will try to leave no fellow human behind 😊.
+If you have any doubts contact me on [Twitter](https://twitter.com/joaomeloplus). I handle a daytime job, wife, and three full of energy kids, it could take a while to respond but I will try to leave no fellow human behind 😊.
 
 # License
 

@@ -1,7 +1,7 @@
 import { PageSplash } from '__cli/core/layouts';
 import { LayoutDesktop } from '__cli/core/desktop';
 import { PageAuth, PageUnverified } from '__cli/core/auth';
-import { PageRun, PageNewJob, PageEditJob, PageListJobs } from '__cli/modules/jobs';
+import { PageRun, PageEditJob } from '__cli/modules/jobs';
 
 const routes = [
   { path: '/unsolved', name: 'unsolved', component: PageSplash },
@@ -12,9 +12,7 @@ const routes = [
     component: LayoutDesktop,
     children: [
       { path: '/run', name: 'run', component: PageRun },
-      { path: '/jobs', name: 'jobs', component: PageListJobs },
-      { path: '/jobs/new', name: 'job-new', component: PageNewJob },
-      { path: '/jobs/edit/:id', name: 'job-edit', component: PageEditJob, props: true }
+      { path: '/job', name: 'job', component: PageEditJob }
     ]
   }
 ];

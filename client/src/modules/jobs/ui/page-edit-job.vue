@@ -1,53 +1,39 @@
 <template>
   <FormJob
     v-if="isReady"
-    :original-job="job"
+    :original-job="jobsStore.job"
     @save="edit"
     @cancel="cancel"
   />
+  <p v-else>
+    oque?
+  </p>
 </template>
 
 <script>
 import { loader } from '__cli/core/loader';
-import { jobsCollectionUpdateSignal } from '../domain';
+import { jobsStore } from '../domain';
 import FormJob from './form-job';
 
 export default {
   name: 'PageEditJob',
   components: { FormJob },
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
   data () {
     return {
-      jobsCollection: null,
-      unsubscribe: null,
-      job: null
+      jobsStore: null
     };
   },
   computed: {
     isReady () {
-      return this.jobsCollection && this.job;
+      return this.jobsStore && this.jobsStore.job;
     }
   },
   mounted () {
-    const unsub = jobsCollectionUpdateSignal.subscribe(jobsCollection => {
-      this.jobsCollection = jobsCollection;
-      if (jobsCollection) {
-        this.job = jobsCollection.getItem(this.id);
-      }
-    });
-    this.unsubscribe = unsub;
-  },
-  unmounted () {
-    this.unsubscribe();
+    this.jobsStore = jobsStore;
   },
   methods: {
     edit (job) {
-      loader.run(this.jobsCollection.set(job));
+      loader.run(this.jobsStore.jobsCollection.set(job));
       this.$router.go(-1);
     },
     cancel () {

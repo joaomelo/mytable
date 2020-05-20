@@ -3,7 +3,7 @@
     <div class="d-flex justify-center">
       <v-btn
         color="primary"
-        :disabled="isTimerOn || !hasJobs || !!error"
+        :disabled="isTimerOn || !hasJob || !!error"
         @click="update"
       >
         Run
@@ -12,7 +12,7 @@
       <CountdownTimer
         ref="timer"
         class="ml-5"
-        :disabled="!hasJobs || !!error"
+        :disabled="!hasJob || !!error"
         @timer="update"
         @started="isTimerOn = true"
         @stopped="isTimerOn = false"
@@ -31,7 +31,7 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { CountdownTimer } from '__cli/core/base';
-import { runAllJobs, jobsCollectionUpdateSignal } from '../domain';
+import { runAllJobs, jobsStore } from '../domain';
 
 export default {
   name: 'PanelRun',
@@ -39,9 +39,13 @@ export default {
   data () {
     return {
       error: null,
-      isTimerOn: false,
-      hasJobs: false
+      isTimerOn: false
     };
+  },
+  computed: {
+    hasJob () {
+      return (jobsStore.job && jobsStore.job.table);
+    }
   },
   mounted () {
     window.addEventListener('offline', () => {
@@ -52,17 +56,6 @@ export default {
         this.error = null;
       }
     });
-
-    const unsub = jobsCollectionUpdateSignal.subscribe(jobsCollection => {
-      this.jobsCollection = jobsCollection;
-      if (jobsCollection) {
-        jobsCollection.subscribe(jobs => { this.hasJobs = jobs.length > 0; });
-      }
-    });
-    this.unsubscribe = unsub;
-  },
-  unmounted () {
-    this.unsubscribe();
   },
   methods: {
     update () {
