@@ -1,15 +1,17 @@
 <template>
   <BaseDialog
     :message="alertMessage"
+    :message-type="alertType"
   >
     <template>
       <v-form ref="form">
         <ControlEmail
           v-model="newEmail"
-          label="New Email"
+          label="Email"
         />
         <ControlPassword
           v-model="password"
+          label="Provide Password to Confirm"
         />
       </v-form>
     </template>
@@ -19,9 +21,9 @@
         @click="cancel"
       >
         <v-icon left>
-          mdi-cancel
+          mdi-backspace
         </v-icon>
-        Cancel
+        Back
       </v-btn>
       <v-btn
         color="success"
@@ -36,7 +38,9 @@
   </BaseDialog>
 </template>
 <script>
+import { loader } from '__cli/core/loader';
 import { BaseDialog } from '__cli/core/base';
+import { authStore, updateEmail } from '../domain';
 import ControlEmail from './control-email';
 import ControlPassword from './control-password';
 
@@ -49,15 +53,28 @@ export default {
   },
   data () {
     return {
-      newEmail: null,
+      newEmail: authStore.state.user.email,
       password: null,
-      alertMessage: ''
+      alertMessage: '',
+      alertType: 'error'
     };
   },
   methods: {
     save () {
-      // change email if everything of ok
-      this.$router.go(-1);
+      if (this.$refs.form.validate()) {
+        loader.start();
+        updateEmail(this.newEmail, this.password)
+          .then(msg => {
+            if (msg) {
+              this.alertMessage = msg;
+              this.alertType = 'error';
+            } else {
+              this.alertMessage = 'We sent you a e-mail verification message';
+              this.alertType = 'info';
+            }
+          })
+          .finally(() => loader.stop());
+      }
     },
     cancel () {
       this.$router.go(-1);

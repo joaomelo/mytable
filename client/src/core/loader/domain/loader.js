@@ -6,7 +6,9 @@ const loader = {
 
   run (promiseOrFunction) {
     this.start();
-    const promise = typeof promiseOrFunction === 'function' ? promiseOrFunction() : promiseOrFunction;
+    const promise = typeof promiseOrFunction === 'function'
+      ? Promise.resolve(promiseOrFunction())
+      : promiseOrFunction;
     promise.finally(this.stop());
   },
 

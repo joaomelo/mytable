@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { authSubject } from '__cli/core/auth';
+import { authStore } from '__cli/core/auth';
 import { routes } from './routes';
 
 Vue.use(VueRouter);
@@ -12,7 +12,7 @@ const router = new VueRouter({
   routes
 });
 
-authSubject.subscribe(({ status }) => {
+authStore.subscribe(({ status }) => {
   currentStatus = status;
   const routesForStatus = {
     UNSOLVED: 'loading',

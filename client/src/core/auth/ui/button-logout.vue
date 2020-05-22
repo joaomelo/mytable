@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { usernameSubject, logout } from '../domain';
+import { authStore, logout } from '../domain';
 
 export default {
   name: 'ButtonLogout',
@@ -27,8 +27,8 @@ export default {
     };
   },
   mounted () {
-    usernameSubject.subscribe(username => {
-      this.logoutText = (username && this.showUser) ? `Logout from ${username}` : 'Logout';
+    authStore.subscribe(({ userName }) => {
+      this.logoutText = (userName && this.showUser) ? `Logout from ${userName}` : 'Logout';
     });
   },
   methods: {

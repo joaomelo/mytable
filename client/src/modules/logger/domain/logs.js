@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import HotCollection from '@joaomelo/hot-collection';
 import moment from 'moment';
-import { authSubject } from '__cli/core/auth';
+import { authStore } from '__cli/core/auth';
 
 const logsStore = {
   logsCollection: null,
@@ -10,7 +10,7 @@ const logsStore = {
 };
 Vue.observable(logsStore);
 
-authSubject.subscribe(({ user, status }) => {
+authStore.subscribe(({ user, status }) => {
   const logsCollection = (status === 'SIGNIN') ? createLogsCollection() : null;
   if (logsCollection) {
     logsCollection.subscribe(logs => {

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import HotCollection from '@joaomelo/hot-collection';
 import { firedb } from '__cli/core/firebase';
-import { authSubject } from '__cli/core/auth';
+import { authStore } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
 const jobsStore = {
@@ -10,7 +10,7 @@ const jobsStore = {
 };
 Vue.observable(jobsStore);
 
-authSubject.subscribe(({ user, status }) => {
+authStore.subscribe(({ user, status }) => {
   const jobsCollection = status === 'SIGNIN'
     ? createJobsCollection(user.uid)
     : null;

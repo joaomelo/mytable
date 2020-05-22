@@ -4,6 +4,7 @@
     :label="label"
     :rules="emailRules"
     required
+    :value="value"
     @input="input"
   />
 </template>

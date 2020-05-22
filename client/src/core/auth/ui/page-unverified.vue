@@ -1,8 +1,8 @@
 <template>
   <BaseDialog
     title="email confirmation"
-    :alert-message="alertMessage"
-    :alert-type="alertType"
+    :message="alertMessage"
+    :message-type="alertType"
   >
     <template>
       <p>Please confirm your e-mail address by clicking in the message link we sent to you.</p>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { loader } from '__cli/core/loader';
 import { BaseDialog } from '__cli/core/base';
 import { sendEmailVerification } from '../domain';
 import ButtonLogout from './button-logout';
@@ -36,10 +37,14 @@ export default {
   },
   methods: {
     sendEmailVerification () {
-      sendEmailVerification().then(payload => {
-        this.alertMessage = payload.message;
-        this.alertType = payload.isSuccess ? 'info' : 'error';
-      });
+      loader.start();
+      sendEmailVerification()
+        .then(payload => {
+          this.alertMessage = payload.message;
+          this.alertType = payload.isSuccess ? 'info' : 'error';
+          console.log(payload);
+        })
+        .finally(() => loader.stop());
     }
   }
 };

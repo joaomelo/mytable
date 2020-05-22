@@ -11,7 +11,6 @@ function signUp (credentials) {
 }
 
 function sendEmailVerification () {
-  loader.start();
   return fireauth.currentUser.sendEmailVerification()
     .then(() => {
       return {
@@ -19,8 +18,7 @@ function sendEmailVerification () {
         message: 'email successfully sent'
       };
     })
-    .catch(error => error)
-    .finally(() => loader.stop());
+    .catch(error => error);
 }
 
 function signIn (credentials) {

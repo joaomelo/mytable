@@ -2,7 +2,7 @@
   <div>
     <v-text-field
       v-model="masterPassword"
-      label="Password"
+      :label="label"
       prepend-icon="mdi-lock"
       :append-icon="showPassword ? 'mdi-eye': 'mdi-eye-off'"
       :type="showPassword ? 'text': 'password'"
@@ -34,6 +34,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    label: {
+      type: String,
+      default: 'Password'
     }
   },
   data () {
