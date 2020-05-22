@@ -1,6 +1,6 @@
 {
   "name": "mytable",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "scripts": {
     "start": "npm run dev:client",
     "dev:client": "webpack-dev-server --config client/cfg/webpack.dev.js",
