@@ -5,17 +5,24 @@
       dark
       color="primary"
     >
-      <v-app-bar-nav-icon @click="drawer = true" />
+      <v-app-bar-nav-icon
+        v-if="isActive"
+        @click="drawer = true"
+      />
 
-      <router-link :to="{ name: 'run' }">
+      <router-link
+        :to="{ name: titleRouteName }"
+      >
         <v-toolbar-title class="white--text">
           {{ title }}
         </v-toolbar-title>
       </router-link>
+
       <v-spacer />
     </v-app-bar>
 
     <v-navigation-drawer
+      v-if="isActive"
       v-model="drawer"
       app
       temporary
@@ -41,6 +48,13 @@
             <v-list-item-title>Job Setup</v-list-item-title>
           </v-list-item>
 
+          <v-list-item :to="{ name: 'account' }">
+            <v-list-item-icon>
+              <v-icon>mdi-cogs</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Account</v-list-item-title>
+          </v-list-item>
+
           <v-list-item @click="logout">
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
@@ -50,28 +64,30 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-
-    <v-content>
-      <v-container
-        fluid
-        style="max-width: 500px;"
-      >
-        <router-view />
-      </v-container>
-    </v-content>
   </div>
 </template>
 
 <script>
-import { appName, appVersion } from '__cli/core/meta';
+import { appTitle } from '__cli/core/meta';
 import { logout } from '__cli/core/auth';
+
 export default {
-  name: 'LayoutDesktop',
+  name: 'BaseBar',
+  props: {
+    isActive: {
+      type: Boolean,
+      default: false
+    },
+    titleRouteName: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
+      title: appTitle(),
       group: 1,
-      drawer: null,
-      title: `${appName()} ${appVersion()}`
+      drawer: null
     };
   },
   methods: {

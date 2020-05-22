@@ -1,10 +1,8 @@
 <template>
-  <div>
+  <v-app>
     <OverlayLoading />
-    <v-app>
-      <router-view />
-    </v-app>
-  </div>
+    <router-view />
+  </v-app>
 </template>
 
 <script>

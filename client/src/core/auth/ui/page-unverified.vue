@@ -1,5 +1,5 @@
 <template>
-  <LayoutDialog
+  <BaseDialog
     title="email confirmation"
     :alert-message="alertMessage"
     :alert-type="alertType"
@@ -17,17 +17,17 @@
         Resend e-mail
       </v-btn>
     </template>
-  </LayoutDialog>
+  </BaseDialog>
 </template>
 
 <script>
-import { LayoutDialog } from '__cli/core/layouts';
+import { BaseDialog } from '__cli/core/base';
 import { sendEmailVerification } from '../domain';
 import ButtonLogout from './button-logout';
 
 export default {
   name: 'PageUnverified',
-  components: { LayoutDialog, ButtonLogout },
+  components: { BaseDialog, ButtonLogout },
   data () {
     return {
       alertMessage: '',

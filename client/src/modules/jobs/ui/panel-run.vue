@@ -47,16 +47,6 @@ export default {
       return (jobsStore.job && jobsStore.job.table);
     }
   },
-  mounted () {
-    window.addEventListener('offline', () => {
-      this.error = 'no connection detected';
-    });
-    window.addEventListener('online', () => {
-      if (this.error === 'no connection detected') {
-        this.error = null;
-      }
-    });
-  },
   methods: {
     update () {
       if (loader.status === 'IDLE') {

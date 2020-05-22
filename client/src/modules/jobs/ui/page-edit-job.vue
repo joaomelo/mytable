@@ -5,9 +5,6 @@
     @save="edit"
     @cancel="cancel"
   />
-  <p v-else>
-    oque?
-  </p>
 </template>
 
 <script>

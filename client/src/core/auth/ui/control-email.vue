@@ -1,7 +1,7 @@
 <template>
   <v-text-field
     prepend-icon="mdi-account-circle"
-    label="Email"
+    :label="label"
     :rules="emailRules"
     required
     @input="input"
@@ -15,6 +15,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    label: {
+      type: String,
+      default: 'Email'
     }
   },
   data () {

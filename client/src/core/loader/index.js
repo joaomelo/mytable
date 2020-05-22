@@ -1,2 +1,2 @@
-export { OverlayLoading } from './ui';
+export { OverlayLoading, PageSplash } from './ui';
 export { loader } from './domain';

@@ -1,5 +1,5 @@
 <template>
-  <LayoutDialog
+  <BaseDialog
     :alert-message="alertMessage"
   >
     <template>
@@ -29,10 +29,10 @@
         {{ outfit.button }}
       </v-btn>
     </template>
-  </LayoutDialog>
+  </BaseDialog>
 </template>
 <script>
-import { LayoutDialog } from '__cli/core/layouts';
+import { BaseDialog } from '__cli/core/base';
 import { signIn, signUp } from '../domain';
 import ControlEmail from './control-email';
 import ControlPassword from './control-password';
@@ -40,7 +40,7 @@ import ControlPassword from './control-password';
 export default {
   name: 'PageAuth',
   components: {
-    LayoutDialog,
+    BaseDialog,
     ControlEmail,
     ControlPassword
   },

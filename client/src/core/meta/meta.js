@@ -12,9 +12,14 @@ function appVersion () {
   return prefix + rawVersion + posfix;
 }
 
+function appTitle () {
+  const title = `${appName()} ${appVersion()}`;
+  return title;
+}
+
 function appEnviroment () {
   const result = process.env.NODE_ENV === 'production' ? 'prod' : 'dev';
   return result;
 }
 
-export { appName, appVersion, appEnviroment };
+export { appName, appVersion, appTitle, appEnviroment };

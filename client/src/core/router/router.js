@@ -15,7 +15,7 @@ const router = new VueRouter({
 authSubject.subscribe(({ status }) => {
   currentStatus = status;
   const routesForStatus = {
-    UNSOLVED: 'unsolved',
+    UNSOLVED: 'loading',
     UNVERIFIED: 'unverified',
     SIGNOUT: 'login',
     SIGNIN: 'run'
@@ -30,7 +30,7 @@ authSubject.subscribe(({ status }) => {
 });
 
 router.beforeEach((to, from, next) => {
-  const openRouteNames = ['unsolved', 'login', 'unverified'];
+  const openRouteNames = ['loading', 'login', 'unverified'];
   const isGoingToOpenRoute = openRouteNames.includes(to.name);
   const isSignedIn = currentStatus === 'SIGNIN';
   const isFreeToGo = isGoingToOpenRoute || isSignedIn;

@@ -1,19 +1,19 @@
 <template>
-  <LayoutDialog
+  <BaseDialog
     title="just a moment"
   >
     <template>
       <p>We are loading the app's features. It will take just a moment.</p>
     </template>
-  </LayoutDialog>
+  </BaseDialog>
 </template>
 
 <script>
-import LayoutDialog from './layout-dialog';
+import { BaseDialog } from '__cli/core/base';
 
 export default {
   name: 'PageSplash',
-  components: { LayoutDialog },
+  components: { BaseDialog },
   data () {
     return {
       alertMessage: '',
