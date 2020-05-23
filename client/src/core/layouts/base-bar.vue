@@ -50,7 +50,7 @@
 
           <v-list-item :to="{ name: 'account' }">
             <v-list-item-icon>
-              <v-icon>mdi-cogs</v-icon>
+              <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>

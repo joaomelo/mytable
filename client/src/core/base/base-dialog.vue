@@ -20,7 +20,7 @@
       v-if="message"
       :type="messageType"
       text
-      class="mt-6 text-center"
+      class="mt-2 text-center"
     >
       {{ message }}
     </v-alert>

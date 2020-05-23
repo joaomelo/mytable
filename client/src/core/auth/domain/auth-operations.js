@@ -23,10 +23,7 @@ function sendEmailVerification () {
 
 function signIn (credentials) {
   const { email, password } = credentials;
-  loader.start();
-  return fireauth.signInWithEmailAndPassword(email, password)
-    .catch(error => error)
-    .finally(() => loader.stop());
+  return fireauth.signInWithEmailAndPassword(email, password);
 }
 
 function logout () {

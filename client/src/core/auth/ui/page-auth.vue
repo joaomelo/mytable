@@ -1,6 +1,6 @@
 <template>
   <BaseDialog
-    :alert-message="alertMessage"
+    :message="alertMessage"
   >
     <template>
       <v-tabs
@@ -32,6 +32,7 @@
   </BaseDialog>
 </template>
 <script>
+import { loader } from '__cli/core/loader';
 import { BaseDialog } from '__cli/core/base';
 import { signIn, signUp } from '../domain';
 import ControlEmail from './control-email';
@@ -74,10 +75,15 @@ export default {
     }
   },
   methods: {
-    runAuthAction (actionName) {
+    runAuthAction () {
       if (this.$refs.form.validate()) {
+        loader.start();
         this.outfit.action({ email: this.email, password: this.password })
-          .catch(e => { this.alertMessage = e; });
+          .catch(e => {
+            console.error(e);
+            this.alertMessage = e.message;
+          })
+          .finally(() => loader.stop());
       }
     }
   }
