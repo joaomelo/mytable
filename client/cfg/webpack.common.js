@@ -1,6 +1,7 @@
 'use strict';
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
@@ -65,13 +66,17 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: src + '/static',
-        to: dist + '/static',
+        from: src + '/assets',
+        to: dist + '/assets',
         toType: 'dir'
       }
     ]),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({ template: src + '/index.html' }),
+    new FaviconsWebpackPlugin({
+      logo: src + '/assets/logo-negative.png',
+      inject: true
+    }),
     new VueLoaderPlugin(),
     new VuetifyLoaderPlugin(),
     new CircularDependencyPlugin({

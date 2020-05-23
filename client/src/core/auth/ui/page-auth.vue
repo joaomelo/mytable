@@ -1,35 +1,44 @@
 <template>
-  <BaseDialog
-    :message="alertMessage"
-  >
-    <template>
-      <v-tabs
-        v-if="enableSignup"
-        v-model="tab"
-        grow
-      >
-        <v-tab>Login</v-tab>
-        <v-tab>Sign Up</v-tab>
-      </v-tabs>
-      <v-form ref="form">
-        <ControlEmail
-          v-model="email"
-        />
-        <ControlPassword
-          v-model="password"
-          :should-match="outfit.shouldMatch"
-        />
-      </v-form>
-    </template>
-    <template v-slot:actions>
-      <v-btn
-        color="success"
-        @click="runAuthAction"
-      >
-        {{ outfit.button }}
-      </v-btn>
-    </template>
-  </BaseDialog>
+  <div>
+    <BaseDialog
+      :message="alertMessage"
+    >
+      <template>
+        <v-tabs
+          v-if="enableSignup"
+          v-model="tab"
+          grow
+        >
+          <v-tab>Login</v-tab>
+          <v-tab>Sign Up</v-tab>
+        </v-tabs>
+        <v-form ref="form">
+          <ControlEmail
+            v-model="email"
+          />
+          <ControlPassword
+            v-model="password"
+            :should-match="outfit.shouldMatch"
+          />
+        </v-form>
+      </template>
+      <template v-slot:actions>
+        <v-btn
+          color="success"
+          @click="runAuthAction"
+        >
+          {{ outfit.button }}
+        </v-btn>
+      </template>
+    </BaseDialog>
+    <v-alert
+      text
+      type="warning"
+      class="mt-8"
+    >
+      Mytable is a web app that complements <a href="https://www.airtable.com">Airtable</a> workflow with scripts that enable organizing items in a tree structure and automate the basic creation of recursive tasks. I use this personal instance regularly and you are welcome to freely sign up for an account. But since this is a hobby project, i can't guarantee any service level. The most reliable way to use the app is check the open sourced code in <a href="https://github.com/joaomelo/mytable">GitHub</a> and raise your own instance.
+    </v-alert>
+  </div>
 </template>
 <script>
 import { loader } from '__cli/core/loader';

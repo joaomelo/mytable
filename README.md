@@ -1,10 +1,12 @@
 # Mytable
 
-Mytable is a web app that complements my personal workflow for [Airtable](https://www.airtable.com). This app runs a script that enables organizing items in a tree structure and basic automation to creating recursive tasks.
+Mytable is a web app that complements [Airtable](https://www.airtable.com) workflow with scripts that enable organizing items in a tree structure and automate the basic creation of recursive tasks. 
+
+I use this [personal instance](https://mytable.melo.plus) regularly and you are welcome to freely sign up for an account. But since this is a hobby project, i can't guarantee any service level. The most reliable way to use the app is check the code and raise your own instance.
 
 ## Motivation
 
-I am a heavy Airtable user. I love its data structure flexibility and rich UI. But two things were missing to complete my self-management workflow: organize my tasks in a tree structure and create recursive tasks. I build mytable to overcome those limitations. Now I am sharing the code in case it could help others. Be my guest 😊. 
+I am a heavy Airtable user. I love its data structure flexibility and rich UI. But two things were missing to complete my self-management workflow: organize my tasks in a tree structure and create recursive tasks. I built mytable to overcome those limitations. Now I am sharing the code in case it could help others. Be my guest 😊. 
 
 This README sections:
 
@@ -14,11 +16,11 @@ This README sections:
 
 # App Features
 
-The most important concept of the app is the **job**. The job is a configuration about how an Airtable's table data should be transformed by the app.
+The most important concept of the app is **job**. The job is a configuration about how an Airtable's table should be transformed by the app.
 
 In the jobs UI, the user specifies the table location, its fields, and guiding parameters like if emojis should be used in the path field or if recurring items should be handled. All options are accompanied by helping tooltips.
 
-After the job requiring fields are filled, the user can press the run command in the home screen to apply the jobs setup to all records in the corresponding table. The user can also activate a timer on the home screen that will run all jobs every few minutes.
+After the job required fields are filled, the user can press the run command in the home screen to apply the jobs setup to all records in the corresponding table. The user can also activate a timer on the home screen that will run all jobs every few minutes.
 
 # Getting Started
 
@@ -30,7 +32,7 @@ To run mytable you can fork, clone, or download the repo. To clone, use the code
 
 Mytable hosting and database rely on [Firebase](https://firebase.google.com/). So you will need to create a Firebase project and link the app to it using environment files.
 
-So, after the Firebase project is available you go to `client\cfg` folder and create `dev.env` and `prod.env` files with the content bellow. Don't forget to add the both `.env` files to your `.gitignore` list.
+So, after the Firebase project is available you go to `client\cfg` folder and create `dev.env` and `prod.env` files with the content bellow. Don't forget to add both `.env` files to your `.gitignore` list.
 
     FIREBASE_API_KEY=foobar
     FIREBASE_AUTH_DOMAIN=foobar
@@ -56,7 +58,7 @@ Please check useful scripts in the `package.json` like build or deploy.
 
 # Development Guidelines
 
-The stack is pretty standard, so is probably accessible for any web developer to tweak the code as preferred. I will talk about some things that may help.
+The stack is pretty standard and hopefully accessible for any web developer to tweak the code as preferred. I will talk about some things that may help.
 
 ## Tooling
 

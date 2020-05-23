@@ -10,6 +10,15 @@
         @click="drawer = true"
       />
 
+      <v-img
+        alt="mt"
+        src="/assets/logo.png"
+        max-height="32"
+        max-width="32"
+        class="mr-2"
+        contain
+      />
+
       <router-link
         :to="{ name: titleRouteName }"
       >
