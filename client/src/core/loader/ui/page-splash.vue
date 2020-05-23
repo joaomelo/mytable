@@ -1,6 +1,6 @@
 <template>
   <BaseDialog
-    title="just a moment"
+    title="Just a moment 🙏"
   >
     <template>
       <p>We are loading the app's features. It will take just a moment.</p>

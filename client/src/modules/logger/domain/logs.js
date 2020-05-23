@@ -14,6 +14,7 @@ authStore.subscribe(({ user, status }) => {
   const logsCollection = (status === 'SIGNIN') ? createLogsCollection() : null;
   if (logsCollection) {
     logsCollection.subscribe(logs => {
+      if (logs === null) return; // no data load yet
       const filteredAndSortedLogs = logs
         .filter(log => log.userId === logsStore.userId)
         .sort((a, b) => b.when - a.when);

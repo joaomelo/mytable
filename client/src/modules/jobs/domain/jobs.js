@@ -18,7 +18,9 @@ authStore.subscribe(({ user, status }) => {
   if (jobsCollection) {
     jobsStore.jobsCollection = jobsCollection;
     jobsCollection.subscribe(jobs => {
+      if (jobs === null) return; // no data load yet
       const job = jobs.find(j => j.userId === user.uid);
+
       if (!job) {
         jobsCollection.set({ id: user.uid });
       } else {

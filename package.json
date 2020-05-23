@@ -14,17 +14,17 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
-    "@joaomelo/hot-collection": "^0.8.17",
+    "@joaomelo/hot-collection": "^0.8.18",
     "airtable": "^0.8.1",
     "bottleneck": "^2.19.5",
     "core-js": "^3.6.5",
-    "firebase": "^7.14.3",
-    "moment": "^2.25.3",
+    "firebase": "^7.14.5",
+    "moment": "^2.26.0",
     "regenerator-runtime": "^0.13.5",
     "rxjs": "^6.5.5",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.6",
-    "vuetify": "^2.2.27"
+    "vue-router": "^3.2.0",
+    "vuetify": "^2.2.29"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -37,7 +37,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
     "deepmerge": "^4.2.2",
-    "dotenv-webpack": "^1.7.0",
+    "dotenv-webpack": "^1.8.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-loader": "^3.0.4",
