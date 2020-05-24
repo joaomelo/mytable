@@ -1,6 +1,22 @@
 {
   "name": "mytable",
   "version": "0.19.0",
+  "description": "Mytable is a web app that complements Airtable workflow with scripts that enable organizing items in a tree structure and automate the basic creation of recursive tasks.",
+  "keywords": [
+    "airtable",
+    "firebase",
+    "productivity",
+    "recursive-tasks",
+    "tree-structure"
+  ],
+  "homepage": "https://github.com/joaomelo/mytable",
+  "bugs": "https://github.com/joaomelo/mytable/issues",
+  "license": "GPL-3.0",
+  "author": "joão melo <j@melo.plus> (https://blog.melo.plus)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaomelo/mytable.git"
+  },
   "scripts": {
     "start": "npm run dev:client",
     "dev:client": "webpack-dev-server --config client/cfg/webpack.dev.js",

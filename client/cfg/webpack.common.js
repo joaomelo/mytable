@@ -23,7 +23,7 @@ module.exports = {
     alias: {
       __cli: src
     },
-    extensions: ['.wasm', '.mjs', '.js', '.json', '.vue']
+    extensions: ['.js', '.json', '.vue']
   },
   module: {
     rules: [
