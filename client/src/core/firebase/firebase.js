@@ -1,6 +1,8 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/performance';
+import 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -16,5 +18,8 @@ const firebaseConfig = {
 const fireapp = firebase.initializeApp(firebaseConfig);
 const fireauth = fireapp.auth();
 const firedb = fireapp.firestore();
+const fireperf = firebase.performance();
 
-export { firebase, fireapp, fireauth, firedb };
+firebase.analytics();
+
+export { firebase, fireapp, fireauth, firedb, fireperf };

@@ -1,15 +1,28 @@
+import { fireperf } from '__cli/core/firebase';
+
 const loader = {
   state: {
     stack: 0,
     status: 'IDLE'
   },
 
-  run (promiseOrFunction) {
+  run (promiseOrFunction, traceId) {
+    let trace;
+    if (traceId) {
+      trace = fireperf.trace(traceId);
+    };
+
+    trace && trace.start();
     this.start();
+
     const promise = typeof promiseOrFunction === 'function'
       ? Promise.resolve(promiseOrFunction())
       : promiseOrFunction;
-    promise.finally(this.stop());
+
+    promise.finally(() => {
+      this.stop();
+      trace && trace.stop();
+    });
   },
 
   start () {

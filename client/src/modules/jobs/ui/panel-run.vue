@@ -50,7 +50,8 @@ export default {
   methods: {
     update () {
       if (loader.status === 'IDLE') {
-        runAllJobs().then(() => this.isTimerOn && this.$refs.timer.start());
+        const promise = runAllJobs().then(() => this.isTimerOn && this.$refs.timer.start());
+        loader.run(promise, 'job-run');
       }
     }
   }
