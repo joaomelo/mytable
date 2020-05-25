@@ -33,7 +33,8 @@ function batchInstances (jobIteration) {
 
     let childrenTitles = arrayOfChildrenUniqueTitles(jobIteration);
     if (childrenTitles.length === 0) {
-      childrenTitles = [item.title];
+      const pureTitle = removeTitleTags(jobIteration);
+      childrenTitles = [pureTitle];
     }
 
     childrenTitles.forEach(title => {
