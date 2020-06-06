@@ -4,7 +4,10 @@
       v-if="logs.length <= 0"
     >
       <v-card-title class="justify-center grey--text">
-        Run or Create new Jobs
+        Click Run or &nbsp;
+        <router-link :to="{name: 'job'}">
+          Here
+        </router-link>&nbsp; for Airtable Setup
       </v-card-title>
     </v-card>
     <div
