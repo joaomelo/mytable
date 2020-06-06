@@ -1,6 +1,6 @@
 {
   "name": "mytable",
-  "version": "0.19.2",
+  "version": "0.19.3",
   "description": "Mytable is a web app that complements Airtable workflow with scripts that enable organizing items in a tree structure and automate the basic creation of recursive tasks.",
   "keywords": [
     "airtable",
