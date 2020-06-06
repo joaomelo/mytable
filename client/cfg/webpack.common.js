@@ -13,6 +13,7 @@ const src = path.resolve(__dirname, '../src');
 
 module.exports = {
   entry: './client/src/index.js',
+  devtool: 'source-map',
   output: {
     publicPath: '/',
     path: dist,

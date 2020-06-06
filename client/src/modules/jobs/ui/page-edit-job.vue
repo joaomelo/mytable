@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     edit (job) {
-      loader.run(this.jobsStore.jobsCollection.set(job));
+      loader.run(this.jobsStore.updateJob(job));
       this.$router.go(-1);
     },
     cancel () {

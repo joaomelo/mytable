@@ -1,2 +1,2 @@
-export { authStore, logout } from './domain';
+export { authMech } from './domain';
 export { ButtonLogout, PageAuth, PageAccount, PageUnverified } from './ui';

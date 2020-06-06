@@ -1,24 +1,22 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { authStore } from '__cli/core/auth';
+import { authMech } from '__cli/core/auth';
 import { routes } from './routes';
 
 Vue.use(VueRouter);
 
-let currentStatus;
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 });
 
-authStore.subscribe(({ status }) => {
-  currentStatus = status;
+authMech.subscribe(({ status }) => {
   const routesForStatus = {
     UNSOLVED: 'loading',
     UNVERIFIED: 'unverified',
-    SIGNOUT: 'login',
-    SIGNIN: 'run'
+    SIGNEDOUT: 'login',
+    SIGNEDIN: 'run'
   };
 
   const currentName = router.currentRoute.name;
@@ -32,7 +30,7 @@ authStore.subscribe(({ status }) => {
 router.beforeEach((to, from, next) => {
   const openRouteNames = ['loading', 'login', 'unverified'];
   const isGoingToOpenRoute = openRouteNames.includes(to.name);
-  const isSignedIn = currentStatus === 'SIGNIN';
+  const isSignedIn = authMech.state.status === 'SIGNEDIN';
   const isFreeToGo = isGoingToOpenRoute || isSignedIn;
 
   if (isFreeToGo) {

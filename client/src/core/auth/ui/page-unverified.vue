@@ -23,7 +23,7 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { BaseDialog } from '__cli/core/base';
-import { sendEmailVerification } from '../domain';
+import { authMech } from '../domain';
 import ButtonLogout from './button-logout';
 
 export default {
@@ -38,11 +38,15 @@ export default {
   methods: {
     sendEmailVerification () {
       loader.start();
-      sendEmailVerification()
-        .then(payload => {
-          this.alertMessage = payload.message;
-          this.alertType = payload.isSuccess ? 'info' : 'error';
-          console.log(payload);
+      authMech.sendEmailVerification()
+        .then(() => {
+          this.alertType = 'info';
+          this.alertMessage = 'email successfully sent';
+        })
+        .catch(error => {
+          this.alertType = 'error';
+          this.alertMessage = error.message;
+          console.error(error);
         })
         .finally(() => loader.stop());
     }

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import HotCollection from '@joaomelo/hot-collection';
 import moment from 'moment';
-import { authStore } from '__cli/core/auth';
+import { authMech } from '__cli/core/auth';
 
 const logsStore = {
   logsCollection: null,
@@ -10,8 +10,8 @@ const logsStore = {
 };
 Vue.observable(logsStore);
 
-authStore.subscribe(({ user, status }) => {
-  const logsCollection = (status === 'SIGNIN') ? createLogsCollection() : null;
+authMech.subscribe(({ userData, status }) => {
+  const logsCollection = (status === 'SIGNEDIN') ? createLogsCollection() : null;
   if (logsCollection) {
     logsCollection.subscribe(logs => {
       if (logs === null) return; // no data load yet
@@ -23,7 +23,7 @@ authStore.subscribe(({ user, status }) => {
   }
 
   logsStore.logsCollection = logsCollection;
-  logsStore.userId = (status === 'SIGNIN') ? user.uid : null;
+  logsStore.userId = (status === 'SIGNIN') ? userData.uid : null;
 });
 
 function createLogsCollection () {

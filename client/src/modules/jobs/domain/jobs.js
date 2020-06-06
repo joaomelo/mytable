@@ -1,77 +1,55 @@
 import Vue from 'vue';
-import HotCollection from '@joaomelo/hot-collection';
-import { firedb } from '__cli/core/firebase';
-import { authStore } from '__cli/core/auth';
+import { authMech } from '__cli/core/auth';
 import { Table } from '__cli/modules/table';
 
 const jobsStore = {
-  jobsCollection: null,
-  job: null
+  job: null,
+  updateJob (newJob) { return updateJob(newJob); }
 };
 Vue.observable(jobsStore);
 
-authStore.subscribe(({ user, status }) => {
-  const jobsCollection = status === 'SIGNIN'
-    ? createJobsCollection(user.uid)
-    : null;
-
-  if (jobsCollection) {
-    jobsStore.jobsCollection = jobsCollection;
-    jobsCollection.subscribe(jobs => {
-      if (jobs === null) return; // no data load yet
-      const job = jobs.find(j => j.userId === user.uid);
-
-      if (!job) {
-        jobsCollection.set({ id: user.uid });
-      } else {
-        jobsStore.job = job;
-      }
-    });
+authMech.subscribe(({ userData, status }) => {
+  if (status !== 'SIGNEDIN') {
+    jobsStore.job = null;
+    return;
   }
+
+  const job = cleanFields(userData);
+  if (job.apiKey) {
+    // creating airtable table
+    const userFields = Object.keys(job)
+      .filter(key => key.includes('Field'))
+      .map(fieldKey => job[fieldKey])
+      .flat();
+
+    const apiKey = job.apiKey;
+    const baseId = job.baseId;
+    const name = job.tableName;
+    const table = new Table(apiKey, baseId, name, userFields);
+    job.table = table;
+  }
+  jobsStore.job = job;
 });
 
-function createJobsCollection (userId) {
-  const jobsCollection = new HotCollection('jobs', {
-    adapter: { firestore: firedb },
-    saveMode: 'safe',
-    converters: {
-      fromDocToItem (doc) {
-        const job = { ...doc };
-
-        if (doc.apiKey) {
-          // creating airtable table
-          const userFields = Object.keys(doc)
-            .filter(key => key.includes('Field'))
-            .map(fieldKey => doc[fieldKey])
-            .flat();
-
-          const apiKey = doc.apiKey;
-          const baseId = doc.baseId;
-          const name = doc.tableName;
-          const table = new Table(apiKey, baseId, name, userFields);
-          job.table = table;
-        }
-
-        return job;
-      },
-
-      fromItemToDoc (job) {
-        delete job.table; // removing table reference before saving
-        const doc = { ...job };
-        doc.userId = userId;
-        return doc;
-      }
-    },
-    query: {
-      where: [{
-        field: 'userId',
-        operator: '==',
-        value: userId
-      }]
-    }
-  });
-
-  return jobsCollection;
+function updateJob (newJob) {
+  const newJobData = cleanFields(newJob);
+  return authMech.updateProps(newJobData);
 };
+
+function cleanFields (job) {
+  const cleanJob = { ...job };
+  const fieldsToRemove = [
+    'table', // removing table reference before saving
+    'displayName',
+    'email',
+    'emailVerified',
+    'isAnonymous',
+    'phoneNumber',
+    'photoUrl',
+    'uid'
+  ];
+  fieldsToRemove.forEach(f => { delete cleanJob[f]; });
+  return cleanJob;
+}
 
 export { jobsStore };

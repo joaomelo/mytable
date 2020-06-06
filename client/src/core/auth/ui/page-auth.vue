@@ -43,7 +43,7 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { BaseDialog } from '__cli/core/base';
-import { signIn, signUp } from '../domain';
+import { authMech } from '../domain';
 import ControlEmail from './control-email';
 import ControlPassword from './control-password';
 
@@ -69,13 +69,13 @@ export default {
         0: {
           mode: 'LOGIN',
           button: 'Log In',
-          action: signIn,
+          action: 'signIn',
           shouldMatch: false
         },
         1: {
           mode: 'SIGNUP',
           button: 'Create user',
-          action: signUp,
+          action: 'signUp',
           shouldMatch: true
         }
       };
@@ -87,7 +87,8 @@ export default {
     runAuthAction () {
       if (this.$refs.form.validate()) {
         loader.start();
-        this.outfit.action({ email: this.email, password: this.password })
+        const method = this.outfit.action;
+        authMech[method](this.email, this.password)
           .catch(e => {
             console.error(e);
             this.alertMessage = e.message;

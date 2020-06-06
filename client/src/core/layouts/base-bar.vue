@@ -78,7 +78,7 @@
 
 <script>
 import { appTitle } from '__cli/core/meta';
-import { logout } from '__cli/core/auth';
+import { authMech } from '__cli/core/auth';
 
 export default {
   name: 'BaseBar',
@@ -100,7 +100,9 @@ export default {
     };
   },
   methods: {
-    logout
+    logout () {
+      authMech.signOut();
+    }
   }
 };
 </script>

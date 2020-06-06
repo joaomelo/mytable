@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { authStore, logout } from '../domain';
+import { authMech } from '../domain';
 
 export default {
   name: 'ButtonLogout',
@@ -23,17 +23,20 @@ export default {
   },
   data () {
     return {
-      logoutText: 'Logout'
+      authState: authMech.state
     };
   },
-  mounted () {
-    authStore.subscribe(({ userName }) => {
-      this.logoutText = (userName && this.showUser) ? `Logout from ${userName}` : 'Logout';
-    });
+  computed: {
+    logoutText () {
+      const userName = this.authState.userData && this.authState.userData.emailLocalPart;
+      return (userName && this.showUser)
+        ? `Logout from ${userName}`
+        : 'Logout';
+    }
   },
   methods: {
     logout () {
-      logout();
+      authMech.signOut();
     }
   }
 };

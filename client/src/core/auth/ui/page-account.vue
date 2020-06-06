@@ -75,7 +75,7 @@
 <script>
 import { loader } from '__cli/core/loader';
 import { BaseDialog, ControlButton } from '__cli/core/base';
-import { authStore, updateEmail, updatePassword } from '../domain';
+import { authMech } from '../domain';
 import ControlEmail from './control-email';
 import ControlPassword from './control-password';
 
@@ -89,7 +89,7 @@ export default {
   },
   data () {
     return {
-      newEmail: authStore.state.user.email,
+      newEmail: authMech.state.userData.email,
       newPassword: null,
       password: null,
       emailAlertMessage: '',
@@ -102,15 +102,14 @@ export default {
     updateEmail () {
       if (this.$refs.emailForm.validate()) {
         loader.start();
-        updateEmail(this.newEmail, this.password)
-          .then(msg => {
-            if (msg) {
-              this.emailAlertMessage = msg;
-              this.emailAlertType = 'error';
-            } else {
-              this.emailAlertMessage = 'We sent you a e-mail verification message';
-              this.emailAlertType = 'info';
-            }
+        authMech.updateEmail(this.newEmail, this.password)
+          .then(() => {
+            this.emailAlertMessage = 'We sent you a e-mail verification message';
+            this.emailAlertType = 'info';
+          })
+          .catch(error => {
+            this.emailAlertMessage = error.message;
+            this.emailAlertType = 'error';
           })
           .finally(() => loader.stop());
       }
@@ -118,15 +117,14 @@ export default {
     updatePassword () {
       if (this.$refs.passwordForm.validate()) {
         loader.start();
-        updatePassword(this.newPassword, this.password)
-          .then(msg => {
-            if (msg) {
-              this.passwordAlertMessage = msg;
-              this.passwordAlertType = 'error';
-            } else {
-              this.passwordAlertMessage = 'Password updated';
-              this.passwordAlertType = 'info';
-            }
+        authMech.updatePassword(this.newPassword, this.password)
+          .then(() => {
+            this.passwordAlertMessage = 'Password updated';
+            this.passwordAlertType = 'info';
+          })
+          .catch(error => {
+            this.emailAlertMessage = error.message;
+            this.emailAlertType = 'error';
           })
           .finally(() => loader.stop());
       }
