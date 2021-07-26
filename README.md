@@ -8,7 +8,7 @@ Mytable is a web app that complements [Airtable](https://www.airtable.com) workf
 
 I used to freely offer a personal instance os this app as stated below, but that is no long the case.
 
-~~I use this [personal instance](https://mytable.melo.plus) regularly and you are welcome to freely sign up for an account. But since this is a hobby project, i can't guarantee any service level. The most reliable way to use the app is check the code and raise your own instance.~~
+~~I use this [personal instance] (https://mytable.melo.plus) regularly and you are welcome to freely sign up for an account. But since this is a hobby project, i can't guarantee any service level. The most reliable way to use the app is check the code and raise your own instance.~~
 
 ## Motivation
 
