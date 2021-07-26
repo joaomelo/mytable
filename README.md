@@ -1,4 +1,4 @@
-**This project is not long maintend and kept here as reference material.**
+**This project is no longer maintained and is kept here only as reference material.**
 
 ----
 
