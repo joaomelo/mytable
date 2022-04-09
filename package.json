@@ -36,7 +36,7 @@
     "bottleneck": "^2.19.5",
     "core-js": "^3.6.5",
     "firebase": "^7.15.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "regenerator-runtime": "^0.13.5",
     "rxjs": "^6.5.5",
     "vue": "^2.6.11",
