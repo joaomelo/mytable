@@ -41,7 +41,7 @@
     "rxjs": "^6.5.5",
     "vue": "^2.6.11",
     "vue-router": "^3.3.2",
-    "vuetify": "^2.2.32"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
